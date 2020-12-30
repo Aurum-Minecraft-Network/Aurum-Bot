@@ -1,0 +1,6 @@
+requests==2.20.0
+discord_py_slash_command==1.0.5
+discord.py==1.5.1
+catapi.py==0.4.0
+discord==1.0.1
+python-decouple==3.3
