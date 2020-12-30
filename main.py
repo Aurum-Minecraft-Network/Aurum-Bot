@@ -111,7 +111,7 @@ async def exec_command(ctx, *, arg1):
 async def ping(ctx):
     await ctx.send(f':ping_pong: Pong! The latency is **{round(bot.latency * 1000)}ms**.')
 
-@bot.command
+@bot.command()
 async def help(ctx):
     await ctx.send("""***ATP City Bot User Guide***
 `a!ping`
