@@ -11,12 +11,21 @@ class Minecraft(commands.Cog):
         if version not in ["bedrock", "java"]:
             await ctx.send("You can only play on `bedrock` or `java`!")
         elif username:
+            if username.startswith("#") and version == "bedrock":
+                username = username[1:]
             with open("usernames.json", "r") as f:
                 usernames = json.load(f)
-            usernames.update({f"{str(ctx.author.id)}": {f"{version}": f"{username}"}})
+            ## Checking which entries exist
+            if f"{str(ctx.author.id)}" in usernames:
+                if version in usernames[str(ctx.author.id)]:
+                    usernames[str(ctx.author.id)][version] = username
+                else:
+                    usernames[str(ctx.author.id)].update({f"{version}": f"{username}"})
+            else:
+                usernames.update({f"{str(ctx.author.id)}": {f"{version}": f"{username}"}})
             with open("usernames.json", "w") as f:
                 json.dump(usernames, f, indent=4)
-            await ctx.send(f"Registered your {version.title()} username as {username}, <@{ctx.author.id}>.")
+            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.")
         else:
             await ctx.send("Your username is invalid!")
 
