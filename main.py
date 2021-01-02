@@ -36,14 +36,14 @@ for i in os.listdir('./cogs'):
 print('Extensions loaded!')
 
 @bot.event
-async def on_message(message):
-    if message.content.startswith("69"):
-        await message.channel.send("GN")
-        await asyncio.sleep(15)
-        await message.channel.send("Noice")
-    if message.content.startswith("42"):
-        await message.channel.send("I hate sleep")
-    await bot.process_commands(message)
+async def on_member_join(member):
+    channel = bot.get_channel(793513021288742912)
+    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.")
+
+@bot.event
+async def on_member_leave(member):
+    channel = bot.get_channel(793513021288742912)
+    await channel.send(f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**.")
 
 @bot.command()
 async def extload(ctx, cog):
