@@ -17,9 +17,11 @@ class Bump(commands.Cog):
         if str(ctx.author.id) == "438298127225847810":
             global bumpDone
             if boolw == "True":
-                bumpDone = "True"
+                bumpDone = True
+            elif boolw == "False":
+                bumpDone = False
             else:
-                bumpDone = "False"
+                await ctx.send("Invalid param!")
             await ctx.send(f"Done. `bumpDone` has been set to `{boolw}`!")
         else:
             await ctx.send("Sorry, but you do not have permission to do that.")
