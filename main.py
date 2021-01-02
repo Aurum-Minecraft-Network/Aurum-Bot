@@ -121,6 +121,10 @@ async def ping(ctx):
     await ctx.send(f':ping_pong: Pong! The latency is **{round(bot.latency * 1000)}ms**.')
 
 @bot.command()
+async def source(ctx):
+    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/ATP-City/ATP-City-Bot")
+
+@bot.command()
 async def help(ctx):
     await ctx.send("""***ATP City Bot User Guide***
 `a!ping`
@@ -133,6 +137,9 @@ This command.
 Register your Minecraft username.
 
 `a!username [java|bedrock] [mentionuser]`
-Query a Minecraft username of a Discord user.""")
+Query a Minecraft username of a Discord user.
+
+`a!source`
+Returns the source code of the bot.""")
 
 bot.run(token)
