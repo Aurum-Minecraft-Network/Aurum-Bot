@@ -2,14 +2,15 @@ import discord
 import os
 import sys
 import io
-import asyncio
 import traceback
 from decouple import config
 from discord.ext import commands
 
 global prefix
 prefix = 'a!'
-bot = commands.Bot(command_prefix=prefix)
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix=prefix, intents=intents)
 bot.remove_command('help')
 
 token = config("TOKEN")
