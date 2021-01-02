@@ -2,11 +2,8 @@ import discord
 import os
 import sys
 import io
+import asyncio
 import traceback
-import requests
-import json
-import random
-import catapi
 from decouple import config
 from discord.ext import commands
 import discord_slash
@@ -29,12 +26,24 @@ botdev = str(owner)
 
 @bot.event
 async def on_ready():
+    global bumpDone
+    bumpDone = False
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
 
 for i in os.listdir('./cogs'):
     if i.endswith('.py'):
         bot.load_extension(f'cogs.{i[:-3]}')
 print('Extensions loaded!')
+
+@bot.event
+async def on_message(message):
+    if message.content.startswith("69"):
+        await message.channel.send("GN")
+        await asyncio.sleep(15)
+        await message.channel.send("Noice")
+    if message.content.startswith("42"):
+        await message.channel.send("I hate sleep")
+    await bot.process_commands(message)
 
 @bot.command()
 async def extload(ctx, cog):
