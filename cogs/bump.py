@@ -53,7 +53,6 @@ class Bump(commands.Cog):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()]
             await message.delete()
             await message.channel.send(f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.")
-        await self.bot.process_commands(message)
     
 def setup(bot):
     bot.add_cog(Bump(bot))
