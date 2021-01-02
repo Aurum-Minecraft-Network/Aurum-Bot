@@ -44,9 +44,9 @@ class Bump(commands.Cog):
                 with open("bumping.json", "w") as f:
                     json.dump(bumps, f, indent=4)
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>.\nNext bump in 2 hours")
+            channelyeet = message.channel
             await message.delete()
             await asyncio.sleep(7200) # Wait for 2 hours
-            channelyeet = message.channel
             await channelyeet.send("<@793661769125986384>, it is time to bump! Use `!d bump` now.")
             bumpDone = False
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
