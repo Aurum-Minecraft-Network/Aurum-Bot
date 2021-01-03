@@ -32,7 +32,7 @@ class Bump(commands.Cog):
         if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and not bumpDone and message.embeds[0].description.endswith("""      Bump done :thumbsup:
       Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
-            cmd = (await message.channel.history(limit=1, before=message.id).flatten())[0]
+            cmd = (await message.channel.history(limit=1, before=message).flatten())[0]
             if cmd.content == "!d bump":
                 with open("bumping.json", "r") as f:
                     bumps = json.load(f)
