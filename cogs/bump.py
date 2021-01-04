@@ -51,7 +51,7 @@ class Bump(commands.Cog):
             await message.delete()
             print("Bump countdown has started.")
             await asyncio.sleep(7200) # Wait for 2 hours
-            await channelyeet.send("<@793661769125986384>, it is time to bump! Use `!d bump` now.")
+            await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
             bumpDone = False
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
