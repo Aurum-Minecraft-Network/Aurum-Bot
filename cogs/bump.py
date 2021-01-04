@@ -3,6 +3,7 @@ import discord
 from discord.ext import tasks, commands
 from discord.utils import get
 import asyncio
+import traceback
 
 class Bump(commands.Cog):
     def __init__(self, bot):
@@ -59,60 +60,61 @@ class Bump(commands.Cog):
     
     @tasks.loop(seconds=30)
     async def bumpkingupdate(self):
-        print("Checking for new bump kings now!")
-        with open("bumps.json", "r") as f:
-            bumps = json.load(f)
-        bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
-        bumpKingValue = int(list(bumpsRank.values())[0])
-        guild = self.bot.get_guild(793495102566957096)
-        bumpKing = get(guild.roles, id=795477556122877995)
-        bumpKings = []
-        newBumpKings = []
-        addBumpKings = []
-        removeBumpKings = []
-        for user in guild.members:
-            if bumpKing in user.roles:
-                bumpKings.append(user)
-        if len(bumpKings) != 1:
-            if len(bumpKings) < 0:
-                print("What the fuck")
-                self.bumpkingupdate.cancel()
-            elif len(bumpKings) == 0:
-                pass
-            elif len(bumpKings) > 1:
+        try:
+            print("Checking for new bump kings now!")
+            with open("bumps.json", "r") as f:
+                bumps = json.load(f)
+            bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
+            bumpKingValue = int(list(bumpsRank.values())[0])
+            guild = self.bot.get_guild(793495102566957096)
+            bumpKing = get(guild.roles, id=795477556122877995)
+            bumpKings = []
+            newBumpKings = []
+            addBumpKings = []
+            removeBumpKings = []
+            for user in guild.members:
+                if bumpKing in user.roles:
+                    bumpKings.append(user)
+            if len(bumpKings) != 1:
+                if len(bumpKings) < 0:
+                    print("What the fuck")
+                elif len(bumpKings) == 0:
+                    pass
+                elif len(bumpKings) > 1:
+                    for user in bumpKings:
+                        await user.remove_roles(bumpKing)
+            for user in guild.members:
+                try:
+                    if int(bumps[str(user.id)]) == bumpKingValue:
+                        newBumpKings.append(user)
+                except KeyError:
+                    continue
+            if bumpKings == newBumpKings:
+                if len(bumpKings) > 1:
+                    for user in bumpKings:
+                        await user.add_roles(bumpKing)
+            else:
+                for user in newBumpKings:
+                    if user not in bumpKings:
+                        addBumpKings.append(user)
                 for user in bumpKings:
-                    await user.remove_roles(bumpKing)
-        for user in guild.members:
-            try:
-                if int(bumps[str(user.id)]) == bumpKingValue:
-                    newBumpKings.append(user)
-            except KeyError:
-                continue
-        if bumpKings == newBumpKings:
-            if len(bumpKings) > 1:
-                for user in bumpKings:
-                    await user.add_roles(bumpKing)
-            self.bumpkingupdate.cancel()
-        else:
-            for user in newBumpKings:
-                if user not in bumpKings:
-                    addBumpKings.append(user)
-            for user in bumpKings:
-                if user not in newBumpKings:
-                    removeBumpKings.append(user)
-        noice = "All hail the new Bump King"
-        if len(addBumpKings) > 1:
-            noice += "s"
-        for user in addBumpKings:
-            noice += f" <@{user.id}>"
-        noice += "!"
-        bumpChannel = self.bot.get_channel(793523006172430388)
-        if len(addBumpKings) > 0:
-            await bumpChannel.send(noice)
-        for user in addBumpKings:
-            await user.add_roles(bumpKing)
-        for user in removeBumpKings:
-            await user.remove_roles(bumpKing)
+                    if user not in newBumpKings:
+                        removeBumpKings.append(user)
+            noice = "All hail the new Bump King"
+            if len(addBumpKings) > 1:
+                noice += "s"
+            for user in addBumpKings:
+                noice += f" <@{user.id}>"
+            noice += "!"
+            bumpChannel = self.bot.get_channel(793523006172430388)
+            if len(addBumpKings) > 0:
+                await bumpChannel.send(noice)
+            for user in addBumpKings:
+                await user.add_roles(bumpKing)
+            for user in removeBumpKings:
+                await user.remove_roles(bumpKing)
+        except:
+            traceback.print_exc()
 
     @bumpkingupdate.before_loop
     async def before_bumpkingupdate(self):
