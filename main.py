@@ -129,10 +129,16 @@ Register your Minecraft username.
 `a!username [java|bedrock] [mentionuser]`
 Query a Minecraft username of a Discord user.
 
+`a!bumpleader`
+Gives a leaderboard of bumps.
+
+`!d bump`
+Bumps the server on DISBOARD.
+
 `a!source`
 Returns the source code of the bot.""")
 
-@bot.command(aliases = ["cs"])
+@bot.command(aliases=["cs"])
 async def competitionsubmit(ctx, *, submission):
     with open("nc.yaml") as f:
         entries = yaml.full_load(f)

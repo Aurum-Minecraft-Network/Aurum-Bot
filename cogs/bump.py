@@ -29,6 +29,35 @@ class Bump(commands.Cog):
         else:
             await ctx.send("Sorry, but you do not have permission to do that.")
 
+    @commands.command(aliases=["bumpleader"])
+    async def bumpleaderboard(self, ctx):
+        with open("bumps.json", "r") as f:
+            bumps = json.load(f)
+        print(bumps)
+        leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
+        print(leaders)
+        leaderv = list(leaders.values())
+        leaderk = list(leaders.keys())
+        print(leaderv, leaderk)
+        msg = "**__Bump Leaderboard__**"
+        rank = int(leaderv[0])
+        place = 1
+        usersDone = 0
+        for name, bumpe in zip(leaderk, leaderv):
+            print(name)
+            guild = self.bot.get_guild(793495102566957096)
+            for users in guild.members:
+                if str(users.id) == str(name):
+                    user = users
+                else:
+                    continue
+                if rank > int(bumpe):
+                    place += 1
+                    rank = int(leaderv[usersDone])
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bumps"
+                usersDone += 1
+        await ctx.send(msg)
+
     @commands.Cog.listener()
     async def on_message(self, message):
         global bumpDone
@@ -41,9 +70,9 @@ class Bump(commands.Cog):
                     bumps = json.load(f)
                 if str(cmd.author.id) in bumps:
                     bumpno = int(bumps[str(cmd.author.id)])
-                    bumps[str(cmd.author.id)] = str(bumpno + 1)
+                    bumps[str(cmd.author.id)] = int(bumpno + 1)
                 else:
-                    bumps.update({f"{str(cmd.author.id)}": "1"})
+                    bumps.update({f"{str(cmd.author.id)}": 1})
                 with open("bumps.json", "w") as f:
                     json.dump(bumps, f, indent=4)
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
