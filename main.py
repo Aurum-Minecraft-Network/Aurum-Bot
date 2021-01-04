@@ -22,8 +22,6 @@ botdev = str(owner)
 
 @bot.event
 async def on_ready():
-    global bumpDone
-    bumpDone = False
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
 
 for i in os.listdir('./cogs'):

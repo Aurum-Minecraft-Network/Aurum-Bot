@@ -76,6 +76,7 @@ class Bump(commands.Cog):
         if len(bumpKings) != 1:
             if len(bumpKings) < 0:
                 print("What the fuck")
+                self.bumpkingupdate.cancel()
             elif len(bumpKings) == 0:
                 pass
             elif len(bumpKings) > 1:
@@ -91,6 +92,7 @@ class Bump(commands.Cog):
             if len(bumpKings) > 1:
                 for user in bumpKings:
                     await user.add_roles(bumpKing)
+            self.bumpkingupdate.cancel()
         else:
             for user in newBumpKings:
                 if user not in bumpKings:
@@ -105,7 +107,8 @@ class Bump(commands.Cog):
             noice += f" <@{user.id}>"
         noice += "!"
         bumpChannel = self.bot.get_channel(793523006172430388)
-        await bumpChannel.send(noice)
+        if len(addBumpKings) > 0:
+            await bumpChannel.send(noice)
         for user in addBumpKings:
             await user.add_roles(bumpKing)
         for user in removeBumpKings:
