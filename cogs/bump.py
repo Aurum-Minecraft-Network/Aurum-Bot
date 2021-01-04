@@ -54,7 +54,9 @@ class Bump(commands.Cog):
                 if rank > int(bumpe):
                     place += 1
                     rank = int(leaderv[usersDone])
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bumps"
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bump"
+                if int(bumpe) > 1:
+                    msg += "s"
                 usersDone += 1
         await ctx.send(msg)
 
