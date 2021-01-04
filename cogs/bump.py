@@ -65,7 +65,8 @@ class Bump(commands.Cog):
             with open("bumps.json", "r") as f:
                 bumps = json.load(f)
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
-            bumpKingValue = int(list(bumpsRank.values())[0])
+            bumpKingValue = int(list(bumpsRank.values())[-1])
+            print(bumpKingValue, bumpsRank)
             guild = self.bot.get_guild(793495102566957096)
             bumpKing = get(guild.roles, id=795477556122877995)
             bumpKings = []

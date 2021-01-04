@@ -3,6 +3,7 @@ import os
 import sys
 import io
 import traceback
+import yaml
 from decouple import config
 from discord.ext import commands
 
@@ -130,5 +131,14 @@ Query a Minecraft username of a Discord user.
 
 `a!source`
 Returns the source code of the bot.""")
+
+@bot.command(aliases = ["cs"])
+async def competitionsubmit(ctx, *, submission):
+    with open("nc.yaml") as f:
+        entries = yaml.full_load(f)
+    entries.update({f"{ctx.author.id}": f"{submission}"})
+    with open("nc.yaml", "w") as f:
+        yaml.dump(entries, f)
+    await ctx.send(f"Submitted your entry:\n{submission}")
 
 bot.run(token)

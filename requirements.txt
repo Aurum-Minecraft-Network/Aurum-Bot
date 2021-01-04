@@ -1,4 +1,4 @@
 discord.py==1.5.1
-discord_py_slash_command==1.0.5
 discord==1.0.1
 python-decouple==3.3
+PyYAML==5.3.1
