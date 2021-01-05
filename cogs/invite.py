@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+import traceback
 import json
 import os
 
@@ -15,6 +16,7 @@ class Invite(commands.Cog):
             try:
                 invites[guild.id] = await guild.invites()
             except discord.errors.Forbidden as exception:
+                traceback.print_exc()
                 continue
 
     def code2inv(self, list, code):
@@ -39,6 +41,8 @@ class Invite(commands.Cog):
                         embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                         embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                     await channel.send(embed=embed)
+                else:
+                    invites[member.guild.id] = new_inv
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -46,7 +50,7 @@ class Invite(commands.Cog):
         try:
             invites[member.guild.id] = await member.guild.invites()
         except discord.errors.Forbidden as exception:
-            pass
+            traceback.print_exc()
 
     @commands.command()
     async def invitechannel(self, ctx, *, channel):
