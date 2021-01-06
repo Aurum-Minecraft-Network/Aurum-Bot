@@ -12,12 +12,9 @@ class Invite(commands.Cog):
     async def on_ready(self):
         global invites
         invites = {}
-        for guild in self.bot.guilds:
-            try:
-                invites[guild.id] = await guild.invites()
-            except discord.errors.Forbidden as exception:
-                traceback.print_exc()
-                continue
+        guild = self.bot.get_guild(793495102566957096)
+        invites[guild.id] = await guild.invites()
+        print("Invites cached!")
 
     def code2inv(self, list, code):
         for invite in list:
