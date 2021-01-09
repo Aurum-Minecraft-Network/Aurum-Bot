@@ -31,8 +31,10 @@ class Bump(commands.Cog):
 
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
+        self.bumpkingupdate.cancel()
         with open("bumps.json", "r") as f:
             bumps = json.load(f)
+        self.bumpkingupdate.start()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
@@ -64,6 +66,7 @@ class Bump(commands.Cog):
             bumpDone = True
             cmd = (await message.channel.history(limit=1, before=message).flatten())[0]
             if cmd.content == "!d bump":
+                self.bumpkingupdate.cancel()
                 with open("bumps.json", "r") as f:
                     bumps = json.load(f)
                 if str(cmd.author.id) in bumps:
@@ -73,6 +76,7 @@ class Bump(commands.Cog):
                     bumps.update({f"{str(cmd.author.id)}": 1})
                 with open("bumps.json", "w") as f:
                     json.dump(bumps, f, indent=4)
+                self.bumpkingupdate.start()
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
             channelyeet = message.channel
             await message.delete()

@@ -44,6 +44,7 @@ class Invite(commands.Cog):
                         embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                         embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                     await channel.send(embed=embed)
+                    self.invkingupdate.cancel()
                     with open("invs.json", "r") as f:
                         bumps = json.load(f)
                     if str(invite.inviter.id) in bumps:
@@ -53,6 +54,7 @@ class Invite(commands.Cog):
                         bumps.update({f"{str(invite.inviter.id)}": 1})
                     with open("invs.json", "w") as f:
                         json.dump(bumps, f, indent=4)
+                    self.invkingupdate.start()
                 elif not self.code2inv(new_inv, invite.code):
                     continue
             if self.diff(old_inv, new_inv):
@@ -66,6 +68,7 @@ class Invite(commands.Cog):
                     embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                     embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                 await channel.send(embed=embed)
+                self.invkingupdate.cancel()
                 with open("invs.json", "r") as f:
                     bumps = json.load(f)
                 if str(invite.inviter.id) in bumps:
@@ -75,11 +78,14 @@ class Invite(commands.Cog):
                     bumps.update({f"{str(invite.inviter.id)}": 1})
                 with open("invs.json", "w") as f:
                     json.dump(bumps, f, indent=4)
+                self.invkingupdate.start()
 
     @commands.command(aliases=["invleader"])
     async def inviteleaderboard(self, ctx):
+        self.invkingupdate.cancel()
         with open("invs.json", "r") as f:
             bumps = json.load(f)
+        self.invkingupdate.start()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
