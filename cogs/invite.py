@@ -140,7 +140,7 @@ class Invite(commands.Cog):
     @tasks.loop(seconds=30)
     async def invkingupdate(self):
         try:
-            with open("inv.json", "r") as f:
+            with open("invs.json", "r") as f:
                 bumps = json.load(f)
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
