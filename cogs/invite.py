@@ -1,8 +1,9 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 import traceback
 import json
 import os
+from discord.utils import get
 
 class Invite(commands.Cog):
     def __init__(self, bot):
@@ -20,6 +21,10 @@ class Invite(commands.Cog):
         for invite in list:
             if invite.code == code:
                 return invite
+        else:
+            return False
+
+    diff = lambda li1, li2: list(set(li2)-set(li1))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -38,8 +43,125 @@ class Invite(commands.Cog):
                         embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                         embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                     await channel.send(embed=embed)
+                    with open("invs.json", "r") as f:
+                        bumps = json.load(f)
+                    if str(invite.inviter.id) in bumps:
+                        bumpno = int(bumps[str(invite.inviter.id)])
+                        bumps[str(invite.inviter.id)] = int(bumpno + 1)
+                    else:
+                        bumps.update({f"{str(invite.inviter.id)}": 1})
+                    with open("invs.json", "w") as f:
+                        json.dump(bumps, f, indent=4)
+                elif not self.code2inv(new_inv, invite.code):
+                    continue
+            if self.diff(old_inv, new_inv):
+                invite = (self.diff(old_inv, new_inv))[0]
+                invites[member.guild.id] = new_inv
+                with open('invitechannel.json', 'r') as f:
+                    invc = json.load(f)
+                    channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
+                    embed=discord.Embed(title=f'{member.name} Joined!', color=0xff9000)
+                    embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
+                    embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
+                    embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
+                await channel.send(embed=embed)
+                with open("invs.json", "r") as f:
+                    bumps = json.load(f)
+                if str(invite.inviter.id) in bumps:
+                    bumpno = int(bumps[str(invite.inviter.id)])
+                    bumps[str(invite.inviter.id)] = int(bumpno + 1)
                 else:
-                    invites[member.guild.id] = new_inv
+                    bumps.update({f"{str(invite.inviter.id)}": 1})
+                with open("invs.json", "w") as f:
+                    json.dump(bumps, f, indent=4)
+
+    @commands.command(aliases=["invleader"])
+    async def inviteleaderboard(self, ctx):
+        with open("invs.json", "r") as f:
+            bumps = json.load(f)
+        leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
+        leaderv = list(leaders.values())
+        leaderk = list(leaders.keys())
+        msg = "**__Invites Leaderboard__**"
+        rank = int(leaderv[0])
+        place = 1
+        usersDone = 0
+        for name, bumpe in zip(leaderk, leaderv):
+            guild = self.bot.get_guild(793495102566957096)
+            for users in guild.members:
+                if str(users.id) == str(name):
+                    user = users
+                else:
+                    continue
+                if rank > int(bumpe):
+                    place += 1
+                    rank = int(leaderv[usersDone])
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
+                if int(bumpe) > 1:
+                    msg += "s"
+                usersDone += 1
+        await ctx.send(msg)
+
+    @tasks.loop(seconds=30)
+    async def invkingupdate(self):
+        try:
+            with open("inv.json", "r") as f:
+                bumps = json.load(f)
+            bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
+            bumpKingValue = int(list(bumpsRank.values())[-1])
+            guild = self.bot.get_guild(793495102566957096)
+            bumpKing = get(guild.roles, id=797435990939009024)
+            bumpKings = []
+            newBumpKings = []
+            addBumpKings = []
+            removeBumpKings = []
+            for user in guild.members:
+                if bumpKing in user.roles:
+                    bumpKings.append(user)
+            if len(bumpKings) != 1:
+                if len(bumpKings) < 0:
+                    print("What the fuck")
+                elif len(bumpKings) == 0:
+                    pass
+                elif len(bumpKings) > 1:
+                    for user in bumpKings:
+                        await user.remove_roles(bumpKing)
+            for user in guild.members:
+                try:
+                    if int(bumps[str(user.id)]) == bumpKingValue:
+                        newBumpKings.append(user)
+                except KeyError:
+                    continue
+            if bumpKings == newBumpKings:
+                if len(bumpKings) > 1:
+                    for user in bumpKings:
+                        await user.add_roles(bumpKing)
+            else:
+                for user in newBumpKings:
+                    if user not in bumpKings:
+                        addBumpKings.append(user)
+                for user in bumpKings:
+                    if user not in newBumpKings:
+                        removeBumpKings.append(user)
+            noice = "All hail the new Invite King"
+            if len(addBumpKings) > 1:
+                noice += "s"
+            for user in addBumpKings:
+                noice += f" <@{user.id}>"
+            noice += "!"
+            bumpChannel = self.bot.get_channel(793514694660194314)
+            if len(addBumpKings) > 0:
+                await bumpChannel.send(noice)
+            for user in addBumpKings:
+                await user.add_roles(bumpKing)
+            for user in removeBumpKings:
+                await user.remove_roles(bumpKing)
+        except:
+            traceback.print_exc()
+
+    @invkingupdate.before_loop
+    async def before_invkingupdate(self):
+        await self.bot.wait_until_ready()
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):

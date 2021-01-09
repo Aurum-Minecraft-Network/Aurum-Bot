@@ -33,18 +33,14 @@ class Bump(commands.Cog):
     async def bumpleaderboard(self, ctx):
         with open("bumps.json", "r") as f:
             bumps = json.load(f)
-        print(bumps)
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
-        print(leaders)
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
-        print(leaderv, leaderk)
         msg = "**__Bump Leaderboard__**"
         rank = int(leaderv[0])
         place = 1
         usersDone = 0
         for name, bumpe in zip(leaderk, leaderv):
-            print(name)
             guild = self.bot.get_guild(793495102566957096)
             for users in guild.members:
                 if str(users.id) == str(name):
@@ -92,12 +88,10 @@ class Bump(commands.Cog):
     @tasks.loop(seconds=30)
     async def bumpkingupdate(self):
         try:
-            print("Checking for new bump kings now!")
             with open("bumps.json", "r") as f:
                 bumps = json.load(f)
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
-            print(bumpKingValue, bumpsRank)
             guild = self.bot.get_guild(793495102566957096)
             bumpKing = get(guild.roles, id=795477556122877995)
             bumpKings = []
