@@ -8,6 +8,7 @@ from discord.utils import get
 class Invite(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.invkingupdate.start()
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -102,6 +103,40 @@ class Invite(commands.Cog):
                 usersDone += 1
         await ctx.send(msg)
 
+    @commands.Cog.listener()
+    async def on_member_remove(self, member):
+        global invites
+        try:
+            invites[member.guild.id] = await member.guild.invites()
+        except discord.errors.Forbidden as exception:
+            traceback.print_exc()
+
+    @commands.command()
+    async def invitechannel(self, ctx, *, channel):
+        owner = os.environ.get("OWNER")
+        if str(ctx.author.id) == owner:
+            with open('invitechannel.json', 'r') as f:
+                invc = json.load(f)
+            invc[ctx.guild.id] = channel.replace('<', '').replace('>', '').replace('#', '')
+            with open('invitechannel.json', 'w') as f:
+                json.dump(invc, f, indent=4)
+            await ctx.send(f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`!")
+        else:
+            await ctx.send("Sorry, but you don't have permission to do that.")
+
+    @commands.command()
+    async def inviteremove(self, ctx):
+        owner = os.environ.get("OWNER")
+        if str(ctx.author.id) == owner:
+            with open('invitechannel.json', 'r') as f:
+                invc = json.load(f)
+                invc.pop(ctx.guild.id)
+            with open('invitechannel.json', 'w') as f:
+                json.dump(invc, f, indent=4)
+            await ctx.send('Removed invite channel!')
+        else:
+            await ctx.send("Sorry, but you don't have permission to do that.")
+
     @tasks.loop(seconds=30)
     async def invkingupdate(self):
         try:
@@ -162,40 +197,6 @@ class Invite(commands.Cog):
     @invkingupdate.before_loop
     async def before_invkingupdate(self):
         await self.bot.wait_until_ready()
-
-    @commands.Cog.listener()
-    async def on_member_remove(self, member):
-        global invites
-        try:
-            invites[member.guild.id] = await member.guild.invites()
-        except discord.errors.Forbidden as exception:
-            traceback.print_exc()
-
-    @commands.command()
-    async def invitechannel(self, ctx, *, channel):
-        owner = os.environ.get("OWNER")
-        if str(ctx.author.id) == owner:
-            with open('invitechannel.json', 'r') as f:
-                invc = json.load(f)
-            invc[ctx.guild.id] = channel.replace('<', '').replace('>', '').replace('#', '')
-            with open('invitechannel.json', 'w') as f:
-                json.dump(invc, f, indent=4)
-            await ctx.send(f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`!")
-        else:
-            await ctx.send("Sorry, but you don't have permission to do that.")
-
-    @commands.command()
-    async def inviteremove(self, ctx):
-        owner = os.environ.get("OWNER")
-        if str(ctx.author.id) == owner:
-            with open('invitechannel.json', 'r') as f:
-                invc = json.load(f)
-                invc.pop(ctx.guild.id)
-            with open('invitechannel.json', 'w') as f:
-                json.dump(invc, f, indent=4)
-            await ctx.send('Removed invite channel!')
-        else:
-            await ctx.send("Sorry, but you don't have permission to do that.")
 
 def setup(bot):
     bot.add_cog(Invite(bot))
