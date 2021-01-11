@@ -95,7 +95,7 @@ class Bump(commands.Cog):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
             await message.channel.send(f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.")
-        elif str(message.channel.id) == "793523006172430388" and ((message.content != "!d bump" or message.content != "a!bumpleader" or message.content != "a!bumpleaderboard") and str(message.author.id) != "793546056934883328"):
+        elif str(message.channel.id) == "793523006172430388" and ((message.content != "!d bump" or message.content != "a!bumpleader" or message.content != "a!bumpleaderboard") and (str(message.author.id) != "793546056934883328" or str(message.author.id) != "438298127225847810")):
             await message.delete()
     
     @tasks.loop(seconds=10)
