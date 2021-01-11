@@ -99,12 +99,16 @@ class Bump(commands.Cog):
     @tasks.loop(seconds=10)
     async def bumpreminder(self):
         if 'reminded' not in vars():
+            global reminded
             reminded = False
         elif not reminded:
+            global bumpCount
             try:
                 if datetime.now() - timedelta(hours=2) > bumpCount:
+                    global channelyeet
                     await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
                     global bumpDone
+                    global reminded
                     bumpDone = False
                     reminded = True
             except NameError:
