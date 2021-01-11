@@ -35,7 +35,8 @@ class Invite(commands.Cog):
         else:
             return False
 
-    diff = lambda li1, li2: list(set(li2)-set(li1))
+    def diff(li1: list, li2: list):
+        return list(set(li2)-set(li1))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -63,7 +64,7 @@ class Invite(commands.Cog):
                     await self.updateInvs(bumps)
                 elif not self.code2inv(new_inv, invite.code):
                     continue
-            if self.diff(old_inv, new_inv):
+            if self.diff(li1=old_inv, li2=new_inv):
                 invite = (self.diff(old_inv, new_inv))[0]
                 invites[member.guild.id] = new_inv
                 with open('invitechannel.json', 'r') as f:
