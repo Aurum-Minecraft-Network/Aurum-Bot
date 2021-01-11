@@ -73,6 +73,8 @@ class Bump(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         global bumpDone
+        print(str(message.channel.id) == "793523006172430388" and ((message.content != "!d bump" or message.content != "a!bumpleader" or message.content != "a!bumpleaderboard") and (str(message.author.id) != "793546056934883328" or str(message.author.id) != "438298127225847810")))
+        print((str(message.channel.id) == "793523006172430388" and ((message.content != "!d bump" or message.content != "a!bumpleader" or message.content != "a!bumpleaderboard") and (str(message.author.id) != "793546056934883328" or str(message.author.id) != "438298127225847810"))))
         if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and not bumpDone and message.embeds[0].description.endswith("""      Bump done :thumbsup:
       Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
