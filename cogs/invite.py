@@ -10,6 +10,16 @@ class Invite(commands.Cog):
         self.bot = bot
         self.invkingupdate.start()
 
+    async def getInvs(self):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(798227110892273684)
+        return json.loads(msg.content)
+
+    async def updateInvs(self, dict):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(798227110892273684)
+        await msg.edit(content=json.dumps(dict, indent=4))
+
     @commands.Cog.listener()
     async def on_ready(self):
         global invites
@@ -44,15 +54,13 @@ class Invite(commands.Cog):
                         embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                         embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                     await channel.send(embed=embed)
-                    with open("invs.json", "r") as f:
-                        bumps = json.load(f)
+                    bumps = await self.getInvs()
                     if str(invite.inviter.id) in bumps:
                         bumpno = int(bumps[str(invite.inviter.id)])
                         bumps[str(invite.inviter.id)] = int(bumpno + 1)
                     else:
                         bumps.update({f"{str(invite.inviter.id)}": 1})
-                    with open("invs.json", "w") as f:
-                        json.dump(bumps, f, indent=4)
+                    await self.updateInvs(bumps)
                 elif not self.code2inv(new_inv, invite.code):
                     continue
             if self.diff(old_inv, new_inv):
@@ -66,20 +74,17 @@ class Invite(commands.Cog):
                     embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                     embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                 await channel.send(embed=embed)
-                with open("invs.json", "r") as f:
-                    bumps = json.load(f)
+                bumps = await self.getInvs()
                 if str(invite.inviter.id) in bumps:
                     bumpno = int(bumps[str(invite.inviter.id)])
                     bumps[str(invite.inviter.id)] = int(bumpno + 1)
                 else:
                     bumps.update({f"{str(invite.inviter.id)}": 1})
-                with open("invs.json", "w") as f:
-                    json.dump(bumps, f, indent=4)
+                await self.updateInvs(bumps)
 
     @commands.command(aliases=["invleader"])
     async def inviteleaderboard(self, ctx):
-        with open("invs.json", "r") as f:
-            bumps = json.load(f)
+        bumps = await self.getInvs()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
@@ -140,8 +145,7 @@ class Invite(commands.Cog):
     @tasks.loop(seconds=30)
     async def invkingupdate(self):
         try:
-            with open("invs.json", "r") as f:
-                bumps = json.load(f)
+            bumps = await self.getInvs()
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
             guild = self.bot.get_guild(793495102566957096)

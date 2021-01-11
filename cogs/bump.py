@@ -4,16 +4,31 @@ from discord.ext import tasks, commands
 from discord.utils import get
 import asyncio
 import traceback
+from datetime import datetime, timedelta
 
 class Bump(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bumpkingupdate.start()
 
+    async def getBumps(self):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(798226999238983750)
+        return json.loads(msg.content)
+
+    async def updateBumps(self, dict):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(798226999238983750)
+        await msg.edit(content=json.dumps(dict, indent=4))
+
     @commands.Cog.listener()
     async def on_ready(self):
         global bumpDone
+        global reminded
+        global bumpCount
         bumpDone = False
+        reminded = False
+        bumpCount = datetime.now()
 
     @commands.command()
     async def bumpreset(self, ctx, boolw):
@@ -31,8 +46,7 @@ class Bump(commands.Cog):
 
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
-        with open("bumps.json", "r") as f:
-            bumps = json.load(f)
+        bumps = await self.getBumps()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
@@ -60,36 +74,50 @@ class Bump(commands.Cog):
     async def on_message(self, message):
         global bumpDone
         if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and not bumpDone and message.embeds[0].description.endswith("""      Bump done :thumbsup:
-      Check it on DISBOARD: https://disboard.org/"""):
+    Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
             cmd = (await message.channel.history(limit=1, before=message).flatten())[0]
             if cmd.content == "!d bump":
-                with open("bumps.json", "r") as f:
-                    bumps = json.load(f)
+                bumps = await self.getBumps()
                 if str(cmd.author.id) in bumps:
                     bumpno = int(bumps[str(cmd.author.id)])
                     bumps[str(cmd.author.id)] = int(bumpno + 1)
                 else:
                     bumps.update({f"{str(cmd.author.id)}": 1})
-                with open("bumps.json", "w") as f:
-                    json.dump(bumps, f, indent=4)
+                await self.updateBumps(bumps)
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
+            global channelyeet
             channelyeet = message.channel
             await message.delete()
-            print("Bump countdown has started.")
-            await asyncio.sleep(7200) # Wait for 2 hours
-            await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
-            bumpDone = False
+            global bumpCount
+            bumpCount = datetime.now()
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
             await message.channel.send(f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.")
     
+    @tasks.loop(seconds=10)
+    async def bumpreminder(self):
+        if 'reminded' not in vars():
+            reminded = False
+        elif not reminded:
+            try:
+                if datetime.now() - timedelta(hours=2) > bumpCount:
+                    await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
+                    global bumpDone
+                    bumpDone = False
+                    reminded = True
+            except NameError:
+                bumpCount = datetime.now()
+
+    @bumpreminder.before_loop
+    async def before_bumpreminder(self):
+        await self.bot.wait_until_ready()
+
     @tasks.loop(seconds=30)
     async def bumpkingupdate(self):
         try:
-            with open("bumps.json", "r") as f:
-                bumps = json.load(f)
+            bumps = await self.getBumps()
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
             guild = self.bot.get_guild(793495102566957096)
@@ -107,19 +135,14 @@ class Bump(commands.Cog):
                 elif len(bumpKings) == 0:
                     pass
                 elif len(bumpKings) > 1:
-                    for user in bumpKings:
-                        await user.remove_roles(bumpKing)
+                    pass
             for user in guild.members:
                 try:
                     if int(bumps[str(user.id)]) == bumpKingValue:
                         newBumpKings.append(user)
                 except KeyError:
                     continue
-            if bumpKings == newBumpKings:
-                if len(bumpKings) > 1:
-                    for user in bumpKings:
-                        await user.add_roles(bumpKing)
-            else:
+            if not bumpKings == newBumpKings:
                 for user in newBumpKings:
                     if user not in bumpKings:
                         addBumpKings.append(user)

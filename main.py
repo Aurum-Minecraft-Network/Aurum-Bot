@@ -147,4 +147,8 @@ async def competitionsubmit(ctx, *, submission):
         yaml.dump(entries, f)
     await ctx.send(f"Submitted your entry:\n{submission}")
 
+@bot.command()
+async def send(ctx, *, content):
+    await ctx.send(content)
+
 bot.run(token)
