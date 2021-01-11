@@ -35,7 +35,7 @@ class Invite(commands.Cog):
         else:
             return False
 
-    def diff(li1: list, li2: list):
+    def diff(self, li1: list, li2: list):
         return list(set(li2)-set(li1))
 
     @commands.Cog.listener()
