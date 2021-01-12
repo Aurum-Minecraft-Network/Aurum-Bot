@@ -67,7 +67,7 @@ class Invite(commands.Cog):
                         continue
                 except AttributeError:
                     continue
-            if self.diff(li1=old_inv, li2=new_inv):
+            if len(self.diff(li1=old_inv, li2=new_inv)) > 0:
                 invite = (self.diff(old_inv, new_inv))[0]
                 invites[member.guild.id] = new_inv
                 with open('invitechannel.json', 'r') as f:
