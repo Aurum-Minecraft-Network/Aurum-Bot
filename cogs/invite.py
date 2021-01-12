@@ -45,24 +45,27 @@ class Invite(commands.Cog):
             old_inv = invites[member.guild.id]
             new_inv = await member.guild.invites()
             for invite in old_inv:
-                if invite.uses < int(self.code2inv(new_inv, invite.code).uses):
-                    invites[member.guild.id] = new_inv
-                    with open('invitechannel.json', 'r') as f:
-                        invc = json.load(f)
-                        channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
-                        embed=discord.Embed(title=f'{member.name} Joined!', color=0xff9000)
-                        embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
-                        embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
-                        embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
-                    await channel.send(embed=embed)
-                    bumps = await self.getInvs()
-                    if str(invite.inviter.id) in bumps:
-                        bumpno = int(bumps[str(invite.inviter.id)])
-                        bumps[str(invite.inviter.id)] = int(bumpno + 1)
-                    else:
-                        bumps.update({f"{str(invite.inviter.id)}": 1})
-                    await self.updateInvs(bumps)
-                elif not self.code2inv(new_inv, invite.code):
+                try:
+                    if invite.uses < int(self.code2inv(new_inv, invite.code).uses):
+                        invites[member.guild.id] = new_inv
+                        with open('invitechannel.json', 'r') as f:
+                            invc = json.load(f)
+                            channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
+                            embed=discord.Embed(title=f'{member.name} Joined!', color=0xff9000)
+                            embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
+                            embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
+                            embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
+                        await channel.send(embed=embed)
+                        bumps = await self.getInvs()
+                        if str(invite.inviter.id) in bumps:
+                            bumpno = int(bumps[str(invite.inviter.id)])
+                            bumps[str(invite.inviter.id)] = int(bumpno + 1)
+                        else:
+                            bumps.update({f"{str(invite.inviter.id)}": 1})
+                        await self.updateInvs(bumps)
+                    elif not self.code2inv(new_inv, invite.code):
+                        continue
+                except AttributeError:
                     continue
             if self.diff(li1=old_inv, li2=new_inv):
                 invite = (self.diff(old_inv, new_inv))[0]
