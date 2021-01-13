@@ -103,7 +103,7 @@ class Bump(commands.Cog):
         if 'reminded' not in vars():
             global reminded
             reminded = False
-        elif not reminded:
+        if not reminded:
             global bumpCount
             try:
                 if datetime.now() - timedelta(hours=2) > bumpCount:
