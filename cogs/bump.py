@@ -114,7 +114,7 @@ class Bump(commands.Cog):
         global bumpDone
         if not reminded and bumpDone:
             global bumpCount
-            if datetime.now() - timedelta(seconds=2) > bumpCount:
+            if datetime.now() - timedelta(hours=2) > bumpCount:
                 await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
                 bumpDone = False
                 reminded = True
