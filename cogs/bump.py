@@ -10,6 +10,7 @@ class Bump(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bumpkingupdate.start()
+        self.bumpreminder.start()
 
     async def getBumps(self):
         channel = self.bot.get_channel(797745275253817354)
@@ -91,6 +92,10 @@ class Bump(commands.Cog):
             await message.delete()
             global bumpCount
             bumpCount = datetime.now()
+            bumpDone = True
+            global reminded
+            reminded = False
+            print(channelyeet, bumpCount)
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
@@ -103,13 +108,15 @@ class Bump(commands.Cog):
         if 'reminded' not in vars():
             global reminded
             reminded = False
-        if not reminded:
+        if 'channelyeet' not in vars():
+            global channelyeet
+            channelyeet = self.bot.get_channel(793523006172430388)
+        global bumpDone
+        if not reminded and bumpDone:
             global bumpCount
-            if datetime.now() - timedelta(hours=2) > bumpCount:
+            if datetime.now() - timedelta(seconds=2) > bumpCount:
                 await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
-                global bumpDone
                 bumpDone = False
-                global reminded
                 reminded = True
 
     @bumpreminder.before_loop
