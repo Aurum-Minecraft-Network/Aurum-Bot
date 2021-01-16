@@ -22,14 +22,22 @@ class Bump(commands.Cog):
         msg = await channel.fetch_message(798226999238983750)
         await msg.edit(content=json.dumps(dict, indent=4))
 
+    async def getTime(self):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(799962496118292491)
+        return datetime.strptime(msg.content, "%Y-%m-%d %H:%M:%S.%f")
+
+    async def updateTime(self, time):
+        channel = self.bot.get_channel(797745275253817354)
+        msg = await channel.fetch_message(799962496118292491)
+        await msg.edit(content=datetime.strftime(time, "%Y-%m-%d %H:%M:%S.%f"))
+
     @commands.Cog.listener()
     async def on_ready(self):
         global bumpDone
         global reminded
-        global bumpCount
         bumpDone = False
         reminded = False
-        bumpCount = datetime.now()
 
     @commands.command()
     async def bumpreset(self, ctx, boolw):
@@ -90,12 +98,10 @@ class Bump(commands.Cog):
             global channelyeet
             channelyeet = message.channel
             await message.delete()
-            global bumpCount
-            bumpCount = datetime.now()
+            await self.updateTime(datetime.now())
             bumpDone = True
             global reminded
             reminded = False
-            print(channelyeet, bumpCount)
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
@@ -113,8 +119,7 @@ class Bump(commands.Cog):
             channelyeet = self.bot.get_channel(793523006172430388)
         global bumpDone
         if not reminded and bumpDone:
-            global bumpCount
-            if datetime.now() - timedelta(hours=2) > bumpCount:
+            if datetime.now() - timedelta(hours=2) > (await self.getTime()):
                 await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
                 bumpDone = False
                 reminded = True
