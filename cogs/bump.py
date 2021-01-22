@@ -94,14 +94,14 @@ class Bump(commands.Cog):
                 else:
                     bumps.update({f"{str(cmd.author.id)}": 1})
                 await self.updateBumps(bumps)
+            bumpDone = True
+            global reminded
+            reminded = False
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
             global channelyeet
             channelyeet = message.channel
             await message.delete()
             await self.updateTime(datetime.now())
-            bumpDone = True
-            global reminded
-            reminded = False
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()

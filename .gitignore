@@ -1,3 +1,4 @@
 /.env
 /__pycache__
 /.vscode
+/cogs/__pycache__
