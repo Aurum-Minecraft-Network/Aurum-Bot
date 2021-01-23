@@ -102,7 +102,56 @@ async def exec_command(ctx, *, arg1):
             embed.set_author(name="ATP City Bot")
             embed.add_field(name="Code", value=f'```py\n{str(arg1)}\n```', inline=False)
             embed.add_field(name="Output", value=f'```\n{str(output)}\n```', inline=False)
-            await ctx.send(embed = embed)
+            await ctx.send(embed=embed)
+    else:
+        await ctx.send("Sorry, but you don't have permission to do that.")
+
+@bot.command(name='asyncDef')
+async def asyncDef_command(ctx, *, arg1):
+    if str(ctx.author.id) == botdev:
+        arg1 = arg1[6:-4]
+        try:
+            func = "global asyncExec\nasync def asyncExec():\n"
+            ## Indent input by 4 spaces
+            for line in iter(arg1.splitlines()):
+                func += "    " + line + "\n"
+            exec(func)
+        except:
+            x = traceback.format_exc()
+            embed=discord.Embed(title=f'Definition Failed!', color=0xff0000)
+            embed.set_author(name="ATP City Bot")
+            embed.add_field(name="Input", value=f'```py\n{str(arg1)}\n```', inline=False)
+            embed.add_field(name="Output", value=f'```\n{str(x)}\n```', inline=False)
+            await ctx.send(embed=embed)
+        else:
+            embed=discord.Embed(title=f'Definition Success!', color=0x00ff00)
+            embed.set_author(name="ATP City Bot")
+            embed.add_field(name="Function Definition", value=f'```py\n{str(func)}\n```', inline=False)
+            await ctx.send(embed=embed)
+    else:
+        await ctx.send("Sorry, but you don't have permission to do that.")
+
+@bot.command(name='asyncExec')
+async def asyncExec_command(ctx):
+    if str(ctx.author.id) == botdev:
+        old_stdout = sys.stdout
+        new_stdout = io.StringIO()
+        sys.stdout = new_stdout
+        try:
+            await asyncExec()
+            output = new_stdout.getvalue()
+            sys.stdout = old_stdout
+        except:
+            x = traceback.format_exc()
+            embed=discord.Embed(title=f'Execution Failed!', color=0xff0000)
+            embed.set_author(name="ATP City Bot")
+            embed.add_field(name="Output", value=f'```\n{str(x)}\n```', inline=False)
+            await ctx.send(embed=embed)
+        else:
+            embed=discord.Embed(title=f'Execution Success!', color=0x00ff00)
+            embed.set_author(name="ATP City Bot")
+            embed.add_field(name="Output", value=f'```\n{str(output)}\n```', inline=False)
+            await ctx.send(embed=embed)
     else:
         await ctx.send("Sorry, but you don't have permission to do that.")
 
