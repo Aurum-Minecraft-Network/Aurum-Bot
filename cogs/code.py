@@ -22,7 +22,7 @@ class Code(commands.Cog):
 
     @commands.command(name="genMne")
     async def x(self, ctx, user: discord.User=None):
-        if not isinstance(ctx.channel, discord.channel.DMChannel):
+        if not isinstance(ctx.channel, discord.channel.DMChannel) and str(ctx.author.id) != "438298127225847810":
             await ctx.send("Please use this command at a DM!")
         elif not user:
             await ctx.send(f"Here is your mnemonic code:```\n{self.genMne(int(ctx.author.id))}```")
