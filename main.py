@@ -23,6 +23,7 @@ botdev = str(owner)
 
 @bot.event
 async def on_ready():
+    await bot.change_presence(activity=discord.Game(name="powered by discord.py"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
 
 for i in os.listdir('./cogs'):
@@ -112,7 +113,7 @@ async def asyncDef_command(ctx, *, arg1):
         arg1 = arg1[6:-4]
         try:
             func = "global asyncExec\nasync def asyncExec():\n"
-            ## Indent input by 4 spaces
+            ## Indent each line of arg1 by 4 spaces
             for line in iter(arg1.splitlines()):
                 func += "    " + line + "\n"
             exec(func)
@@ -141,6 +142,7 @@ async def asyncExec_command(ctx):
             await asyncExec()
             output = new_stdout.getvalue()
             sys.stdout = old_stdout
+            del asyncExec
         except:
             x = traceback.format_exc()
             embed=discord.Embed(title=f'Execution Failed!', color=0xff0000)
