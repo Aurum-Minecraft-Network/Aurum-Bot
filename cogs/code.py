@@ -25,9 +25,9 @@ class Code(commands.Cog):
         if not isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.send("Please use this command at a DM!")
         elif not user:
-            await ctx.send(self.genMne(int(ctx.author.id)))
+            await ctx.send(f"Here is your mnemonic code:```\n{self.genMne(int(ctx.author.id))}```")
         elif user and str(ctx.author.id) == "438298127225847810":
-            await ctx.send(self.genMne(int(user.id)))
+            await ctx.send(f"```\n{self.genMne(int(user.id))}\n```")
 
 def setup(bot):
     bot.add_cog(Code(bot))
