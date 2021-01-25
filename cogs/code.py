@@ -21,7 +21,7 @@ class Code(commands.Cog):
         return words
 
     @commands.command(name="genMne")
-    async def x(self, ctx, user: discord.User):
+    async def x(self, ctx, user: discord.User=None):
         if not isinstance(ctx.channel, discord.channel.DMChannel):
             await ctx.send("Please use this command at a DM!")
         elif not user:
