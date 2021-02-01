@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-import json
+import jsoncomment as json
 
 class Code(commands.Cog):
     def __init__(self, bot):
