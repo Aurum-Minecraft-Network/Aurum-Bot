@@ -13,7 +13,7 @@ class Code(commands.Cog):
         dig = "0" * (addDig - len(dig)) + dig
         indices = [dig[i:i+11] for i in range(0, len(dig), 11)]
         words = ""
-        with open("assets/wordlist.json", "r") as f:
+        with open("assets/wordlist.jsonc", "r") as f:
             wordList = json.load(f)
         for index in indices:
             index = int(index, 2)
