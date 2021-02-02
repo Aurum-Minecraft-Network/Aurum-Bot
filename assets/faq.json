@@ -1,0 +1,66 @@
+[
+    {
+        "name": "Text Channel Guide",
+        "value": "<#793513021288742912> - Displays system messages and welcome/ goodbye.\n<#793529403233665084> - Full rules. Adhere to all the rules listed there.\n<#795871486693867530> - Information that may help you. Read here before asking something.\n<#793513974582607962> - Comprehensive guide on joining the Minecraft Server from different Minecraft clients.\n<#793514100897873981> - Announcements will be made there.\n<#793626862180892732> - Get roles there that grants you access to certain features.\n<#795687671439556651> - Vote on server-level decisions there.\n<#793645654324281376> - Links up with the Minecraft Server's Chat. Send messages there and people at the Minecraft Server will see it, vice versa.\n<#793514694660194314> - General discussion/ chat channel.\n<#793885634737209394> - Show off anything you want to show off there. Your fresh new build, your new gaming keyboard, anything!\n<#793550223099691048> - Use any bot command there.\n<#793520621417791539> - Discuss and post memes there, <@!270904126974590976> are also allowed.\n<#795691892968783883> - Vote on member-created polls there.\n<#794199213382303774> - Discuss on real-life political topics there. Avoid discussing unless absolutely necessary to.\n<#793625814423699456> - Ask for support from staff if you have any problems, such as finding out a site bring griefed.\n<#793525460910211104> - Register your username there with `a!usernamereg [bedrock | java] [username]`, or query others' usernames with `a!username [bedrock | java] [mentionUser]`.\n<#794444300401246210> - Request images to be converted to map items in the Minecraft Server, which can be shown on item frames.\n<#793523006172430388> - Bump the server on DISBOARD there using `!d bump`.\n<#794999665003069440> - Participate in member-created giveaways there.\n<#793677393393877032> - Advertise there.\n<#804395837710270535> - Status for people who applied for builder status."
+    },
+    {
+        "name": "Minecraft Server Commands Guide",
+        "value": "`/co i` - Toggle inspector to see who griefed/ built a thing\n`/mv tp [smp | city | hub]` - Teleport to (the last known location of) another world\n`/tabtps toggle tab` - Toggles showing TPS and MSPT in tab menu\n`/tabtps toggle actionbar` - Toggles showing TPS and MSPT in action bar\n`/hub` - Returns you to the server hub"
+    },
+    {
+        "name": "Frequently Asked Questions",
+        "value": "\nQ. How do you make it so that Java and Bedrock players can play together?\nA. By using GeyserMC. You may Google \"GeyserMC\" for more details.\n\nQ. The portal is not returning me to my last known location/ bed spawn point!\nA. Please use `/mv tp [smp | city | hub]` for the meantime if you experience this problem.\n\nQ. Oh no! Someone destroyed something!\nA. Need not panic! Firstly, please use `/co i` to determine the griefer, and then please report the player to us in <#793625814423699456>. Us staff are able to roll the damages back and restore your precious build.\n\nQ. Can I be staff/ senior admin?\nA. Just go to https://posts.atpcity.ga to check vacancies!"
+    },
+    {
+        "name": "Proximity Chat",
+        "value": "A new voice chat system has been set up! Below I will explain it briefly to you:\n\n**__Prerequistries__**\n- Have linked your Minecraft account with your Discord account, do so in the minecraft server with `/discord link`\n- Joined the #Lobby [JOIN HERE] channel in a game session\n\n**__How it works__**\nThe DiscordSRV plugins detects players in proximity of 100 blocks of one another, and groups them together into a voice channel. So for example if me and @Lemon#7174 and @Hiro#1462 are chilling at KFC and we all have joined the #Lobby [JOIN HERE] channel beforehand, we'll all be grouped to the same voice channel to speak to each other.\nAt the same time, let's say @Fondgazelle8357#6289 and @𝕮𝖑𝖆𝖞𝖙𝖔𝖓𝕱𝖑𝖆𝖒𝖊𝖗#1216 are on a highway ride next to one another, and they also have joined the #Lobby [JOIN HERE] channel, then they will be grouped to another voice channel together, different than mine.\nSo in this imaginary scenario a few voice channels have been created:\n- One that contains me, @Lemon#7174 and @Hiro#1462 \n- One that contains @Fondgazelle8357#6289 and @𝕮𝖑𝖆𝖞𝖙𝖔𝖓𝕱𝖑𝖆𝖒𝖊𝖗#1216 \nBasically, it's like talking in real life. You can't listen to one another when you're too far away!\nThis could potentially be useful when you are building together. The system can group you automatically.\n\n*The proximity bubble can be said to be a spheroid, with one semi-diameter (X, Z axes) being 100 blocks in length and another semi-diameter (Y axis) being 200 blocks in length.*\n*I hope you all enjoy this feature powered by DiscordSRV!*"
+    },
+    {
+        "name": "The \"Need owner permission to join realm\" issue",
+        "value": "**THIS IS NOT A REALM. THIS IS NOT A REALM.**\nPlease make sure that you are using the \"Server\" tab for adding the server information.\nAttached is a video tutorial:\nhttps://streamable.com/x0hi4e\nI hope this helps.\nIf you however, still experience the problem even after making sure that you have absolutely followed every step of the tutorial, then please seek support, either from me or other people.\nThank you."
+    },
+    {
+        "name": "Useful Links",
+        "value": "https://status.atpcity.ga - Status page\nhttps://blog.atpcity.ga - Blog (coming soon)\nhttps://donate.atpcity.ga - Donations page\nhttps://discord.atpcity.ga - Discord permalink\nhttps://github.com/ATP-City/ATP-City-Bot - <@!793546056934883328> Source Code\nhttps://map.atpcity.ga - Server dynamic map"
+    },
+    {
+        "name": "Permissions for the `default` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: default\npermissions:\n- authme.player.*\n- -carz.admin\n- carz.*\n- coreprotect.inspect\n- coreprotect.help\n- essentials.afk\n- essentials.home\n- essentials.home.*\n- essentials.sethome\n- essentials.sethome.multiple\n- essentials.sethome.multiple.unlimited\n- essentials.spawn\n- essentials.sleepingignored\n- essentials.help\n- imagemaps.place\n- imagemaps.info\n- imagemaps.list\n- lockettepro.edit\n- lockettepro.lock\n- multiverse.help\n- multiverse.access.*\n- multiverse.teleport.self.*\n- multiverse.portal.access.*\n- signedit.edit\n- skinsrestorer.command\n- skinsrestorer.command.set\n- skinsrestorer.command.gui\n- skinsrestorer.command.clear\n- skinsrestorer.command.update\n- stayput.use\n- citizens.help\n- -citizens.npc.limit.#\n- citizens.npc.*\n- -tabtps.reload\n- tabtps.*\n- waypoints.gui.open\n- waypoints.gui.public\n- waypoints.set.private\n```"
+    },
+    {
+        "name": "Permissions for the `builder` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: builder\npermissions:\n- worldedit.*\n- worldguard.region.*\nparents:\n- default\n```"
+    },
+    {
+        "name": "Permissions for the `admin` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: admin\npermissions:\n- bukkit.command.*\n- minecraft.command.*\n- -bukkit.command.reload\n- -minecraft.command.stop\n- -minecraft.command.whitelist\n- authme.admin.*\n- carz.*\n- commandsigns.*\n- coreprotect.*\n- -essentials.delhome.others\n- -essentials.silentjoin\n- -essentials.silentjoin.*\n- essentials.*\n- imagemaps.*\n- lockettepro.*\n- -multiverse.core.delete\n- -multiverse.core.remove\n- multiverse.core.*\n- multiverse.portal.*\n- multiverse.signportal.*\n- signedit.*\n- skinsrestorer.command\n- skinsrestorer.command.set\n- skinsrestorer.command.set.url\n- skinsrestorer.command.set.other\n- skinsrestorer.command.gui\n- skinsrestorer.command.clear\n- -skinsrestorer.command.clear.other\n- skinsrestorer.command.update\n- -skinsrestorer.command.update.other\n- skinsrestorer.admincommand\n- skinsrestorer.admincommand.status\n- skinsrestorer.admincommand.drop\n- skinsrestorer.admincommand.props\n- -skinsrestorer.admincommand.reload\n- worldguard.*\n- citizens.npc.limit.#\n- citizens.admin.*\n- tabtps.reload\n- waypoints.*\n- waypoints.set.public\n- waypoints.set.permission\n- waypoints.delete.public\n- waypoints.delete.permission\nparents:\n- builder\n```"
+    },
+    {
+        "name": "Permissions for the `head` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: head\npermissions:\n- multiverse.core.delete\n- multiverse.core.remove\nparents:\n- admin\n```"
+    },
+    {
+        "name": "Permissions for the `coowner` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: coowner\npermissions:\n- essentials.silentjoin.*\n- luckperms.*\n- bukkit.command.reload\n- essentials.delhome.others\n- essentials.silentjoin\n- minecraft.command.stop\n- minecraft.command.whitelist\n- multiverse.core.delete\n- multiverse.core.remove\n- skinsrestorer.admincommand.reload\n- skinsrestorer.command.clear.other\n- skinsrestorer.command.update.other\n- stayput.admin\n- citizens.npc.*\nparents:\n- admin\n```"
+    },
+    {
+        "name": "Permissions for the `owner` role in the Minecraft Server (in YAML form)",
+        "value": "```yml\nname: owner\npermissions:\n- citizens.*\n```"
+    },
+    {
+        "name": "Why are you \"o/\"ing every one that joins in?",
+        "value": "Oh, it looks like a person waving their hand, doesn't it?\nWelcome, all."
+    },
+    {
+        "name": "I want to use WorldEdit!",
+        "value": "Fill in the form here:\nhttps://forms.gle/xWggSq6XgcNoYxaL6"
+    },
+    {
+        "name": "Role Introduction",
+        "value": "@Player - Role granted to all non-bot members.\n@Developer - Independent from the staff team. Maintains Minecraft Server plugins and Discord Bot.\n@Staff - Conducts general moderation on the Discord and Minecraft Servers.\n@City Head @Parkour Head @SMP Head - The leaders of several sub-servers.\n@Coowner - A role to regulate the server.\n@Owner - The highest role."
+    },
+    {
+        "name": "Still have questions?",
+        "value": "Feel free to ask us at a chat channel in the ATP City Discord Server, like #general, or open a support ticket at #support!"
+    }
+]
