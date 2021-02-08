@@ -55,14 +55,14 @@ class Minecraft(commands.Cog):
             for i in message.content.splitlines():    
                 if i.startswith("<"):
                     ## Command check
-                    j = 0
+                    k = 0
                     for j in i.split(" "):
                         if ">" in j:
                             break # Left the username section
                         else:
-                            j += 1
+                            k += 1
                             continue
-                    if not i.split(" ")[j+1].startswith("/"):
+                    if not i.split(" ")[k+1].startswith("/"):
                         channel = self.bot.get_channel(793645654324281376)
                         msg = i.replace("<", "").replace(">", " »")
                         await channel.send(f"**[BE]** {msg}")
