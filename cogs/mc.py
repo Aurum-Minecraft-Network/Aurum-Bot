@@ -52,11 +52,20 @@ class Minecraft(commands.Cog):
     async def on_message(self, message):
         if int(message.channel.id) == 808347566588035112:
             ## Chat check
-            for i in message.content.splitlines():
-                if i.startswith("<") and "> /" not in " ".join(i.split(" ")[0:1]):
-                    channel = self.bot.get_channel(793645654324281376)
-                    msg = i.replace("<", "").replace(">", " »")
-                    await channel.send(f"**[BE]** {msg}")
+            for i in message.content.splitlines():    
+                if i.startswith("<"):
+                    ## Command check
+                    j = 0
+                    for j in i.split(" "):
+                        if ">" in j:
+                            break # Left the username section
+                        else:
+                            j += 1
+                            continue
+                    if not i.split(" ")[j+1].startswith("/"):
+                        channel = self.bot.get_channel(793645654324281376)
+                        msg = i.replace("<", "").replace(">", " »")
+                        await channel.send(f"**[BE]** {msg}")
             ## Join check
                 elif i.endswith("joined the game"):
                     i = i.replace("[Server thread/INFO]: ", "")
