@@ -68,7 +68,7 @@ class Minecraft(commands.Cog):
                     del i[-1]
                     " ".join(i) # Got the username!
                     channel = self.bot.get_channel(793645654324281376)
-                    await channel.send(f"**{i}** joined the game")
+                    await channel.send(f"**{i}** joined the server")
             ## Leave check
                 elif i.endswith("left the game"):
                     i.replace("[Server thread/INFO]: ", "")
@@ -80,7 +80,7 @@ class Minecraft(commands.Cog):
                     del i[-1]
                     " ".join(i) # Got the username!
                     channel = self.bot.get_channel(793645654324281376)
-                    await channel.send(f"**{i}** left the game")
+                    await channel.send(f"**{i}** left the server")
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
