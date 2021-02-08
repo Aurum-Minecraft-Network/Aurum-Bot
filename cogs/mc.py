@@ -64,7 +64,7 @@ class Minecraft(commands.Cog):
                             continue
                     if not i.split(" ")[k+1].startswith("/"):
                         channel = self.bot.get_channel(793645654324281376)
-                        msg = i.replace("<", "").replace(">", " »")
+                        msg = i.replace("<", "").replace(">", " »", 1)
                         await channel.send(f"**[BE]** {msg}")
             ## Join check
                 elif i.endswith("joined the game"):
