@@ -51,11 +51,36 @@ class Minecraft(commands.Cog):
     @commands.Cog.listener()
     async def on_message(self, message):
         if int(message.channel.id) == 808347566588035112:
+            ## Chat check
             for i in message.content.splitlines():
                 if i.startswith("<"):
                     channel = self.bot.get_channel(793645654324281376)
                     msg = i.replace("<", "").replace(">", " »")
                     await channel.send(f"**[BE]** {msg}")
+            ## Join check
+                elif i.endswith("joined the game"):
+                    i.replace("[Server thread/INFO]: ", "")
+                    i = i.split(" ")
+                    del i[0]
+                    ## Delete the last 3 items
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    " ".join(i) # Got the username!
+                    channel = self.bot.get_channel(793645654324281376)
+                    await channel.send(f"**{i}** joined the game")
+            ## Leave check
+                elif i.endswith("left the game"):
+                    i.replace("[Server thread/INFO]: ", "")
+                    i = i.split(" ")
+                    del i[0]
+                    ## Delete the last 3 items
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    " ".join(i) # Got the username!
+                    channel = self.bot.get_channel(793645654324281376)
+                    await channel.send(f"**{i}** left the game")
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
