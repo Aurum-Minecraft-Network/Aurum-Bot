@@ -78,12 +78,38 @@ class Minecraft(commands.Cog):
                     i = " ".join(i) # Got the username!
                     channel = self.bot.get_channel(793645654324281376)
                     await channel.send(f"**{i}** joined the Bedrock server")
+                elif i.endswith("joined the game as op!"):
+                    i = i.replace("[Server thread/INFO]: ", "")
+                    i = i.split(" ")
+                    del i[0]
+                    ## Delete the last 5 items
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    i = " ".join(i) # Got the username!
+                    channel = self.bot.get_channel(793645654324281376)
+                    await channel.send(f"**{i}** joined the Bedrock server")    
             ## Leave check
                 elif i.endswith("left the game"):
                     i = i.replace("[Server thread/INFO]: ", "")
                     i = i.split(" ")
                     del i[0]
                     ## Delete the last 3 items
+                    del i[-1]
+                    del i[-1]
+                    del i[-1]
+                    i = " ".join(i) # Got the username!
+                    channel = self.bot.get_channel(793645654324281376)
+                    await channel.send(f"**{i}** left the Bedrock server")
+                elif i.endswith("left the game as op!"):
+                    i = i.replace("[Server thread/INFO]: ", "")
+                    i = i.split(" ")
+                    del i[0]
+                    ## Delete the last 5 items
+                    del i[-1]
+                    del i[-1]
                     del i[-1]
                     del i[-1]
                     del i[-1]
