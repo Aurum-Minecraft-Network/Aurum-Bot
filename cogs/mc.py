@@ -50,10 +50,12 @@ class Minecraft(commands.Cog):
                 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if int(message.channel.id) == 808347566588035112 and message.content.startswith("<"):
-            channel = self.bot.get_channel(793645654324281376)
-            msg = message.content.replace("<", "").replace(">", " »")
-            await channel.send(f"**[BE]** {msg}")
+        if int(message.channel.id) == 808347566588035112:
+            for i in message.content.splitlines():
+                if i.startswith("<"):
+                    channel = self.bot.get_channel(793645654324281376)
+                    msg = i.replace("<", "").replace(">", " »")
+                    await channel.send(f"**[BE]** {msg}")
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
