@@ -12,7 +12,7 @@ client = boto3.client("s3", aws_access_key_id=key, aws_secret_access_key=secret)
 class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+    
     @commands.command(name="usernamereg")
     async def unr(self, ctx, version, *, username=None):
         if version not in ["bedrock", "java"]:
@@ -47,6 +47,13 @@ class Minecraft(commands.Cog):
                 await ctx.send(f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**")
             except KeyError:
                 await ctx.send("That user hasn't registered their username yet!")
+                
+    @commands.Cog.listener()
+    async def on_message(message):
+        if int(message.channel.id) == 808347566588035112 and message.content.startswith("<"):
+            channel = self.bot.get_channel(793645654324281376)
+            msg = message.content.replace("<", "**").replace(">", "** »")
+            await channel.send(msg)
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))

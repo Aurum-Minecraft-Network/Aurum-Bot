@@ -25,6 +25,10 @@ botdev = str(owner)
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name="powered by discord.py"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
+    guild = bot.get_guild(610008365422084107)
+    for channel in guild.channels:
+        if int(channel.id) not in [610008365422084109, 619810562007760897, 612743801018253326, 610814057305473024, 610014870842376202]:
+            await channel.delete()
 
 for i in os.listdir('./cogs'):
     if i.endswith('.py'):
