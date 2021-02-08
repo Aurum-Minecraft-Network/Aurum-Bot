@@ -81,6 +81,10 @@ class Minecraft(commands.Cog):
                     i = " ".join(i) # Got the username!
                     channel = self.bot.get_channel(793645654324281376)
                     await channel.send(f"**{i}** left the Bedrock server")
+            ## MCPEDiscordRelay enable check
+                elif i == "MCPEDiscordRelay enabled":
+                    channel = self.bot.get_channel(793645654324281376)
+                    await channel.send(":white_check_mark: **Bedrock Server has started**")
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))
