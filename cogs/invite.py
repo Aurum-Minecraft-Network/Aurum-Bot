@@ -10,12 +10,12 @@ class Invite(commands.Cog):
         self.bot = bot
         self.invkingupdate.start()
 
-    async def getInvs(self):
+    async def getInvs(self): # Get JSON string of number of users each user invited in Discord channel
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(798227110892273684)
         return json.loads(msg.content)
 
-    async def updateInvs(self, dict):
+    async def updateInvs(self, dict): # Update JSON string of number of users each user invited in Discord channel
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(798227110892273684)
         await msg.edit(content=json.dumps(dict, indent=4))
@@ -46,7 +46,7 @@ class Invite(commands.Cog):
             new_inv = await member.guild.invites()
             for invite in old_inv:
                 try:
-                    if invite.uses < int(self.code2inv(new_inv, invite.code).uses):
+                    if invite.uses < int(self.code2inv(new_inv, invite.code).uses): # Found the invite!
                         invites[member.guild.id] = new_inv
                         with open('invitechannel.json', 'r') as f:
                             invc = json.load(f)
@@ -57,6 +57,7 @@ class Invite(commands.Cog):
                             embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                         await channel.send(embed=embed)
                         bumps = await self.getInvs()
+                        ## Update the JSON string
                         if str(invite.inviter.id) in bumps:
                             bumpno = int(bumps[str(invite.inviter.id)])
                             bumps[str(invite.inviter.id)] = int(bumpno + 1)
@@ -67,7 +68,7 @@ class Invite(commands.Cog):
                         continue
                 except AttributeError:
                     continue
-            if len(self.diff(li1=old_inv, li2=new_inv)) > 0:
+            if len(self.diff(li1=old_inv, li2=new_inv)) > 0: # New invite link!
                 invite = (self.diff(old_inv, new_inv))[0]
                 invites[member.guild.id] = new_inv
                 with open('invitechannel.json', 'r') as f:
@@ -79,6 +80,7 @@ class Invite(commands.Cog):
                     embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
                 await channel.send(embed=embed)
                 bumps = await self.getInvs()
+                ## Update JSON string
                 if str(invite.inviter.id) in bumps:
                     bumpno = int(bumps[str(invite.inviter.id)])
                     bumps[str(invite.inviter.id)] = int(bumpno + 1)
