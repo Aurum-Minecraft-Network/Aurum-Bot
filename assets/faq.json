@@ -64,6 +64,10 @@
         "value": "@Player - Role granted to all non-bot members.\n@Developer - Independent from the staff team. Maintains Minecraft Server plugins and Discord Bot.\n@Staff - Conducts general moderation on the Discord and Minecraft Servers.\n@City Head @Parkour Head @SMP Head - The leaders of several sub-servers.\n@Coowner - A role to regulate the server.\n@Owner - The highest role."
     },
     {
+        "name": "The server is telling me to register/ login!",
+        "value": "__The server is telling me to register/ login!__\nNot to worry, this is totally normal.\n\n**If you are told to register:**\nRun `/register [password] [repeatPassword]`. Replace `[password]` and `[repeatPassword]` with a password you would like to use. Note that this password does not necessary need to be the password of your Minecraft/ Microsoft account.\n\n**If you are told to login:**\nJust login using `/login [password]`. Replace `[password]` with your own password.\n\n**What if I forgot my password?**\nPlease open a ticket and seek support in <#804383735008854047>."
+    },
+    {
         "name": "Still have questions?",
         "value": "Feel free to ask us at a chat channel in the ATP City Discord Server, like #general, or open a support ticket at #support!"
     }
