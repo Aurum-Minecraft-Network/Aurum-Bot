@@ -13,9 +13,10 @@ class Imgur(commands.Cog):
     async def x(self, ctx):
         if not ctx.message.attachments:
             await ctx.send("Please attach at least one image!")
+            return
+        msg = "Here is your uploaded image:\n" if len(ctx.message.attachments) == 1 else "Here are your uploaded images:\n"
         for i in ctx.message.attachments:
             if i.filename.endswith((".jpg", ".jpeg", ".png", ".gif")): ## Check file type
-                msg = "Here is your uploaded image:\n\n"
                 await i.save(i.filename) ## Download image
                 im = pyimgur.Imgur(self.imgurid) ## Intialize Pyimgur
                 uploaded_image = im.upload_image(os.path.abspath(f"./{i.filename}"), title="ATP City")
