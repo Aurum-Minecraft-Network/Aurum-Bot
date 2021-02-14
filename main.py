@@ -186,6 +186,9 @@ Gives a leaderboard of bumps.
 `!d bump`
 Bumps the server on DISBOARD.
 
+`a!imgur`
+Attach images and the bot will upload them to Imgur.
+
 `a!source`
 Returns the source code of the bot.""")
 
