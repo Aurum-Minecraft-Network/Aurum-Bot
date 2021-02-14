@@ -8,7 +8,6 @@ class Imgur(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.imgurid = config("IMGURID")
-        self.imgursecret = config("IMGURSECRET")
 
     @commands.command(name="imgur")
     async def x(self, ctx):
