@@ -16,12 +16,12 @@ class Imgur(commands.Cog):
             return
         msg = "Here is your uploaded image:\n" if len(ctx.message.attachments) == 1 else "Here are your uploaded images:\n"
         for i in ctx.message.attachments:
-            if i.filename.endswith((".jpg", ".jpeg", ".png", ".gif")): ## Check file type
-                await i.save(i.filename) ## Download image
-                im = pyimgur.Imgur(self.imgurid) ## Intialize Pyimgur
+            if i.filename.endswith((".jpg", ".jpeg", ".png", ".gif")): # Check file type
+                await i.save(i.filename) # Download image
+                im = pyimgur.Imgur(self.imgurid) # Intialize Pyimgur
                 uploaded_image = im.upload_image(os.path.abspath(f"./{i.filename}"), title="ATP City")
                 msg += f"{uploaded_image.link}\n"
-                os.remove(os.path.abspath(f"./{i.filename}")) ## Delete image to save space
+                os.remove(os.path.abspath(f"./{i.filename}")) # Delete image to save space
         await ctx.send(msg)
 
 def setup(bot):
