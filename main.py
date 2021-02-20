@@ -35,7 +35,7 @@ print('Extensions loaded!')
 async def on_member_join(member):
     channel = bot.get_channel(793513021288742912)
     await channel.send(":oslash:")
-    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nNeed help? Use `a!faq`!")
+    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nNeed help? Use `a!faq`!")
 
 @bot.event
 async def on_member_remove(member):
