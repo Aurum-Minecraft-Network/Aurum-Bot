@@ -34,7 +34,7 @@ print('Extensions loaded!')
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(793513021288742912)
-    await channel.send("<:oslash:812635348591968267>")
+    await channel.send("<:oslash:803836347097677844>")
     await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nNeed help? Use `a!faq`!")
 
 @bot.event
