@@ -15,7 +15,7 @@ An `.env` file should look like this:
     AWSSECRET = yourAWSSecretAccessKeyHere
     IMGURID = yourImgurAPIClientIDHere
 
-Put your Discord Bot token (obtain one [here](https://www.writebots.com/discord-bot-token/)) in place of `yourTokenHere`.<br/>Put your own Discord user ID in place of `yourDiscordUserIDHere`.<br/>Put your Discord Bot's Client ID in place of `yourBotClientIDHere`.<br/>Put your AWS S3 Bucket's Access Key in place of `yourAWSAccessKeyIDHere`.<br/>Put your AWS Secret Access Key in place of `yourAWSSecretAccessKeyHere`.<br/>Put your Imgur API Client ID in place of `IMGURID`.
+Put your Discord Bot token (obtain one [here](https://www.writebots.com/discord-bot-token/)) in place of `yourTokenHere`.<br/>Put your own Discord user ID in place of `yourDiscordUserIDHere`.<br/>Put your Discord Bot's Client ID in place of `yourBotClientIDHere`.<br/>Put your AWS S3 Bucket's Access Key in place of `yourAWSAccessKeyIDHere`.<br/>Put your AWS Secret Access Key in place of `yourAWSSecretAccessKeyHere`.<br/>Put your Imgur API Client ID in place of `yourImgurAPIClientIDHere`.
 
 ## Install dependencies
 Dependencies are listed in the `requirements.txt` file. Install them using pip with `pip install -r requirements.txt`.
