@@ -68,6 +68,10 @@
         "value": "Not to worry, this is totally normal.\n\n**If you are told to register:**\nRun `/register [password] [repeatPassword]`. Replace `[password]` and `[repeatPassword]` with a password you would like to use. Note that this password does not necessary need to be the password of your Minecraft/ Microsoft account.\n\n**If you are told to login:**\nJust login using `/login [password]`. Replace `[password]` with your own password.\n\n**What if I forgot my password?**\nPlease open a ticket and seek support in <#804383735008854047>."
     },
     {
+        "name": "I am getting the \"Unable to connect to world.\" issue!",
+        "value": "This is a very common problem. Simply restart Minecraft: Bedrock Edition and connect to the server after the words \"ATP City\" appear as bottom text in the button for our server.\nIf the issue persists, make sure whether you have input the correct server IP Address and Port.\nIf the issue still persists, try a new set of server IP and Port from the wiki here:\nhttps://github.com/ATP-City/How-To-Join/wiki"
+    },
+    {
         "name": "Still have questions?",
         "value": "Feel free to ask us at a chat channel in the ATP City Discord Server, like #general, or open a support ticket at #support!"
     }
