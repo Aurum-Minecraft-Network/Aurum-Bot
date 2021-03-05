@@ -98,10 +98,21 @@ class Bump(commands.Cog):
                     bumps[str(cmd.author.id)] = int(bumpno + 1)
                 else:
                     bumps.update({f"{str(cmd.author.id)}": 1})
+                try:
+                    if bumps["lastBump"][0] == str(cmd.author.id):
+                        bumps.update({"lastBump": [str(cmd.author.id), bumps["lastBump"][1] + 1]})
+                    else:
+                        bumps.update({"lastBump": [str(cmd.author.id), 1]})
+                except KeyError:
+                    bumps["lastBump"] = [str(cmd.author.id), 1]
                 await self.updateBumps(bumps)
             bumpDone = True
             global reminded
             reminded = False
+            msg = "Bump succeeded. Thanks, <@{cmd.author.id}>!"
+            if bumps["lastBump"][1] > 1:
+                msg += f"""\n**{bumps["lastBump"][1]} COMBO :fire:**"""
+            msg += "\nNext bump in 2 hours"
             await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
             global channelyeet
             channelyeet = message.channel
