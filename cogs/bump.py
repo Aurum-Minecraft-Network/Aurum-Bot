@@ -150,6 +150,7 @@ class Bump(commands.Cog):
     async def bumpkingupdate(self):
         try:
             bumps = await self.getBumps()
+            del bumps["lastBump"]
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary from user with lowest bumps to highest
             bumpKingValue = int(list(bumpsRank.values())[-1]) # Highest value of bumps!
             guild = self.bot.get_guild(793495102566957096)
