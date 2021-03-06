@@ -91,6 +91,7 @@ class Bump(commands.Cog):
             bumpDone = True
             cmd = (await message.channel.history(limit=1, before=message).flatten())[0] # Get the message before this message
             if cmd.content == "!d bump":
+                self.bumpreminder().cancel()
                 bumps = await self.getBumps()
                 ## Update the bumps JSON string
                 if str(cmd.author.id) in bumps:
@@ -118,6 +119,7 @@ class Bump(commands.Cog):
             channelyeet = message.channel
             await message.delete()
             await self.updateTime(datetime.now()) # Set time bumped
+            self.bumpreminder().start()
         ## Need to wait until bump
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
