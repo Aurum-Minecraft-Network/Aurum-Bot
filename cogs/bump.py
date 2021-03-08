@@ -55,7 +55,8 @@ class Bump(commands.Cog):
 
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
-        bumps = await self.getBumps() # Get bump data of all users
+        bumpss = await self.getBumps() # Get bump data of all users
+        bumps = bumpss
         del bumps["lastBump"]
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
@@ -152,7 +153,8 @@ class Bump(commands.Cog):
     @tasks.loop(seconds=30)
     async def bumpkingupdate(self):
         try:
-            bumps = await self.getBumps()
+            bumpss = await self.getBumps() # Get bump data of all users
+            bumps = bumpss
             del bumps["lastBump"]
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary from user with lowest bumps to highest
             bumpKingValue = int(list(bumpsRank.values())[-1]) # Highest value of bumps!
