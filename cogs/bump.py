@@ -56,6 +56,7 @@ class Bump(commands.Cog):
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
         bumps = await self.getBumps() # Get bump data of all users
+        del bumps["lastBump"]
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
         leaderk = list(leaders.keys()) # User ID
