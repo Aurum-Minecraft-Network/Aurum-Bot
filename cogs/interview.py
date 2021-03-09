@@ -26,7 +26,7 @@ class Interview(commands.Cog):
         guild = self.bot.get_guild(793495102566957096)
         intID = str(uuid.uuid4())
         newInt = await guild.create_text_channel(f"int-{intID}")
-        await newInt.edit(category=get(guild.channels, id=817798415370813470))
+        await newInt.edit(category=get(guild.channels, id=818887738438058013))
         await newInt.set_permissions(ctx.author, read_messages=True, send_messages=True)
         await newInt.set_permissions(guild.default_role, read_messages=False)
         await ctx.send(f"Channel created at <#{newInt.id}>. Please move!")
