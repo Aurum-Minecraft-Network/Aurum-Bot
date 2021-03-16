@@ -12,6 +12,7 @@ class Bump(commands.Cog):
         self.bumpkingupdate.start()
         self.bumpreminder.start()
         self.disboardChecker.start()
+        self.denyDisboardAccess.start()
 
     async def getBumps(self): # Get bump JSON string from channel
         channel = self.bot.get_channel(797745275253817354)
@@ -156,6 +157,18 @@ class Bump(commands.Cog):
                 
     @disboardChecker.before_loop
     async def before_disboardChecker(self):
+        await self.bot.wait_until_ready()
+        
+    @tasks.loop(seconds=10)
+    async def denyDisboardAccess(self):
+        guild = self.bot.get_guild(793495102566957096)
+        role = discord.utils.get(guild.roles, id=821408975811379210)
+        for channel in guild.channels:
+            if channel.name != "bumping":
+                await channel.set_permissions(role, read_messages=False)
+                
+    @denyDisboardAccess.before_loop
+    async def before_denyDisboardAccess(self):
         await self.bot.wait_until_ready()
     
     @tasks.loop(seconds=10) # Function to see whether we have to remind users to bump

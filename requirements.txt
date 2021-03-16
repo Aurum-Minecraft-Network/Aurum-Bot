@@ -1,8 +1,8 @@
 discord.py==1.6.0
 jsoncomment==0.4.2
+pyimgur==0.6.0
 boto3==1.15.18
 discord==1.0.1
-captcha==0.3
-pyimgur==0.6.0
+django_recaptcha==2.0.6
 python-decouple==3.4
 PyYAML==5.4.1
