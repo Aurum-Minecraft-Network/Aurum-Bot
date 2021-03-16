@@ -11,6 +11,7 @@ class Bump(commands.Cog):
         self.bot = bot
         self.bumpkingupdate.start()
         self.bumpreminder.start()
+        self.disboardChecker.start()
 
     async def getBumps(self): # Get bump JSON string from channel
         channel = self.bot.get_channel(797745275253817354)
@@ -91,32 +92,32 @@ class Bump(commands.Cog):
         if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and not bumpDone and message.embeds[0].description.endswith("""      Bump done :thumbsup:
       Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
-            cmd = (await message.channel.history(limit=1, before=message).flatten())[0] # Get the message before this message
-            if cmd.content == "!d bump":
-                self.bumpreminder.cancel()
-                bumps = await self.getBumps()
-                ## Update the bumps JSON string
-                if str(cmd.author.id) in bumps:
-                    bumpno = int(bumps[str(cmd.author.id)])
-                    bumps[str(cmd.author.id)] = int(bumpno + 1)
+            ## Get the person who bumped
+            bumpUser = int(message.embeds[0].description.split(",")[0].replace("<", "").replace(">", "").replace("@", ""))
+            self.bumpreminder.cancel()
+            bumps = await self.getBumps()
+            ## Update the bumps JSON string
+            if str(bumpUser) in bumps:
+                bumpno = int(bumps[str(bumpUser)])
+                bumps[str(bumpUser)] = int(bumpno + 1)
+            else:
+                bumps.update({f"{str(bumpUser)}": 1})
+            try:
+                if bumps["lastBump"][0] == str(bumpUser):
+                    bumps.update({"lastBump": [str(bumpUser), bumps["lastBump"][1] + 1]})
                 else:
-                    bumps.update({f"{str(cmd.author.id)}": 1})
-                try:
-                    if bumps["lastBump"][0] == str(cmd.author.id):
-                        bumps.update({"lastBump": [str(cmd.author.id), bumps["lastBump"][1] + 1]})
-                    else:
-                        bumps.update({"lastBump": [str(cmd.author.id), 1]})
-                except KeyError:
-                    bumps["lastBump"] = [str(cmd.author.id), 1]
-                await self.updateBumps(bumps)
+                    bumps.update({"lastBump": [str(bumpUser), 1]})
+            except KeyError:
+                bumps["lastBump"] = [str(bumpUser), 1]
+            await self.updateBumps(bumps)
             bumpDone = True
             global reminded
             reminded = False
-            msg = "Bump succeeded. Thanks, <@{cmd.author.id}>!"
-            if bumps["lastBump"][1] > 1:
+            msg = "Bump succeeded. Thanks, <@{bumpUser}>!"
+            if int(bumps["lastBump"][1]) > 1:
                 msg += f"""\n**{bumps["lastBump"][1]} COMBO :fire:**"""
             msg += "\nNext bump in 2 hours"
-            await message.channel.send(f"Bump succeeded. Thanks, <@{cmd.author.id}>!\nNext bump in 2 hours")
+            await message.channel.send(f"Bump succeeded. Thanks, <@{bumpUser}>!\nNext bump in 2 hours")
             global channelyeet
             channelyeet = message.channel
             await message.delete()
@@ -130,6 +131,32 @@ class Bump(commands.Cog):
         ## Disallowed messages
         elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810"]:
             await message.delete()
+            
+    @tasks.loop(seconds=10)
+    async def disboardChecker(self):
+        guild = self.bot.get_guild(793495102566957096)
+        disboard = guild.get_member(302050872383242240)
+        bumpChannel = guild.get_channel(793523006172430388)
+        if "offline" not in locals():
+            offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
+        if disboard.status == discord.Status.offline or isinstance(disboard.status, str):
+            await bumpChannel.set_permissions(guild.default_role, send_messages=False)
+            if not offline:
+                await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
+                self.bumpreminder.cancel()
+                print("DISBOARD now off")
+                offline = True
+        else:
+            await bumpChannel.set_permissions(guild.default_role, send_messages=True)
+            if offline:
+                await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
+                self.bumpreminder.start()
+                print("DISBOARD now on")
+                offline = False
+                
+    @disboardChecker.before_loop
+    async def before_disboardChecker(self):
+        await self.bot.wait_until_ready()
     
     @tasks.loop(seconds=10) # Function to see whether we have to remind users to bump
     async def bumpreminder(self):

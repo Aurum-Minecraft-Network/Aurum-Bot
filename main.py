@@ -6,6 +6,7 @@ import traceback
 import yaml
 from decouple import config
 from discord.ext import commands
+import difflib
 
 global prefix
 prefix = 'a!'
@@ -24,6 +25,10 @@ botdev = str(owner)
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name="powered by discord.py"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
+    global aliases
+    aliases = []
+    for command in bot.commands:
+        aliases += (list(command.aliases) + [command.name])
 
 for i in os.listdir('./cogs'):
     if i.endswith('.py'):
@@ -40,6 +45,26 @@ async def on_member_join(member):
 async def on_member_remove(member):
     channel = bot.get_channel(793513021288742912)
     await channel.send(f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**.")
+    
+## Message edit detection
+@bot.event
+async def on_message_edit(before, after):
+    await bot.process_commands(after)
+    
+@bot.event
+async def on_command_error(ctx, error):
+    triedCommand = ctx.message.content.split(" ")[0][2:]
+    a = 1
+    # If user added a space between prefix and command
+    while len(triedCommand) == 0:
+        triedCommand = ctx.message.content.split(" ")[a]
+        a += 1
+    if isinstance(error, discord.ext.commands.errors.CommandNotFound):
+        try:
+            closest = difflib.get_close_matches(triedCommand, aliases)[0]
+            await ctx.channel.send(f"Invalid command! Did you mean `a!{closest}`?")
+        except IndexError:
+            await ctx.channel.send("Invalid command!")
 
 @bot.command()
 async def extload(ctx, cog):
