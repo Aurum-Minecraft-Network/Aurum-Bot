@@ -157,6 +157,10 @@ class Bump(commands.Cog):
                 
     @disboardChecker.before_loop
     async def before_disboardChecker(self):
+        guild = self.bot.get_guild(793495102566957096)
+        disboard = guild.get_member(302050872383242240)
+        global offline
+        offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
         await self.bot.wait_until_ready()
         
     @tasks.loop(seconds=10)
@@ -169,10 +173,6 @@ class Bump(commands.Cog):
                 
     @denyDisboardAccess.before_loop
     async def before_denyDisboardAccess(self):
-        guild = self.bot.get_guild(793495102566957096)
-        disboard = guild.get_member(302050872383242240)
-        global offline
-        offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
         await self.bot.wait_until_ready()
     
     @tasks.loop(seconds=10) # Function to see whether we have to remind users to bump
