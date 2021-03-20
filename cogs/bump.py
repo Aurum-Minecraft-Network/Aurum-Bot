@@ -31,16 +31,13 @@ class Bump(commands.Cog):
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(799962496118292491)
         await msg.edit(content=datetime.strftime(time, "%Y-%m-%d %H:%M:%S.%f"))
-
+        
     @commands.Cog.listener()
     async def on_ready(self):
         global bumpDone
         global reminded
         bumpDone = False
         reminded = False
-        
-    @commands.Cog.listener()
-    async def on_ready(self):
         guild = self.bot.get_guild(793495102566957096)
         bumpChannel = guild.get_channel(793523006172430388)
         disboard = guild.get_member(302050872383242240)
