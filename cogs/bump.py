@@ -137,8 +137,8 @@ class Bump(commands.Cog):
             else:
                 bumps.update({f"{str(bumpUser)}": 1})
             try:
-                if bumps["lastBump"][0] == str(bumpUser):
-                    bumps.update({"lastBump": [str(bumpUser), bumps["lastBump"][1] + 1]})
+                if str(bumps["lastBump"][0]) == str(bumpUser):
+                    bumps.update({"lastBump": [str(bumpUser), (int(bumps["lastBump"][1]) + 1)]})
                 else:
                     bumps.update({"lastBump": [str(bumpUser), 1]})
             except KeyError:
@@ -200,8 +200,7 @@ class Bump(commands.Cog):
     @tasks.loop(seconds=30)
     async def bumpkingupdate(self):
         try:
-            bumpss = await self.getBumps() # Get bump data of all users
-            bumps = bumpss
+            bumps = await self.getBumps() # Get bump data of all users
             del bumps["lastBump"]
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary from user with lowest bumps to highest
             bumpKingValue = int(list(bumpsRank.values())[-1]) # Highest value of bumps!
