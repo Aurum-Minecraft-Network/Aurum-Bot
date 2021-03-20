@@ -138,22 +138,26 @@ class Bump(commands.Cog):
         guild = self.bot.get_guild(793495102566957096)
         bumpChannel = guild.get_channel(793523006172430388)
         disboard = guild.get_member(302050872383242240)
-        if disboard.status == discord.Status.offline or isinstance(disboard.status, str):
-            await bumpChannel.set_permissions(guild.default_role, send_messages=False)
-            if offline:
-                await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
-                self.bumpreminder.cancel()
-                print("DISBOARD now off")
-                global offline
-                offline = True
-        else:
-            await bumpChannel.set_permissions(guild.default_role, send_messages=True)
-            if not offline:
-                await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
-                self.bumpreminder.start()
-                print("DISBOARD now on")
-                global offline
-                offline = False
+        try:
+            if disboard.status == discord.Status.offline or isinstance(disboard.status, str):
+                await bumpChannel.set_permissions(guild.default_role, send_messages=False)
+                if offline:
+                    await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
+                    self.bumpreminder.cancel()
+                    print("DISBOARD now off")
+                    global offline
+                    offline = True
+            else:
+                await bumpChannel.set_permissions(guild.default_role, send_messages=True)
+                if not offline:
+                    await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
+                    self.bumpreminder.start()
+                    print("DISBOARD now on")
+                    global offline
+                    offline = False
+        except SyntaxError:
+            global offline
+            offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
                 
     @disboardChecker.before_loop
     async def before_disboardChecker(self):
