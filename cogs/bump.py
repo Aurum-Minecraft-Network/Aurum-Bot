@@ -136,23 +136,23 @@ class Bump(commands.Cog):
     @tasks.loop(seconds=10)
     async def disboardChecker(self):
         guild = self.bot.get_guild(793495102566957096)
-        disboard = guild.get_member(302050872383242240)
         bumpChannel = guild.get_channel(793523006172430388)
-        if "offline" not in locals():
-            offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
+        disboard = guild.get_member(302050872383242240)
         if disboard.status == discord.Status.offline or isinstance(disboard.status, str):
             await bumpChannel.set_permissions(guild.default_role, send_messages=False)
-            if not offline:
+            if offline:
                 await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
                 self.bumpreminder.cancel()
                 print("DISBOARD now off")
+                global offline
                 offline = True
         else:
             await bumpChannel.set_permissions(guild.default_role, send_messages=True)
-            if offline:
+            if not offline:
                 await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
                 self.bumpreminder.start()
                 print("DISBOARD now on")
+                global offline
                 offline = False
                 
     @disboardChecker.before_loop
@@ -169,6 +169,10 @@ class Bump(commands.Cog):
                 
     @denyDisboardAccess.before_loop
     async def before_denyDisboardAccess(self):
+        guild = self.bot.get_guild(793495102566957096)
+        disboard = guild.get_member(302050872383242240)
+        global offline
+        offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
         await self.bot.wait_until_ready()
     
     @tasks.loop(seconds=10) # Function to see whether we have to remind users to bump
