@@ -2,7 +2,6 @@ import json
 import discord
 from discord.ext import tasks, commands
 from discord.utils import get
-import asyncio
 import traceback
 from datetime import datetime, timedelta
 
@@ -11,7 +10,6 @@ class Bump(commands.Cog):
         self.bot = bot
         self.bumpkingupdate.start()
         self.bumpreminder.start()
-        self.disboardChecker.start()
         self.denyDisboardAccess.start()
 
     async def getBumps(self): # Get bump JSON string from channel
@@ -38,13 +36,41 @@ class Bump(commands.Cog):
     async def on_ready(self):
         global bumpDone
         global reminded
-        global offline
-        guild = self.bot.get_guild(793495102566957096)
-        disboard = guild.get_member(302050872383242240)
-        offline = (disboard.status == discord.Status.offline or isinstance(disboard.status, str))
         bumpDone = False
         reminded = False
-
+        
+    @commands.Cog.listener()
+    async def on_ready(self):
+        guild = self.bot.get_guild(793495102566957096)
+        bumpChannel = guild.get_channel(793523006172430388)
+        disboard = guild.get_member(302050872383242240)
+        if disboard.status == discord.Status.offline:
+            await bumpChannel.set_permissions(guild.default_role, send_messages=False)
+            self.bumpreminder.cancel()
+            print("DISBOARD now off")
+        elif disboard.status == discord.Status.online:
+            await bumpChannel.set_permissions(guild.default_role, send_messages=True)
+            self.bumpreminder.start()
+            print("DISBOARD now on")
+        
+    @commands.Cog.listener()
+    async def on_member_update(self, before, after):
+        if before.id == 302050872383242240 and after.id == 302050872383242240:
+            guild = self.bot.get_guild(793495102566957096)
+            bumpChannel = guild.get_channel(793523006172430388)
+            if before.status == after.status:
+                pass
+            elif before.status == discord.Status.online and after.status == discord.Status.offline:
+                await bumpChannel.set_permissions(guild.default_role, send_messages=False)
+                await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
+                self.bumpreminder.cancel()
+                print("DISBOARD now off")
+            elif before.status == discord.Status.offline and after.status == discord.Status.online:
+                await bumpChannel.set_permissions(guild.default_role, send_messages=True)
+                await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
+                self.bumpreminder.start()
+                print("DISBOARD now on")
+                
     @commands.command()
     async def bumpreset(self, ctx, boolw): # Set whether the bot thinks the server has been bumped in the last 2 hours
         if str(ctx.author.id) == "438298127225847810":
@@ -136,32 +162,6 @@ class Bump(commands.Cog):
         ## Disallowed messages
         elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810"]:
             await message.delete()
-            
-    @tasks.loop(seconds=10)
-    async def disboardChecker(self):
-        guild = self.bot.get_guild(793495102566957096)
-        bumpChannel = guild.get_channel(793523006172430388)
-        disboard = guild.get_member(302050872383242240)
-        if disboard.status == discord.Status.offline or isinstance(disboard.status, str):
-            await bumpChannel.set_permissions(guild.default_role, send_messages=False)
-            if offline:
-                await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
-                self.bumpreminder.cancel()
-                print("DISBOARD now off")
-                global offline
-                offline = True
-        else:
-            await bumpChannel.set_permissions(guild.default_role, send_messages=True)
-            if not offline:
-                await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
-                self.bumpreminder.start()
-                print("DISBOARD now on")
-                global offline
-                offline = False
-                
-    @disboardChecker.before_loop
-    async def before_disboardChecker(self):
-        await self.bot.wait_until_ready()
         
     @tasks.loop(seconds=10)
     async def denyDisboardAccess(self):
