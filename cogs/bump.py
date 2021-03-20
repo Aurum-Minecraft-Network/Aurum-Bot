@@ -44,6 +44,8 @@ class Bump(commands.Cog):
         if disboard.status == discord.Status.offline:
             await bumpChannel.set_permissions(guild.default_role, send_messages=False)
             self.bumpreminder.cancel()
+            global bumpDone
+            bumpDone = True
             print("DISBOARD now off")
         elif disboard.status == discord.Status.online:
             await bumpChannel.set_permissions(guild.default_role, send_messages=True)
@@ -51,6 +53,9 @@ class Bump(commands.Cog):
                 self.bumpreminder.start()
             except RuntimeError:
                 pass
+            finally:
+                global bumpDone
+                bumpDone = False
             print("DISBOARD now on")
         
     @commands.Cog.listener()
