@@ -163,7 +163,7 @@ class Bump(commands.Cog):
             await message.delete()
             await message.channel.send(f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.")
         ## Disallowed messages
-        elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810"]:
+        elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810", "302050872383242240"]:
             await message.delete()
         
     @tasks.loop(seconds=10)
@@ -188,7 +188,7 @@ class Bump(commands.Cog):
             channelyeet = self.bot.get_channel(793523006172430388)
         global bumpDone
         if not reminded and bumpDone:
-            if datetime.now() - timedelta(hours=2) > (await self.getTime()): # Has it been 2 hours?
+            if datetime.now() - timedelta(hours=2, seconds=30) > (await self.getTime()): # Has it been 2 hours?
                 await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
                 bumpDone = False
                 reminded = True
