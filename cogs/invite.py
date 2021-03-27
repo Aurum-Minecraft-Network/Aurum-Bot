@@ -152,6 +152,7 @@ class Invite(commands.Cog):
     async def invkingupdate(self):
         try:
             bumps = await self.getInvs()
+            del bumps["302050872383242240"]
             bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
             guild = self.bot.get_guild(793495102566957096)

@@ -45,6 +45,7 @@ async def on_member_join(member):
 async def on_member_remove(member):
     channel = bot.get_channel(793513021288742912)
     await channel.send(f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**.")
+    await member.send("You left the server.")
     
 ## Message edit detection
 @bot.event
