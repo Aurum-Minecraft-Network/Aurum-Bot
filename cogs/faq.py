@@ -39,7 +39,7 @@ class FAQ(commands.Cog):
                                required=False
                            )
                        ])
-    async def _faq(self, ctx: SlashContext, index):
+    async def _faq(self, ctx: SlashContext, index=None):
         with open("assets/faq.json", "r", encoding="utf-8") as f:
             faqs = json.load(f)
         if not index:
