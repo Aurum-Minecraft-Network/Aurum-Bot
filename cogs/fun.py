@@ -57,7 +57,7 @@ class Fun(commands.Cog):
                                required=False
                            )
                        ])
-    async def _da(self, ctx: SlashContext, user):
+    async def _da(self, ctx: SlashContext, user=None):
         if user:
             remainder = int(user.discriminator) % 5
             pronoun = f"{user.name} has"
