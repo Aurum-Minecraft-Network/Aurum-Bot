@@ -4,6 +4,7 @@ from discord.ext import tasks, commands
 from discord.utils import get
 import traceback
 from datetime import datetime, timedelta
+from discord_slash import cog_ext, SlashContext
 
 class Bump(commands.Cog):
     def __init__(self, bot):
@@ -263,6 +264,43 @@ class Bump(commands.Cog):
     @bumpkingupdate.before_loop
     async def before_bumpkingupdate(self):
         await self.bot.wait_until_ready()
+        
+    ### SLASH COMMANDS ZONE ###
     
+    guildID = 793495102566957096
+    
+    @cog_ext.cog_slash(name="bumpleader",
+                       description="Gives a leaderboard of bumps",
+                       guild_ids=[guildID])
+    async def _bumpleader(self, ctx: SlashContext):
+        bumpss = await self.getBumps() # Get bump data of all users
+        bumps = bumpss
+        del bumps["lastBump"]
+        leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
+        leaderv = list(leaders.values()) # Number of bumps
+        leaderk = list(leaders.keys()) # User ID
+        msg = "**__Bump Leaderboard__**"
+        rank = int(leaderv[0]) # Highest number of bumps
+        place = 1
+        usersDone = 0
+        for name, bumpe in zip(leaderk, leaderv):
+            guild = self.bot.get_guild(793495102566957096)
+            for users in guild.members:
+                if str(users.id) == str(name):
+                    user = users # Found the user in the guild which the user ID represents
+                else:
+                    continue
+                if rank > int(bumpe): # This user has less bumps than the previous user
+                    place += 1 # So he/ she is one place lower
+                    rank = int(leaderv[usersDone]) # Set rank to the number of bumps done by this user
+                ## else: pass
+                ## Same no. of bumps as the previous user, same place!
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bump"
+                ## Should we make the word "Bump" plural?
+                if int(bumpe) > 1:
+                    msg += "s"
+                usersDone += 1
+        await ctx.send(msg)
+        
 def setup(bot):
     bot.add_cog(Bump(bot))

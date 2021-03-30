@@ -30,11 +30,6 @@ async def on_ready():
     for command in bot.commands:
         aliases += (list(command.aliases) + [command.name])
 
-for i in os.listdir('./cogs'):
-    if i.endswith('.py'):
-        bot.load_extension(f'cogs.{i[:-3]}')
-print('Extensions loaded!')
-
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(793513021288742912)
@@ -208,6 +203,9 @@ Query a Minecraft username of a Discord user.
 `a!bumpleader`
 Gives a leaderboard of bumps.
 
+`a!invleader`
+Gives a leaderboard of invites.
+
 `!d bump`
 Bumps the server on DISBOARD.
 
@@ -215,7 +213,13 @@ Bumps the server on DISBOARD.
 Attach images and the bot will upload them to Imgur.
 
 `a!source`
-Returns the source code of the bot.""")
+Returns the source code of the bot.
+
+`a!da`
+Returns the color of a user's default avatar.
+
+`a!faq`
+Returns a list of frequently asked questions.""")
 
 @bot.command(aliases=["cs"])
 async def competitionsubmit(ctx, *, submission):
@@ -229,5 +233,63 @@ async def competitionsubmit(ctx, *, submission):
 @bot.command()
 async def send(ctx, *, content):
     await ctx.send(content)
+    
+### SLASH COMMANDS ZONE ###
 
-bot.run(token)
+from discord_slash import SlashCommand
+slash = SlashCommand(bot, sync_commands=True, override_type=True)
+
+guildID = 793495102566957096
+
+@slash.slash(name="ping", 
+             description="Returns the latency in ms",
+             guild_ids=[guildID])
+async def _ping(ctx):
+    await ctx.send(f':ping_pong: Pong! The latency is **{round(bot.latency * 1000)}ms**.')
+    
+@slash.slash(name="help",
+             description="Returns the user guide of this bot",
+             guild_ids=[guildID])
+async def _help(ctx):
+    await ctx.send("""***ATP City Bot User Guide***
+`/ping`
+Returns the latency in ms.
+
+`/help`
+This command.
+
+`/usernamereg [java|bedrock] [username]`
+Register your Minecraft username.
+
+`/username [java|bedrock] [mentionuser]`
+Query a Minecraft username of a Discord user.
+
+`/bumpleader`
+Gives a leaderboard of bumps.
+
+`/invleader`
+Gives a leaderboard of invites.
+
+`/source`
+Returns the source code of the bot.
+
+`/da`
+Returns the color of a user's default avatar.
+
+`/faq`
+Returns a list of frequently asked questions.""")
+    
+@slash.slash(name="source",
+             description="Returns the source code of the bot",
+             guild_ids=[guildID])
+async def _source(ctx):
+    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/ATP-City/ATP-City-Bot")
+    
+def runBot():    
+    for i in os.listdir('./cogs'):
+        if i.endswith('.py'):
+            bot.load_extension(f'cogs.{i[:-3]}')
+    print('Extensions loaded!')
+    bot.run(token)
+    
+runBot()

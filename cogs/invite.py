@@ -4,6 +4,8 @@ import traceback
 import json
 import os
 from discord.utils import get
+from discord_slash import cog_ext, SlashContext
+from discord_slash.utils.manage_commands import create_option
 
 class Invite(commands.Cog):
     def __init__(self, bot):
@@ -208,6 +210,38 @@ class Invite(commands.Cog):
     @invkingupdate.before_loop
     async def before_invkingupdate(self):
         await self.bot.wait_until_ready()
+        
+    ### SLASH COMMANDS ZONE ###
+    
+    guildID = 793495102566957096
+    
+    @cog_ext.cog_slash(name="invleader",
+                       description="Gives a leaderboard of invites",
+                       guild_ids=[guildID])
+    async def _invleader(self, ctx: SlashContext):
+        bumps = await self.getInvs()
+        leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
+        leaderv = list(leaders.values())
+        leaderk = list(leaders.keys())
+        msg = "**__Invites Leaderboard__**"
+        rank = int(leaderv[0])
+        place = 1
+        usersDone = 0
+        for name, bumpe in zip(leaderk, leaderv):
+            guild = self.bot.get_guild(793495102566957096)
+            for users in guild.members:
+                if str(users.id) == str(name):
+                    user = users
+                else:
+                    continue
+                if rank > int(bumpe):
+                    place += 1
+                    rank = int(leaderv[usersDone])
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
+                if int(bumpe) > 1:
+                    msg += "s"
+                usersDone += 1
+        await ctx.send(msg)
 
 def setup(bot):
     bot.add_cog(Invite(bot))
