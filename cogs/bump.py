@@ -11,6 +11,11 @@ class Bump(commands.Cog):
         self.bumpkingupdate.start()
         self.bumpreminder.start()
         self.denyDisboardAccess.start()
+            
+    def convert(seconds): # Take x seconds and returns a hours, b minutes, c seconds
+        min, sec = divmod(seconds, 60)
+        hour, min = divmod(min, 60)
+        return (hour, min, sec)
 
     async def getBumps(self): # Get bump JSON string from channel
         channel = self.bot.get_channel(797745275253817354)
@@ -148,6 +153,9 @@ class Bump(commands.Cog):
             global reminded
             reminded = False
             msg = "Bump succeeded. Thanks, <@{bumpUser}>!"
+            guild = self.bot.get_guild(793495102566957096)
+            await channelyeet.set_permissions(guild.default_role, send_messages=False)
+            print("Bumped, locked")
             if int(bumps["lastBump"][1]) > 1:
                 msg += f"""\n**{bumps["lastBump"][1]} COMBO :fire:**"""
             msg += "\nNext bump in 2 hours"
@@ -189,7 +197,10 @@ class Bump(commands.Cog):
         global bumpDone
         if not reminded and bumpDone:
             if datetime.now() - timedelta(hours=2, seconds=30) > (await self.getTime()): # Has it been 2 hours?
+                guild = self.bot.get_guild(793495102566957096)
                 await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
+                await channelyeet.set_permissions(guild.default_role, send_messages=True)
+                print("Can bump now, unlocked")
                 bumpDone = False
                 reminded = True
 
