@@ -89,7 +89,7 @@ class Fun(commands.Cog):
         embed=discord.Embed(title="Default avatar color", color=colorh)
         embed.set_thumbnail(url=link)
         embed.add_field(name=f"{pronoun} a {color}-colored default avatar!", value="[Want to know how this works?](http://gg.gg/nv7ek)", inline=False)
-        await ctx.send(embed=embed)
+        await ctx.send(embeds=[embed])
 
 def setup(bot):
     bot.add_cog(Fun(bot))
