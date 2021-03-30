@@ -154,7 +154,7 @@ class Bump(commands.Cog):
             reminded = False
             msg = "Bump succeeded. Thanks, <@{bumpUser}>!"
             guild = self.bot.get_guild(793495102566957096)
-            await channelyeet.set_permissions(guild.default_role, send_messages=False)
+            await message.channel.set_permissions(guild.default_role, send_messages=False)
             print("Bumped, locked")
             if int(bumps["lastBump"][1]) > 1:
                 msg += f"""\n**{bumps["lastBump"][1]} COMBO :fire:**"""
