@@ -159,6 +159,7 @@ async def asyncExec_command(ctx):
         new_stdout = io.StringIO()
         sys.stdout = new_stdout
         try:
+            global asyncExec
             await asyncExec()
             output = new_stdout.getvalue()
             sys.stdout = old_stdout
@@ -232,6 +233,9 @@ async def competitionsubmit(ctx, *, submission):
 
 @bot.command()
 async def send(ctx, *, content):
+    if ctx.author.id != 438298127225847810:
+        await ctx.send("Sorry, but you do not have permission to do that.")
+        return
     await ctx.send(content)
     
 ### SLASH COMMANDS ZONE ###
