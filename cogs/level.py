@@ -78,11 +78,11 @@ class Level(commands.Cog):
         xps = await self.getXP()
         if message.author.id in xps.keys():
             beforeXP = xps[str(message.author.id)]
-            x = xps.pop(str(message.author.id)) + random.randint(4, 6)
+            x = beforeXP + random.randint(4, 6)
             xps[str(message.author.id)] = x
         else:
             beforeXP = 0
-            xps[str(message.author.id)] = 0 + random.randint(4, 6)
+            xps[str(message.author.id)] = beforeXP + random.randint(4, 6)
         if self.getLevelFromTotalXP(beforeXP) < self.getLevelFromTotalXP(xps[str(message.author.id)]):
             await message.channel.send(f"GG <@{message.author.id}>! You advanced to level **{str(self.getLevelFromTotalXP(xps[str(message.author.id)]))}**!")
             guild = self.bot.get_guild(793495102566957096)
