@@ -7,6 +7,7 @@ import random
 import json
 import os
 import time
+from math import ceil
 from collections import defaultdict, OrderedDict
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option, create_choice
@@ -17,14 +18,14 @@ class Level(commands.Cog):
     
     def getLevelXP(self, level: int):
         return 5 * ((level-1) ** 2) + (50 * (level-1)) + 100 if level > 1 else 100
-    
+
     def getLevelTotalXP(self, level: int):
         xp = 0
         while level > 0:
             xp += self.getLevelXP(level)
             level -= 1
         return xp
-    
+
     def getLevelFromTotalXP(self, xp: int):
         n = 1
         a = self.getLevelTotalXP(n)
@@ -178,7 +179,7 @@ class Level(commands.Cog):
         targetxp = self.getLevelXP(level+1)
         
         im.paste(round_rectangle((940, 50), 25, barColor, True), (30, 300))
-        im.paste(round_rectangle((round(940 * (xp / targetxp)), 50), 25, "blue", False), (30, 300))
+        im.paste(round_rectangle((ceil(940 * (xp / targetxp)), 50), 25, "blue", False), (30, 300))
         
         d.text((970, 280), f"{xp} / {targetxp} XP", fill=textColor, anchor="rb", font=rodinpro50)
         im.save("rank.png")
