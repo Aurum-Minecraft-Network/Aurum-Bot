@@ -7,7 +7,7 @@ import random
 import json
 import os
 import time
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option, create_choice
 
@@ -35,12 +35,12 @@ class Level(commands.Cog):
     async def getXP(self):
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(826864218686488606)
-        return defaultdict(int, {k: v for k, v in sorted(json.loads(msg.content).items(), key=lambda item: item[-1])})
+        return defaultdict(int, OrderedDict({k: v for k, v in sorted(json.loads(msg.content).items(), key=lambda item: item[-1])}))
     
     async def updateXP(self, dictionary):
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(826864218686488606)
-        dictionary = {k: v for k, v in sorted(dictionary.items(), key=lambda item: item[-1])}
+        dictionary = OrderedDict({k: v for k, v in sorted(dictionary.items(), key=lambda item: item[-1])})
         await msg.edit(content=json.dumps(dictionary, indent=4))
         
     async def getDark(self):
