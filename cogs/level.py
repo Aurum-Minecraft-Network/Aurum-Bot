@@ -29,8 +29,9 @@ class Level(commands.Cog):
         n = 1
         a = self.getLevelTotalXP(n)
         while a < xp:
+            a = self.getLevelTotalXP(n)
             n += 1
-        return n-1 if a > xp else n
+        return n if a > xp else n+1
     
     async def getXP(self):
         channel = self.bot.get_channel(797745275253817354)
