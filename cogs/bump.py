@@ -180,7 +180,7 @@ class Bump(commands.Cog):
         guild = self.bot.get_guild(793495102566957096)
         role = discord.utils.get(guild.roles, id=821408975811379210)
         for channel in guild.channels:
-            if channel.name != "⏫│bumping":
+            if channel.name != "bumping":
                 await channel.set_permissions(role, read_messages=False)
                 
     @denyDisboardAccess.before_loop
