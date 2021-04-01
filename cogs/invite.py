@@ -238,7 +238,7 @@ class Invite(commands.Cog):
                     place += 1
                     rank = int(leaderv[usersDone])
                 msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
-                if int(bumpe) > 1:
+                if rank > 1:
                     msg += "s"
                 usersDone += 1
         await ctx.send(msg)

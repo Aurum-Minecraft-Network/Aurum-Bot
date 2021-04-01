@@ -23,7 +23,7 @@ botdev = str(owner)
 
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity=discord.Game(name="powered by discord.py"))
+    await bot.change_presence(activity=discord.Game(name="try my slash commands!"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
     global aliases
     aliases = []
