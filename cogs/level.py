@@ -29,8 +29,8 @@ class Level(commands.Cog):
         n = 1
         a = self.getLevelTotalXP(n)
         while a < xp:
-            a = self.getLevelTotalXP(n)
             n += 1
+            a = self.getLevelTotalXP(n)
         return n-1 if a > xp else n
         
     async def getXP(self):
