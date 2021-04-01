@@ -1,14 +1,13 @@
 import discord
 from discord.ext import commands
-from discord.user import User
 from discord.utils import get
-from PIL import Image, ImageDraw, ImageFont, ImageColor
-from functools import lru_cache
+from PIL import Image, ImageDraw, ImageFont
 import asyncio
 import random
 import json
 import os
 import time
+from collections import defaultdict
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option, create_choice
 
@@ -36,7 +35,7 @@ class Level(commands.Cog):
     async def getXP(self):
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(826864218686488606)
-        return json.loads(msg.content)
+        return defaultdict(int, dict(sorted(json.loads(msg.content).items(), key=lambda item: item[-1])))
     
     async def updateXP(self, dictionary):
         channel = self.bot.get_channel(797745275253817354)
@@ -76,13 +75,20 @@ class Level(commands.Cog):
         finally:
             gainedXP[message.author.id] = True
         xps = await self.getXP()
-        if message.author.id in xps.keys():
-            beforeXP = xps[str(message.author.id)]
-            x = beforeXP + random.randint(4, 6)
-            xps[str(message.author.id)] = x
-        else:
-            beforeXP = 0
-            xps[str(message.author.id)] = beforeXP + random.randint(4, 6)
+        beforeXP = xps[str(message.author.id)]
+        if len(message.content) > 150:
+            addXP = 8
+        elif len(message.content) >= 121:
+            addXP = 7
+        elif len(message.content) >= 91:
+            addXP = 6
+        elif len(message.content) >= 61:
+            addXP = 5
+        elif len(message.content) >= 31:
+            addXP = 4
+        elif len(message.content) >= 1:
+            addXP = random.randint(2, 3)
+        xps[str(message.author.id)] += addXP
         if self.getLevelFromTotalXP(beforeXP) < self.getLevelFromTotalXP(xps[str(message.author.id)]):
             await message.channel.send(f"GG <@{message.author.id}>! You advanced to level **{str(self.getLevelFromTotalXP(xps[str(message.author.id)]))}**!")
             guild = self.bot.get_guild(793495102566957096)
