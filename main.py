@@ -225,7 +225,7 @@ Returns a list of frequently asked questions.
 `a!rank`
 Returns a rank card of yours, or a specified user.
 
-`a!updateranktheme`
+`a!updateRankTheme`
 Changes the theme of rank cards for you.
 
 `a!levels`

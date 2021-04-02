@@ -197,7 +197,7 @@ class Level(commands.Cog):
         await self.updateDark(darks)
         await ctx.send(f"Your theme has been updated to the {theme} theme!")
         
-    @commands.command()
+    @commands.command(name="levels")
     async def levels(self, ctx, page: int=1):
         try:
             dark = (await self.getDark())[str(ctx.author.id)]
@@ -380,7 +380,7 @@ class Level(commands.Cog):
                                required=False
                            )
                        ])
-    async def levels(self, ctx: SlashContext, page: int=1):
+    async def _levels(self, ctx: SlashContext, page: int=1):
         await ctx.defer()
         try:
             dark = (await self.getDark())[str(ctx.author.id)]
