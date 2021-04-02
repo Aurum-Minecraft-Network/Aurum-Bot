@@ -34,7 +34,7 @@ async def on_ready():
 async def on_member_join(member):
     channel = bot.get_channel(793513021288742912)
     await channel.send("<:oslash:803836347097677844>")
-    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nUse <#793626862180892732> to assign some roles for yourself.\nNeed help? Use `a!faq`!")
+    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nUse <#793626862180892732> to assign some roles for yourself.\nNeed help? Use `/faq`!")
 
 @bot.event
 async def on_member_remove(member):
@@ -220,7 +220,16 @@ Returns the source code of the bot.
 Returns the color of a user's default avatar.
 
 `a!faq`
-Returns a list of frequently asked questions.""")
+Returns a list of frequently asked questions.
+
+`a!rank`
+Returns a rank card of yours, or a specified user.
+
+`a!updateranktheme`
+Changes the theme of rank cards for you.
+
+`a!levels`
+Returns a leaderboard of levels.""")
 
 @bot.command(aliases=["cs"])
 async def competitionsubmit(ctx, *, submission):
@@ -281,7 +290,16 @@ Returns the source code of the bot.
 Returns the color of a user's default avatar.
 
 `/faq`
-Returns a list of frequently asked questions.""")
+Returns a list of frequently asked questions.
+
+`/rank`
+Returns a rank card of yours, or a specified user.
+
+`/updateranktheme`
+Changes the theme of rank cards for you.
+
+`/levels`
+Returns a leaderboard of levels.""")
     
 @slash.slash(name="source",
              description="Returns the source code of the bot",
