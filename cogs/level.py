@@ -89,6 +89,8 @@ class Level(commands.Cog):
             addXP = 4
         elif len(message.content) >= 1:
             addXP = random.randint(2, 3)
+        else:
+            addXP = 1
         xps[str(message.author.id)] += addXP
         if self.getLevelFromTotalXP(beforeXP) < self.getLevelFromTotalXP(xps[str(message.author.id)]):
             await message.channel.send(f"GG <@{message.author.id}>! You advanced to level **{str(self.getLevelFromTotalXP(xps[str(message.author.id)]))}**!")
