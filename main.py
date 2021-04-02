@@ -222,14 +222,17 @@ Returns the color of a user's default avatar.
 `a!faq`
 Returns a list of frequently asked questions.
 
-`a!rank`
+`a!rank {mentionuser}`
 Returns a rank card of yours, or a specified user.
 
-`a!updateRankTheme`
+`a!updateRankTheme [dark|light]`
 Changes the theme of rank cards for you.
 
 `a!levels`
-Returns a leaderboard of levels.""")
+Returns a leaderboard of levels.
+
+[] Required
+{} Optional""")
 
 @bot.command(aliases=["cs"])
 async def competitionsubmit(ctx, *, submission):
@@ -271,10 +274,10 @@ Returns the latency in ms.
 `/help`
 This command.
 
-`/usernamereg [java|bedrock] [username]`
+`/usernamereg`
 Register your Minecraft username.
 
-`/username [java|bedrock] [mentionuser]`
+`/username`
 Query a Minecraft username of a Discord user.
 
 `/bumpleader`
