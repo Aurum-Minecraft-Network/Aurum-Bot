@@ -105,7 +105,7 @@ class Level(commands.Cog):
                 await message.author.add_roles(ranks[self.getLevelFromTotalXP(xps[str(message.author.id)])])
                 try:
                     await message.author.remove_roles(ranks.values[self.getLevelFromTotalXP(xps[str(message.author.id)])-2])
-                except IndexError:
+                except TypeError:
                     pass
         await self.updateXP(xps)
         await asyncio.sleep(30)
