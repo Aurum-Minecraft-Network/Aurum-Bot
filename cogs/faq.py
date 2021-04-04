@@ -43,7 +43,7 @@ class FAQ(commands.Cog):
         with open("assets/faq.json", "r", encoding="utf-8") as f:
             faqs = json.load(f)
         if not index:
-            msg = "Here is the list of items. Use `a!faq [number]` to get more help.\n"
+            msg = "Here is the list of items. Use `/faq [number]` to get more help.\n"
             for index, entry in enumerate(faqs):
                 msg += f"""**{entry["name"]}** - `{index + 1}`\n"""
             await ctx.send(msg)

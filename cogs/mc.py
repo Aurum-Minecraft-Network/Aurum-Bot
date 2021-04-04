@@ -35,7 +35,7 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.")
+            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.")
         else:
             await ctx.send("Your username is invalid!")
 
@@ -174,7 +174,7 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.")
+            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.")
         else:
             await ctx.send("Your username is invalid!")
             
