@@ -311,9 +311,7 @@ async def _source(ctx):
     await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/ATP-City/ATP-City-Bot")
     
 def runBot():    
-    for i in os.listdir('./cogs'):
-        if i.endswith('.py'):
-            bot.load_extension(f'cogs.{i[:-3]}')
+    bot.load_extension(f'cogs.data')
     print('Extensions loaded!')
     bot.run(token)
     
