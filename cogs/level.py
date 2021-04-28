@@ -64,7 +64,7 @@ class Level(commands.Cog):
         if "gainedXP" not in globals():
             time.sleep(5)
             return
-        if message.channel.id == 817197527496786031:
+        if message.channel.id in [817197527496786031, 793550223099691048, 793525460910211104, 793523006172430388, 794999665003069440, 805833182984667197]:
             return
         if message.author.bot:
             return
