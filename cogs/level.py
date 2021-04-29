@@ -215,19 +215,13 @@ class Level(commands.Cog):
         xps = await self.getXP()
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
-        ignoreUsers = (list(xps.keys()))[(startLevel-1):] if startLevel > 1 else []
-        print(ignoreUsers)
-        if startLevel > 1:
-            for user in ignoreUsers:
-                print("Bye", user)
-                xps.pop(user)
         im = Image.new("RGBA", (1000, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys()), list(xps.values())):
+        for key, value in zip(list(xps.keys())[startLevel-1:startLevel+3], list(xps.values())[startLevel-1:startLevel+3]):
             if a < 5:
                 user = guild.get_member(int(key))
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
@@ -398,19 +392,13 @@ class Level(commands.Cog):
         xps = await self.getXP()
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
-        ignoreUsers = (list(xps.keys()))[(startLevel-1):] if startLevel > 1 else []
-        print(ignoreUsers)
-        if startLevel > 1:
-            for user in ignoreUsers:
-                print("Bye", user)
-                xps.pop(user)
         im = Image.new("RGBA", (1000, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys()), list(xps.values())):
+        for key, value in zip(list(xps.keys())[startLevel-1:startLevel+3], list(xps.values())[startLevel-1:startLevel+3]):
             if a < 5:
                 user = guild.get_member(int(key))
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
