@@ -64,7 +64,7 @@ class Level(commands.Cog):
         if "gainedXP" not in globals():
             time.sleep(5)
             return
-        if message.channel.id == 817197527496786031:
+        if message.channel.id in [817197527496786031, 793550223099691048, 793525460910211104, 793523006172430388, 794999665003069440, 805833182984667197]:
             return
         if message.author.bot:
             return
@@ -213,23 +213,31 @@ class Level(commands.Cog):
             textColor = "black"
             bgColor = "#ffffff"
         xps = await self.getXP()
+        newXPS = []
+        for key, value in zip(list(xps.keys()), list(xps.values())):
+            newXPS.append([key, value])
+        xps = newXPS
+        del newXPS
+        print(xps)
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
-        ignoreUsers = (list(xps.keys()))[(startLevel-1):] if startLevel > 1 else []
-        print(ignoreUsers)
-        if startLevel > 1:
-            for user in ignoreUsers:
-                print("Bye", user)
-                xps.pop(user)
         im = Image.new("RGBA", (1000, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys()), list(xps.values())):
+        for pair in xps[startLevel-1:]:
+            print(pair, "pair nigga")
             if a < 5:
-                user = guild.get_member(int(key))
+                user = guild.get_member(int(pair[0]))
+                if not user:
+                    xps.remove(pair)
+                    x = {}
+                    for i in xps:
+                        x.update({i[0]: i[1]})
+                    await self.updateXP(OrderedDict(x))
+                    continue
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
                 await user.avatar_url.save(f"avatar{user.name}.png")
                 avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
@@ -241,6 +249,7 @@ class Level(commands.Cog):
                 y2 += 170
                 a += 1
         im.save("levels.png")
+        im.close()
         await ctx.send(file=discord.File(f"levels.png"))
         os.remove("levels.png")
     
@@ -396,23 +405,31 @@ class Level(commands.Cog):
             textColor = "black"
             bgColor = "#ffffff"
         xps = await self.getXP()
+        newXPS = []
+        for key, value in zip(list(xps.keys()), list(xps.values())):
+            newXPS.append([key, value])
+        xps = newXPS
+        del newXPS
+        print(xps)
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
-        ignoreUsers = (list(xps.keys()))[(startLevel-1):] if startLevel > 1 else []
-        print(ignoreUsers)
-        if startLevel > 1:
-            for user in ignoreUsers:
-                print("Bye", user)
-                xps.pop(user)
         im = Image.new("RGBA", (1000, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys()), list(xps.values())):
+        for pair in xps[startLevel-1:]:
+            print(pair, "pair nigga")
             if a < 5:
-                user = guild.get_member(int(key))
+                user = guild.get_member(int(pair[0]))
+                if not user:
+                    xps.remove(pair)
+                    x = {}
+                    for i in xps:
+                        x.update({i[0]: i[1]})
+                    await self.updateXP(OrderedDict(x))
+                    continue
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
                 await user.avatar_url.save(f"avatar{user.name}.png")
                 avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
