@@ -213,6 +213,12 @@ class Level(commands.Cog):
             textColor = "black"
             bgColor = "#ffffff"
         xps = await self.getXP()
+        newXPS = []
+        for key, value in zip(list(xps.keys()), list(xps.values())):
+            newXPS.append([key, value])
+        xps = newXPS
+        del newXPS
+        print(xps)
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
         im = Image.new("RGBA", (1000, 880), bgColor)
@@ -221,9 +227,17 @@ class Level(commands.Cog):
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys())[startLevel-1:startLevel+3], list(xps.values())[startLevel-1:startLevel+3]):
+        for pair in xps[startLevel-1:]:
+            print(pair, "pair nigga")
             if a < 5:
-                user = guild.get_member(int(key))
+                user = guild.get_member(int(pair[0]))
+                if not user:
+                    xps.remove(pair)
+                    x = {}
+                    for i in xps:
+                        x.update({i[0]: i[1]})
+                    await self.updateXP(OrderedDict(x))
+                    continue
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
                 await user.avatar_url.save(f"avatar{user.name}.png")
                 avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
@@ -235,6 +249,7 @@ class Level(commands.Cog):
                 y2 += 170
                 a += 1
         im.save("levels.png")
+        im.close()
         await ctx.send(file=discord.File(f"levels.png"))
         os.remove("levels.png")
     
@@ -390,6 +405,12 @@ class Level(commands.Cog):
             textColor = "black"
             bgColor = "#ffffff"
         xps = await self.getXP()
+        newXPS = []
+        for key, value in zip(list(xps.keys()), list(xps.values())):
+            newXPS.append([key, value])
+        xps = newXPS
+        del newXPS
+        print(xps)
         startLevel = 1 if page == 1 else 5 * (page-1) + 1
         print(startLevel)
         im = Image.new("RGBA", (1000, 880), bgColor)
@@ -398,9 +419,17 @@ class Level(commands.Cog):
         y1 = 30
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
-        for key, value in zip(list(xps.keys())[startLevel-1:startLevel+3], list(xps.values())[startLevel-1:startLevel+3]):
+        for pair in xps[startLevel-1:]:
+            print(pair, "pair nigga")
             if a < 5:
-                user = guild.get_member(int(key))
+                user = guild.get_member(int(pair[0]))
+                if not user:
+                    xps.remove(pair)
+                    x = {}
+                    for i in xps:
+                        x.update({i[0]: i[1]})
+                    await self.updateXP(OrderedDict(x))
+                    continue
                 whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
                 await user.avatar_url.save(f"avatar{user.name}.png")
                 avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
