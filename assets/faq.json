@@ -1,7 +1,7 @@
 [
     {
         "name": "How do I join the server?",
-        "value": "https://github.com/ATP-City/How-To-Join/wiki/Main-Page"
+        "value": "https://github.com/Aurum-Minecraft-Network/How-To-Join/wiki/Main-Page"
     },
     {
         "name": "Text Channel Guide",
@@ -13,7 +13,7 @@
     },
     {
         "name": "Frequently Asked Questions",
-        "value": "\nQ. How do you make it so that Java and Bedrock players can play together?\nA. By using GeyserMC. You may Google \"GeyserMC\" for more details.\n\nQ. The portal is not returning me to my last known location/ bed spawn point!\nA. Please use `/mv tp [smp | city | hub]` for the meantime if you experience this problem.\n\nQ. Oh no! Someone destroyed something!\nA. Need not panic! Firstly, please use `/co i` to determine the griefer, and then please report the player to us in #support. Us staff are able to roll the damages back and restore your precious build.\n\nQ. Can I be staff/ senior admin?\nA. Just go to https://posts.atpcity.ga to check vacancies!"
+        "value": "\nQ. How do you make it so that Java and Bedrock players can play together?\nA. By using GeyserMC. You may Google \"GeyserMC\" for more details.\n\nQ. The portal is not returning me to my last known location/ bed spawn point!\nA. Please use `/mv tp [smp | city | hub]` for the meantime if you experience this problem.\n\nQ. Oh no! Someone destroyed something!\nA. Need not panic! Firstly, please use `/co i` to determine the griefer, and then please report the player to us in #support. Us staff are able to roll the damages back and restore your precious build.\n\nQ. Can I be staff/ senior admin?\nA. Just go to https://posts.aurumnet.ga to check vacancies!"
     },
     {
         "name": "Proximity Chat",
@@ -25,7 +25,7 @@
     },
     {
         "name": "Useful Links",
-        "value": "https://status.atpcity.ga - Status page\nhttps://blog.atpcity.ga - Blog (coming soon)\nhttps://donate.atpcity.ga - Donations page\nhttps://discord.atpcity.ga - Discord permalink\nhttps://github.com/ATP-City/ATP-City-Bot - <@!793546056934883328> Source Code\nhttps://map.atpcity.ga - Server dynamic map"
+        "value": "https://status.aurumnet.ga - Status page\nhttps://blog.aurumnet.ga - Blog (coming soon)\nhttps://donate.aurumnet.ga - Donations page\nhttps://discord.aurumnet.ga - Discord permalink\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot - <@!793546056934883328> Source Code\nhttps://map.aurumnet.ga - Server dynamic map"
     },
     {
         "name": "Permissions for the `default` role in the Minecraft Server (in YAML form)",
@@ -69,10 +69,10 @@
     },
     {
         "name": "I am getting the \"Unable to connect to world.\" issue!",
-        "value": "This is a very common problem. Simply restart Minecraft: Bedrock Edition and connect to the server after the words \"ATP City\" appear as bottom text in the button for our server.\nIf the issue persists, make sure whether you have input the correct server IP Address and Port.\nIf the issue still persists, try a new set of server IP and Port from the wiki here:\nhttps://github.com/ATP-City/How-To-Join/wiki"
+        "value": "This is a very common problem. Simply restart Minecraft: Bedrock Edition and connect to the server after the words \"Aurum Minecraft Network\" appear as bottom text in the button for our server.\nIf the issue persists, make sure whether you have input the correct server IP Address and Port.\nIf the issue still persists, try a new set of server IP and Port from the wiki here:\nhttps://github.com/Aurum-Minecraft-Network/How-To-Join/wiki"
     },
     {
         "name": "Still have questions?",
-        "value": "Feel free to ask us at a chat channel in the ATP City Discord Server, like #general, or open a support ticket at #support!"
+        "value": "Feel free to ask us at a chat channel in the Aurum Minecraft Network Discord Server, like #general, or open a support ticket at #support!"
     }
 ]

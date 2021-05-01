@@ -19,7 +19,7 @@ class Imgur(commands.Cog):
             if i.filename.endswith((".jpg", ".jpeg", ".png", ".gif")): # Check file type
                 await i.save(i.filename) # Download image
                 im = pyimgur.Imgur(self.imgurid) # Intialize Pyimgur
-                uploaded_image = im.upload_image(os.path.abspath(f"./{i.filename}"), title="ATP City")
+                uploaded_image = im.upload_image(os.path.abspath(f"./{i.filename}"), title="Aurum Minecraft Network")
                 msg += f"{uploaded_image.link}\n"
                 os.remove(os.path.abspath(f"./{i.filename}")) # Delete image to save space
         await ctx.send(msg)
@@ -35,7 +35,7 @@ class Imgur(commands.Cog):
                 if message.attachments[0].filename.endswith((".jpg", ".jpeg", ".png", ".gif")):
                     await message.attachments[0].save(message.attachments[0].filename) # Download image
                     im = pyimgur.Imgur(self.imgurid) # Intialize Pyimgur
-                    uploaded_image = im.upload_image(os.path.abspath(f"./{message.attachments[0].filename}"), title="ATP City")
+                    uploaded_image = im.upload_image(os.path.abspath(f"./{message.attachments[0].filename}"), title="Aurum")
                     os.remove(os.path.abspath(f"./{message.attachments[0].filename}")) # Delete image to save space
                     await message.channel.send(f"Automatically uploaded attached image to Imgur. Link:\n{uploaded_image.link}")
                 else:

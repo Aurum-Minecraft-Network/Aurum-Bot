@@ -114,13 +114,13 @@ async def exec_command(ctx, *, arg1):
         except:
             x = traceback.format_exc()
             embed=discord.Embed(title=f'Execution Failed!', color=0xff0000)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Code", value=f'```py\n{str(arg1)}\n```', inline=False)
             embed.add_field(name="Output", value=f'```\n{str(x)}\n```', inline=False)
             await ctx.send(embed = embed)
         else:
             embed=discord.Embed(title=f'Execution Success!', color=0x00ff00)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Code", value=f'```py\n{str(arg1)}\n```', inline=False)
             embed.add_field(name="Output", value=f'```\n{str(output)}\n```', inline=False)
             await ctx.send(embed=embed)
@@ -140,13 +140,13 @@ async def asyncDef_command(ctx, *, arg1):
         except:
             x = traceback.format_exc()
             embed=discord.Embed(title=f'Definition Failed!', color=0xff0000)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Input", value=f'```py\n{str(arg1)}\n```', inline=False)
             embed.add_field(name="Output", value=f'```\n{str(x)}\n```', inline=False)
             await ctx.send(embed=embed)
         else:
             embed=discord.Embed(title=f'Definition Success!', color=0x00ff00)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Function Definition", value=f'```py\n{str(func)}\n```', inline=False)
             await ctx.send(embed=embed)
     else:
@@ -167,12 +167,12 @@ async def asyncExec_command(ctx):
         except:
             x = traceback.format_exc()
             embed=discord.Embed(title=f'Execution Failed!', color=0xff0000)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Output", value=f'```\n{str(x)}\n```', inline=False)
             await ctx.send(embed=embed)
         else:
             embed=discord.Embed(title=f'Execution Success!', color=0x00ff00)
-            embed.set_author(name="ATP City Bot")
+            embed.set_author(name="Aurum Bot")
             embed.add_field(name="Output", value=f'```\n{str(output)}\n```', inline=False)
             await ctx.send(embed=embed)
     else:
@@ -184,11 +184,11 @@ async def ping(ctx):
 
 @bot.command()
 async def source(ctx):
-    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/ATP-City/ATP-City-Bot")
+    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot")
 
 @bot.command()
 async def help(ctx):
-    await ctx.send("""***ATP City Bot User Guide***
+    await ctx.send("""***Aurum Bot User Guide***
 `a!ping`
 Returns the latency in ms.
 
@@ -267,7 +267,7 @@ async def _ping(ctx):
              description="Returns the user guide of this bot",
              guild_ids=[guildID])
 async def _help(ctx):
-    await ctx.send("""***ATP City Bot User Guide***
+    await ctx.send("""***Aurum Bot User Guide***
 `/ping`
 Returns the latency in ms.
 
@@ -308,7 +308,7 @@ Returns a leaderboard of levels.""")
              description="Returns the source code of the bot",
              guild_ids=[guildID])
 async def _source(ctx):
-    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/ATP-City/ATP-City-Bot")
+    await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot")
     
 def runBot():    
     for i in os.listdir("./cogs"):
