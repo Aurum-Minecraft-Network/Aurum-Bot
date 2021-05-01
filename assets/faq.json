@@ -13,7 +13,7 @@
     },
     {
         "name": "Frequently Asked Questions",
-        "value": "\nQ. How do you make it so that Java and Bedrock players can play together?\nA. By using GeyserMC. You may Google \"GeyserMC\" for more details.\n\nQ. The portal is not returning me to my last known location/ bed spawn point!\nA. Please use `/mv tp [smp | city | hub]` for the meantime if you experience this problem.\n\nQ. Oh no! Someone destroyed something!\nA. Need not panic! Firstly, please use `/co i` to determine the griefer, and then please report the player to us in #support. Us staff are able to roll the damages back and restore your precious build.\n\nQ. Can I be staff/ senior admin?\nA. Just go to https://posts.aurumnet.ga to check vacancies!"
+        "value": "\nQ. How do you make it so that Java and Bedrock players can play together?\nA. By using GeyserMC. You may Google \"GeyserMC\" for more details.\n\nQ. The portal is not returning me to my last known location/ bed spawn point!\nA. Please use `/mv tp [smp | city | hub]` for the meantime if you experience this problem.\n\nQ. Oh no! Someone destroyed something!\nA. Need not panic! Firstly, please use `/co i` to determine the griefer, and then please report the player to us in #support. Us staff are able to roll the damages back and restore your precious build.\n\nQ. Can I be staff/ senior admin?\nA. Just use `a!interview` in <#793550223099691048>!"
     },
     {
         "name": "Proximity Chat",
