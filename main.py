@@ -185,7 +185,7 @@ async def extLoadAll(ctx):
     for i in os.listdir("./cogs"):
         if i.endswith(".py"):
             try:
-                bot.load_extension(i[:-3])
+                bot.load_extension(f'cogs.{i[:-3]}')
                 await ctx.send(f"Loaded {i[:-3]}")
             except discord.ext.commands.errors.ExtensionNotFound:
                 await ctx.send(f"Can't load {i[:-3]}")
@@ -325,10 +325,10 @@ async def _source(ctx):
     await ctx.send(f"Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot")
     
 def runBot():    
-    for i in os.listdir("./cogs"):
-        if i.endswith(".py"):
+    for i in os.listdir('./cogs'):
+        if i.endswith('.py'):
             try:
-                bot.load_extension(i[:-3])
+                bot.load_extension(f'cogs.{i[:-3]}')
             except discord.ext.commands.errors.ExtensionNotFound:
                 pass
     print('Extensions loaded!')
