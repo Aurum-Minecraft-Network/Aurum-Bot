@@ -177,6 +177,20 @@ async def asyncExec_command(ctx):
             await ctx.send(embed=embed)
     else:
         await ctx.send("Sorry, but you don't have permission to do that.")
+        
+@bot.command()
+async def extLoadAll(ctx):
+    if str(ctx.author.id) != botdev:
+        return 
+    for i in os.listdir("./cogs"):
+        if i.endswith(".py"):
+            try:
+                bot.load_extension(i[:-3])
+                await ctx.send(f"Loaded {i[:-3]}")
+            except discord.ext.commands.errors.ExtensionNotFound:
+                await ctx.send(f"Can't load {i[:-3]}")
+            except discord.ext.commands.errors.ExtensionAlreadyLoaded:
+                await ctx.send(f"Already loaded {i[:-3]}")
 
 @bot.command()
 async def ping(ctx):
@@ -313,7 +327,10 @@ async def _source(ctx):
 def runBot():    
     for i in os.listdir("./cogs"):
         if i.endswith(".py"):
-            bot.load_extension(i[:-3])
+            try:
+                bot.load_extension(i[:-3])
+            except discord.ext.commands.errors.ExtensionNotFound:
+                pass
     print('Extensions loaded!')
     bot.run(token)
     
