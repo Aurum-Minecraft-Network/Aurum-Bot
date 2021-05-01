@@ -1,5 +1,5 @@
-# ATP City Bot
-This is the bot for use in the [ATP City Discord Server](https://discord.atpcity.ga).
+# Aurum Bot
+This is the bot for use in the [Aurum Minecraft Network Discord Server](https://discord.aurumnet.ga).
 
 ## Runtime
 This bot is run using the [PyPy interpreter](https://www.pypy.org/) to improve performance, but any interpreter should work.
