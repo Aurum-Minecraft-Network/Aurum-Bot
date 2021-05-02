@@ -6,6 +6,7 @@ import traceback
 import yaml
 from decouple import config
 from discord.ext import commands, tasks
+from discord.utils import get
 import difflib
 
 global prefix
@@ -196,10 +197,12 @@ async def extLoadAll(ctx):
 async def denyDankAccess():
     guild = bot.get_guild(793495102566957096)
     dank = guild.get_member(270904126974590976)
+    dankRole = get(guild.roles, id=837999253947023371)
     for channel in guild.channels():
         if channel.id in [837715004991340555, 793520621417791539]:
             return
         channel.set_permissions(dank, read_messages=False, send_messages=False)
+        channel.set_permissions(dankRole, read_messages=False, send_messages=False)
 
 @bot.command()
 async def ping(ctx):
