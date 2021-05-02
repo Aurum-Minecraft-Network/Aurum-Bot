@@ -5,7 +5,7 @@ import io
 import traceback
 import yaml
 from decouple import config
-from discord.ext import commands
+from discord.ext import commands, tasks
 import difflib
 
 global prefix
@@ -191,6 +191,15 @@ async def extLoadAll(ctx):
                 await ctx.send(f"Can't load {i[:-3]}")
             except discord.ext.commands.errors.ExtensionAlreadyLoaded:
                 await ctx.send(f"Already loaded {i[:-3]}")
+                
+@tasks.loop(minutes=1)
+async def denyDankAccess():
+    guild = bot.get_guild(793495102566957096)
+    dank = guild.get_member(270904126974590976)
+    for channel in guild.channels():
+        if channel.id in [837715004991340555, 793520621417791539]:
+            return
+        channel.set_permissions(dank, read_messages=False, send_messages=False)
 
 @bot.command()
 async def ping(ctx):
