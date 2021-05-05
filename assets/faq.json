@@ -25,7 +25,7 @@
     },
     {
         "name": "Useful Links",
-        "value": "https://stats.uptimerobot.com/0EB17f2yjR - Status page\nhttps://blog.aurumnet.ga - Blog (coming soon)\nhttps://donate.aurumnet.ga - Donations page\nhttps://discord.aurumnet.ga - Discord permalink\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot - <@!793546056934883328> Source Code\nhttps://map.aurumnet.ga - Server dynamic map"
+        "value": "https://stats.uptimerobot.com/0EB17f2yjR - Status page\nhttps://blog.aurummcnet.ga - Blog (coming soon)\nhttps://donate.aurumnet.ga - Donations page\nhttps://discord.aurumnet.ga - Discord permalink\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot - <@!793546056934883328> Source Code\nhttps://map.aurumnet.ga - Server dynamic map"
     },
     {
         "name": "Permissions for the `default` role in the Minecraft Server (in YAML form)",
