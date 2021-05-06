@@ -71,7 +71,7 @@ class Interview(commands.Cog):
 {self.ri("d")} Discord Moderator
 {self.ri("m")} Minecraft Moderator
 {self.ri("a")} Discord + Minecraft Moderator
-{self.ri("b")} Builder
+{self.ri("b")} City Builder
 
 :no_entry: **__DO NOT REACT YET__**""")
         await msg.add_reaction("🇭")
