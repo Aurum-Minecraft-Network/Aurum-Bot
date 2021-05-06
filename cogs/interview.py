@@ -90,7 +90,7 @@ class Interview(commands.Cog):
 {self.ri("d")} Discord Moderator
 {self.ri("m")} Minecraft Moderator
 {self.ri("a")} Discord + Minecraft Moderator
-{self.ri("b")} Builder
+{self.ri("b")} City Builder
 
 :white_check_mark: **__REACT NOW__**""")
         payload = await self.bot.wait_for('raw_reaction_add', check=lambda payload: payload.message_id == msg.id and payload.user_id == ctx.author.id)
@@ -296,7 +296,7 @@ int main() {
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇧':
-            await newInt.send("Thank you for applying for Builder!")
+            await newInt.send("Thank you for applying for City Builder!")
             await newInt.send("A number of questions will be asked.")
             await newInt.send("After the question has been asked, you may use an unlimited amount of messages, and an unlimited amount of time to answer the question.")
             await newInt.send("When you are sure about the answer, type \"[DONE]\" to proceed to the next question.")
