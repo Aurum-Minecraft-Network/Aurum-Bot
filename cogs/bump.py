@@ -70,13 +70,11 @@ class Bump(commands.Cog):
             if before.status == after.status:
                 pass
             elif before.status == discord.Status.online and after.status == discord.Status.offline:
-                await bumpChannel.set_permissions(guild.default_role, send_messages=False)
-                await bumpChannel.send("Locked channel as <@302050872383242240> is currently offline!")
+                await bumpChannel.send("<@302050872383242240> is currently offline!")
                 self.bumpreminder.cancel()
                 print("DISBOARD now off")
             elif before.status == discord.Status.offline and after.status == discord.Status.online:
-                await bumpChannel.set_permissions(guild.default_role, send_messages=True)
-                await bumpChannel.send("Unlocked channel as <@302050872383242240> is currently online!")
+                await bumpChannel.send("<@302050872383242240> is currently online!")
                 self.bumpreminder.start()
                 print("DISBOARD now on")
                 
