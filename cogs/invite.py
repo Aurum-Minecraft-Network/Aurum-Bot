@@ -66,6 +66,7 @@ class Invite(commands.Cog):
                         else:
                             bumps.update({f"{str(invite.inviter.id)}": 1})
                         await self.updateInvs(bumps)
+                        return
                     elif not self.code2inv(new_inv, invite.code):
                         continue
                 except AttributeError:
