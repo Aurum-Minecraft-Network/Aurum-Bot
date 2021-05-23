@@ -295,7 +295,7 @@ class Bump(commands.Cog):
                 ## Same no. of bumps as the previous user, same place!
                 msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bump"
                 ## Should we make the word "Bump" plural?
-                if int(bumpe) > 1:
+                if rank > 1:
                     msg += "s"
                 usersDone += 1
         await ctx.send(msg)
