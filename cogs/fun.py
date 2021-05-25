@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
+from discord.utils import get
 
 class Fun(commands.Cog):
     def __init__(self, bot):
@@ -37,7 +38,8 @@ class Fun(commands.Cog):
             link = "https://cdn.discordapp.com/embed/avatars/4.png"
         else:
             raise TypeError("Impossible")
-        embed=discord.Embed(title="Default avatar color", color=colorh)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed=discord.Embed(title=f"{get(emojis, name='avatar')} Default avatar color", color=colorh)
         embed.set_thumbnail(url=link)
         embed.add_field(name=f"{pronoun} a {color}-colored default avatar!", value="[Want to know how this works?](http://gg.gg/nv7ek)", inline=False)
         await ctx.send(embed=embed)
@@ -86,10 +88,11 @@ class Fun(commands.Cog):
             link = "https://cdn.discordapp.com/embed/avatars/4.png"
         else:
             raise TypeError("Impossible")
-        embed=discord.Embed(title="Default avatar color", color=colorh)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed=discord.Embed(title=f"{get(emojis, name='avatar')} Default avatar color", color=colorh)
         embed.set_thumbnail(url=link)
         embed.add_field(name=f"{pronoun} a {color}-colored default avatar!", value="[Want to know how this works?](http://gg.gg/nv7ek)", inline=False)
-        await ctx.send(embeds=[embed])
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

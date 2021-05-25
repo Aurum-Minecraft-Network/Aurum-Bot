@@ -29,7 +29,9 @@ class Interview(commands.Cog):
         await newInt.edit(category=get(guild.channels, id=833648963197599754))
         await newInt.set_permissions(ctx.author, read_messages=True, send_messages=True)
         await newInt.set_permissions(guild.default_role, read_messages=False)
-        await ctx.send(f"Channel created at <#{newInt.id}>. Please move!")
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='success')} Channel created successfully", description=f"Channel created at <#{newInt.id}>. Please move!", color=0x36393f)
+        await ctx.send(embed=embed)
         
         async def waitUntilDone():
             await newInt.send("Remember, type \"[DONE]\" to proceed to the next question.")

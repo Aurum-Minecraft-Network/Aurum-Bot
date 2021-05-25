@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 import json
 from decouple import config
 import boto3
@@ -17,8 +18,10 @@ class Minecraft(commands.Cog):
     
     @commands.command(name="usernamereg")
     async def unr(self, ctx, version, *, username=None):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            await ctx.send("You can only play on `bedrock` or `java`!")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You can only play on `bedrock` or `java`!", color=0x36393f)
+            await ctx.send(embed=embed)
         elif username:
             if username.startswith("#") and version == "bedrock":
                 username = username[1:]
@@ -35,20 +38,26 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Registration Successful", description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.", color=0x36393f)
+            await ctx.send(embed=embed)
         else:
-            await ctx.send("Your username is invalid!")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="Your username is invalid!", color=0x36393f)
+            await ctx.send(embed=embed)
 
     @commands.command(name="username")
     async def un(self, ctx, version, *, user: discord.User):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            await ctx.send("You can only query a `bedrock` or `java` username")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You can only query a `bedrock` or `java` username!", color=0x36393f)
+            await ctx.send(embed=embed)
         else:
             usernames = json.loads(client.get_object(Bucket="atpcitybot", Key="usernames.json")["Body"].read())
             try:
-                await ctx.send(f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**")
+                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft username query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
+                await ctx.send(embed=embed)
             except KeyError:
-                await ctx.send("That user hasn't registered their username yet!")
+                embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Username Not Registered", description="That user hasn't registered their username yet!", color=0x36393f)
+                await ctx.send(embed=embed)
                 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -155,8 +164,10 @@ class Minecraft(commands.Cog):
                            )
                        ])
     async def _unr(self, ctx: SlashContext, version, username):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            await ctx.send("You can only play on `bedrock` or `java`!")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You can only play on `bedrock` or `java`!", color=0x36393f)
+            await ctx.send(embed=embed)
         elif username:
             await ctx.defer()
             if username.startswith("#") and version == "bedrock":
@@ -174,9 +185,11 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            await ctx.send(f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Registration Successful", description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.", color=0x36393f)
+            await ctx.send(embed=embed)
         else:
-            await ctx.send("Your username is invalid!")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="Your username is invalid!", color=0x36393f)
+            await ctx.send(embed=embed)
             
     @cog_ext.cog_slash(name="username",
                        description="Query a Minecraft username of a Discord user",
@@ -206,15 +219,19 @@ class Minecraft(commands.Cog):
                            )
                        ])
     async def _un(self, ctx: SlashContext, version, user: discord.User):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            await ctx.send("You can only query a `bedrock` or `java` username")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You can only query a `bedrock` or `java` username!", color=0x36393f)
+            await ctx.send(embed=embed)
         else:
             await ctx.defer()
             usernames = json.loads(client.get_object(Bucket="atpcitybot", Key="usernames.json")["Body"].read())
             try:
-                await ctx.send(f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**")
+                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft username query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
+                await ctx.send(embed=embed)
             except KeyError:
-                await ctx.send("That user hasn't registered their username yet!")
+                embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Username Not Registered", description="That user hasn't registered their username yet!", color=0x36393f)
+                await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Minecraft(bot))

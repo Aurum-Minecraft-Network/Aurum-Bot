@@ -6,6 +6,8 @@ import os
 from discord.utils import get
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
+from typing import Union
+import discord_slash
 
 class Invite(commands.Cog):
     def __init__(self, bot):
@@ -21,6 +23,11 @@ class Invite(commands.Cog):
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(798227110892273684)
         await msg.edit(content=json.dumps(dict, indent=4))
+        
+    async def sendNoPermission(self, ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
+        await ctx.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -97,7 +104,7 @@ class Invite(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
-        msg = "**__Invites Leaderboard__**"
+        msg = ""
         rank = int(leaderv[0])
         place = 1
         usersDone = 0
@@ -111,11 +118,13 @@ class Invite(commands.Cog):
                 if rank > int(bumpe):
                     place += 1
                     rank = int(leaderv[usersDone])
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
-                if int(bumpe) > 1:
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invites"
+                if rank > 1:
                     msg += "s"
                 usersDone += 1
-        await ctx.send(msg)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Invite Leaderboard", description=msg, color=0x36393f)
+        await ctx.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
@@ -136,7 +145,7 @@ class Invite(commands.Cog):
                 json.dump(invc, f, indent=4)
             await ctx.send(f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`!")
         else:
-            await ctx.send("Sorry, but you don't have permission to do that.")
+            await self.sendNoPermission(ctx=ctx)
 
     @commands.command()
     async def inviteremove(self, ctx):
@@ -149,7 +158,7 @@ class Invite(commands.Cog):
                 json.dump(invc, f, indent=4)
             await ctx.send('Removed invite channel!')
         else:
-            await ctx.send("Sorry, but you don't have permission to do that.")
+            await self.sendNoPermission(ctx=ctx)
 
     @tasks.loop(seconds=30)
     async def invkingupdate(self):
@@ -192,15 +201,17 @@ class Invite(commands.Cog):
                 for user in bumpKings:
                     if user not in newBumpKings:
                         removeBumpKings.append(user)
-            noice = "All hail the new Invite King"
+            title = "All hail the new Bump King"
+            noice = ""
             if len(addBumpKings) > 1:
-                noice += "s"
+                title += "s"
             for user in addBumpKings:
                 noice += f" <@{user.id}>"
-            noice += "!"
             bumpChannel = self.bot.get_channel(793514694660194314)
             if len(addBumpKings) > 0:
-                await bumpChannel.send(noice)
+                emojis = self.bot.get_guild(846318304289488906).emojis
+                embed = discord.Embed(title=str(get(emojis, name='bump')) + title, description=noice + "!", color=0x36393f)
+                await bumpChannel.send(embed=embed)
             for user in addBumpKings:
                 await user.add_roles(bumpKing)
             for user in removeBumpKings:
@@ -224,7 +235,7 @@ class Invite(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
-        msg = "**__Invites Leaderboard__**"
+        msg = ""
         rank = int(leaderv[0])
         place = 1
         usersDone = 0
@@ -238,11 +249,13 @@ class Invite(commands.Cog):
                 if rank > int(bumpe):
                     place += 1
                     rank = int(leaderv[usersDone])
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
+                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invites"
                 if rank > 1:
                     msg += "s"
                 usersDone += 1
-        await ctx.send(msg)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Invite Leaderboard", description=msg, color=0x36393f)
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Invite(bot))

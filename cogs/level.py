@@ -115,7 +115,9 @@ class Level(commands.Cog):
     
     @commands.command()
     async def rank(self, ctx, user: discord.User=None):
-        await ctx.send('This may take a while...')
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='wait')} Please wait...", description="This may take a while...", color=0x36393f)
+        await ctx.send(embed=embed)
         if not user:
             user = ctx.author
         try:
@@ -191,16 +193,23 @@ class Level(commands.Cog):
         
     @commands.command()
     async def updateRankTheme(self, ctx, theme: str):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         if theme not in ["dark", "light"]:
-            await ctx.send("You may only choose between `light` and `dark` themes!")
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You may only choose between `light` and `dark` themes!", color=0x36393f)
+            await ctx.send(embed=embed)
             return
         darks = await self.getDark()
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.updateDark(darks)
-        await ctx.send(f"Your theme has been updated to the {theme} theme!")
+        if theme == "light":
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!")
+        else:
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!")
+        await ctx.send(embed=embed)
         
     @commands.command(name="levels")
     async def levels(self, ctx, page: int=1):
+        emojis = self.bot.get_guild(846318304289488906).emojis
         try:
             dark = (await self.getDark())[str(ctx.author.id)]
         except KeyError:
@@ -230,7 +239,7 @@ class Level(commands.Cog):
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
         for pair in xps[startLevel-1:]:
-            print(pair, "pair nigga")
+            print(pair, "pair")
             if a < 5:
                 user = guild.get_member(int(pair[0]))
                 if not user:
@@ -252,7 +261,10 @@ class Level(commands.Cog):
                 a += 1
         im.save("levels.png")
         im.close()
+        embed = discord.Embed(title=f"{get(emojis, name='error')} Refer below!", description="Refer to the message below for the levels.", color=0x36393f)
+        await ctx.send(embed=embed)
         await ctx.send(file=discord.File(f"levels.png"))
+        time.sleep(3)
         os.remove("levels.png")
     
     ### SLASH COMMANDS ZONE ###
@@ -272,7 +284,9 @@ class Level(commands.Cog):
                        ])
     @commands.command()
     async def _rank(self, ctx: SlashContext, user: discord.User=None):
-        await ctx.defer()
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='wait')} Please wait...", description="This may take a while...", color=0x36393f)
+        await ctx.send(embed=embed)
         if not user:
             user = ctx.author
         try:
@@ -343,10 +357,7 @@ class Level(commands.Cog):
         
         d.text((970, 280), f"{xp} / {targetxp} XP", fill=textColor, anchor="rb", font=rodinpro50)
         im.save("rank.png")
-        im.close()
-        await ctx.send("Rank card")
-        await ctx.send(file=discord.File("rank.png"))
-        time.sleep(3)
+        await ctx.send(file=discord.File("rank.png")) 
         os.remove("rank.png")
         
     @cog_ext.cog_slash(name="updateRankTheme",
@@ -371,14 +382,20 @@ class Level(commands.Cog):
                            )
                        ])
     async def _updateRankTheme(self, ctx: SlashContext, theme: str):
-        if theme not in ["dark", "light"]:
-            await ctx.send("You may only choose between `light` and `dark` themes!")
-            return
         await ctx.defer()
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        if theme not in ["dark", "light"]:
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="You may only choose between `light` and `dark` themes!", color=0x36393f)
+            await ctx.send(embed=embed)
+            return
         darks = await self.getDark()
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.updateDark(darks)
-        await ctx.send(f"Your theme has been updated to the {theme} theme!")
+        if theme == "light":
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!")
+        else:
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!")
+        await ctx.send(embed=embed)
         
     @cog_ext.cog_slash(name="levels",
                        description="Returns a leaderboard of levels",
@@ -393,6 +410,7 @@ class Level(commands.Cog):
                        ])
     async def _levels(self, ctx: SlashContext, page: int=1):
         await ctx.defer()
+        emojis = self.bot.get_guild(846318304289488906).emojis
         try:
             dark = (await self.getDark())[str(ctx.author.id)]
         except KeyError:
@@ -422,7 +440,7 @@ class Level(commands.Cog):
         y2 = 100
         guild = self.bot.get_guild(793495102566957096)
         for pair in xps[startLevel-1:]:
-            print(pair, "pair nigga")
+            print(pair, "pair")
             if a < 5:
                 user = guild.get_member(int(pair[0]))
                 if not user:
@@ -444,8 +462,9 @@ class Level(commands.Cog):
                 a += 1
         im.save("levels.png")
         im.close()
-        await ctx.send("Levels")
-        await ctx.send(file=discord.File("levels.png"))
+        embed = discord.Embed(title=f"{get(emojis, name='error')} Refer below!", description="Refer to the message below for the levels.", color=0x36393f)
+        await ctx.send(embed=embed)
+        await ctx.send(file=discord.File(f"levels.png"))
         time.sleep(3)
         os.remove("levels.png")
         
