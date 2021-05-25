@@ -185,7 +185,7 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            embed = discord.Embed(title=f"{get(emojis, name='success')} Registration Successful", description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.", color=0x36393f)
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Registration Successful", description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.", color=0x36393f)
             await ctx.send(embed=embed)
         else:
             embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Argument", description="Your username is invalid!", color=0x36393f)
