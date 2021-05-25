@@ -110,6 +110,7 @@ class Bump(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
         leaderk = list(leaders.keys()) # User ID
+        msg = ""
         rank = int(leaderv[0]) # Highest number of bumps
         place = 1
         usersDone = 0
@@ -146,7 +147,7 @@ class Bump(commands.Cog):
             self.bumpreminder.cancel()
             bumps = await self.getBumps()
             ## Update the bumps JSON string
-            if str(bumpUser.id.id) in bumps:
+            if str(bumpUser.id) in bumps:
                 bumpno = int(bumps[str(bumpUser.id)])
                 bumps[str(bumpUser.id)] = int(bumpno + 1)
             else:
@@ -296,6 +297,7 @@ class Bump(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
         leaderk = list(leaders.keys()) # User ID
+        msg = ""
         rank = int(leaderv[0]) # Highest number of bumps
         place = 1
         usersDone = 0
