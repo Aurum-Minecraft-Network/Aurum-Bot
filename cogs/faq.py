@@ -52,7 +52,7 @@ class FAQ(commands.Cog):
             msg = ""
             for index, entry in enumerate(faqs):
                 msg += f"""**{entry["name"]}** - `{index + 1}`\n"""
-            embed = discord.Embed(title=f"{get(emojis, name='faq')} FAQ: List of entries", description="Use `a!faq [number]` to get more help.\n\n" + msg, color=0x36393f)
+            embed = discord.Embed(title=f"{get(emojis, name='faq')} FAQ: List of entries", description="Use `/faq [number]` to get more help.\n\n" + msg, color=0x36393f)
             await ctx.send(embed=embed)
         else:
             try:
