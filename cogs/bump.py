@@ -126,7 +126,7 @@ class Bump(commands.Cog):
                     rank = int(leaderv[usersDone]) # Set rank to the number of bumps done by this user
                 ## else: pass
                 ## Same no. of bumps as the previous user, same place!
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bump"
+                msg += f"\n**{str(place)}.** {user.name}#{user.discriminator} - __{rank}__ Bump"
                 ## Should we make the word "Bump" plural?
                 if rank > 1:
                     msg += "s"
@@ -313,7 +313,7 @@ class Bump(commands.Cog):
                     rank = int(leaderv[usersDone]) # Set rank to the number of bumps done by this user
                 ## else: pass
                 ## Same no. of bumps as the previous user, same place!
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Bump"
+                msg += f"\n**{str(place)}.** {user.name}#{user.discriminator} - __{rank}__ Bump"
                 ## Should we make the word "Bump" plural?
                 if rank > 1:
                     msg += "s"

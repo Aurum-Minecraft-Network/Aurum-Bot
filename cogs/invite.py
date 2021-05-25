@@ -118,7 +118,7 @@ class Invite(commands.Cog):
                 if rank > int(bumpe):
                     place += 1
                     rank = int(leaderv[usersDone])
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
+                msg += f"\n**{str(place)}.** {user.name}#{user.discriminator} - __{rank}__ Invite"
                 if rank > 1:
                     msg += "s"
                 usersDone += 1
@@ -249,7 +249,7 @@ class Invite(commands.Cog):
                 if rank > int(bumpe):
                     place += 1
                     rank = int(leaderv[usersDone])
-                msg += f"\n{str(place)}. {user.name}#{user.discriminator} - {rank} Invite"
+                msg += f"\n**{str(place)}.** {user.name}#{user.discriminator} - __{rank}__ Invite"
                 if rank > 1:
                     msg += "s"
                 usersDone += 1
