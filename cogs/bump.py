@@ -170,7 +170,7 @@ class Bump(commands.Cog):
             if int(bumps["lastBump"][1]) > 1:
                 msg += f"""**{bumps["lastBump"][1]} COMBO :fire:**\n"""
             emojis = self.bot.get_guild(846318304289488906).emojis
-            embed = discord.Embed(title=f"Thanks {bumpUser.name}!", description=msg + "Bump succeeded. Next bump is in 2 hours.", color=0x36393f)
+            embed = discord.Embed(title=f"{get(emojis, name='bump')} Thanks {bumpUser.name}!", description=msg + "Bump succeeded. Next bump is in 2 hours.", color=0x36393f)
             await message.channel.send(embed=embed)
             global channelyeet
             channelyeet = message.channel
