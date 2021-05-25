@@ -5,6 +5,7 @@ from discord.utils import get
 import traceback
 from datetime import datetime, timedelta
 from discord_slash import cog_ext, SlashContext
+from typing import Union
 
 class Bump(commands.Cog):
     def __init__(self, bot):
@@ -17,6 +18,11 @@ class Bump(commands.Cog):
         min, sec = divmod(seconds, 60)
         hour, min = divmod(min, 60)
         return (hour, min, sec)
+    
+    async def sendNoPermission(self, ctx: Union[discord.ext.commands.Context, SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
+        await ctx.send(embed=embed)
 
     async def getBumps(self): # Get bump JSON string from channel
         channel = self.bot.get_channel(797745275253817354)
@@ -70,11 +76,15 @@ class Bump(commands.Cog):
             if before.status == after.status:
                 pass
             elif before.status == discord.Status.online and after.status == discord.Status.offline:
-                await bumpChannel.send("<@302050872383242240> is currently offline!")
+                emojis = self.bot.get_guild(846318304289488906).emojis
+                embed = discord.Embed(title=f"{get(emojis, name='error')} DISBOARD Status", description="<@302050872383242240> is currently offline!", color=0x36393f)
+                await bumpChannel.send(embed=embed)
                 self.bumpreminder.cancel()
                 print("DISBOARD now off")
             elif before.status == discord.Status.offline and after.status == discord.Status.online:
-                await bumpChannel.send("<@302050872383242240> is currently online!")
+                emojis = self.bot.get_guild(846318304289488906).emojis
+                embed = discord.Embed(title=f"{get(emojis, name='error')} DISBOARD Status", description="<@302050872383242240> is currently online!", color=0x36393f)
+                await bumpChannel.send(embed=embed)
                 self.bumpreminder.start()
                 print("DISBOARD now on")
                 
@@ -90,7 +100,7 @@ class Bump(commands.Cog):
                 await ctx.send("Invalid param!")
             await ctx.send(f"Done. `bumpDone` has been set to `{boolw}`!")
         else:
-            await ctx.send("Sorry, but you do not have permission to do that.")
+            await self.sendNoPermission(ctx=ctx)
 
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
@@ -100,7 +110,6 @@ class Bump(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
         leaderk = list(leaders.keys()) # User ID
-        msg = "**__Bump Leaderboard__**"
         rank = int(leaderv[0]) # Highest number of bumps
         place = 1
         usersDone = 0
@@ -121,7 +130,9 @@ class Bump(commands.Cog):
                 if rank > 1:
                     msg += "s"
                 usersDone += 1
-        await ctx.send(msg)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Bump Leaderboard", description=msg, color=0x36393f)
+        await ctx.send(embed=embed)
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -131,34 +142,35 @@ class Bump(commands.Cog):
       Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
             ## Get the person who bumped
-            bumpUser = int(message.embeds[0].description.split(",")[0].replace("<", "").replace(">", "").replace("@", ""))
+            bumpUser = self.bot.get_guild(793495102566957096).get_member(int(message.embeds[0].description.split(",")[0].replace("<", "").replace(">", "").replace("@", "")))
             self.bumpreminder.cancel()
             bumps = await self.getBumps()
             ## Update the bumps JSON string
-            if str(bumpUser) in bumps:
-                bumpno = int(bumps[str(bumpUser)])
-                bumps[str(bumpUser)] = int(bumpno + 1)
+            if str(bumpUser.id.id) in bumps:
+                bumpno = int(bumps[str(bumpUser.id)])
+                bumps[str(bumpUser.id)] = int(bumpno + 1)
             else:
-                bumps.update({f"{str(bumpUser)}": 1})
+                bumps.update({f"{str(bumpUser.id)}": 1})
             try:
-                if str(bumps["lastBump"][0]) == str(bumpUser):
-                    bumps.update({"lastBump": [str(bumpUser), (int(bumps["lastBump"][1]) + 1)]})
+                if str(bumps["lastBump"][0]) == str(bumpUser.id):
+                    bumps.update({"lastBump": [str(bumpUser.id), (int(bumps["lastBump"][1]) + 1)]})
                 else:
-                    bumps.update({"lastBump": [str(bumpUser), 1]})
+                    bumps.update({"lastBump": [str(bumpUser.id), 1]})
             except KeyError:
-                bumps["lastBump"] = [str(bumpUser), 1]
+                bumps["lastBump"] = [str(bumpUser.id), 1]
             await self.updateBumps(bumps)
             bumpDone = True
             global reminded
             reminded = False
-            msg = "Bump succeeded. Thanks, <@{bumpUser}>!"
             guild = self.bot.get_guild(793495102566957096)
             await message.channel.set_permissions(guild.default_role, send_messages=False)
             print("Bumped, locked")
+            msg = ""
             if int(bumps["lastBump"][1]) > 1:
-                msg += f"""\n**{bumps["lastBump"][1]} COMBO :fire:**"""
-            msg += "\nNext bump in 2 hours"
-            await message.channel.send(f"Bump succeeded. Thanks, <@{bumpUser}>!\nNext bump in 2 hours")
+                msg += f"""**{bumps["lastBump"][1]} COMBO :fire:**\n"""
+            emojis = self.bot.get_guild(846318304289488906).emojis
+            embed = discord.Embed(title=f"Thanks {bumpUser.name}!", description=msg + "Bump succeeded. Next bump is in 2 hours.", color=0x36393f)
+            await message.channel.send(embed=embed)
             global channelyeet
             channelyeet = message.channel
             await message.delete()
@@ -168,7 +180,9 @@ class Bump(commands.Cog):
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
-            await message.channel.send(f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.")
+            emojis = self.bot.get_guild(846318304289488906).emojis
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Bump Cooldown", description=f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.", color=0x36393f)
+            await message.channel.send(embed=embed)
         ## Disallowed messages
         elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810", "302050872383242240"]:
             await message.delete()
@@ -197,7 +211,10 @@ class Bump(commands.Cog):
         if not reminded and bumpDone:
             if datetime.now() - timedelta(hours=2, seconds=30) > (await self.getTime()): # Has it been 2 hours?
                 guild = self.bot.get_guild(793495102566957096)
-                await channelyeet.send("<@&793661769125986384>, it is time to bump! Use `!d bump` now.")
+                emojis = self.bot.get_guild(846318304289488906).emojis
+                embed = discord.Embed(title=f"{get(emojis, name='bump')} Bump Reminder", description="Bumpers, it is time to bump! Use `!d bump` now.", color=0x36393f)
+                await channelyeet.send(embed=embed)
+                await channelyeet.send("<@&793661769125986384>")
                 await channelyeet.set_permissions(guild.default_role, send_messages=True)
                 print("Can bump now, unlocked")
                 bumpDone = False
@@ -243,15 +260,17 @@ class Bump(commands.Cog):
                 for user in bumpKings:
                     if user not in newBumpKings:
                         removeBumpKings.append(user)
-            noice = "All hail the new Bump King"
+            title = "All hail the new Bump King"
+            noice = ""
             if len(addBumpKings) > 1:
-                noice += "s"
+                title += "s"
             for user in addBumpKings:
                 noice += f" <@{user.id}>"
-            noice += "!"
             bumpChannel = self.bot.get_channel(793523006172430388)
             if len(addBumpKings) > 0:
-                await bumpChannel.send(noice)
+                emojis = self.bot.get_guild(846318304289488906).emojis
+                embed = discord.Embed(title=str(get(emojis, name='bump')) + title, description=noice + "!", color=0x36393f)
+                await bumpChannel.send(embed=embed)
             for user in addBumpKings:
                 await user.add_roles(bumpKing)
             for user in removeBumpKings:
@@ -277,7 +296,6 @@ class Bump(commands.Cog):
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True)) # Sort the dictionary from user with most bumps to least bumps
         leaderv = list(leaders.values()) # Number of bumps
         leaderk = list(leaders.keys()) # User ID
-        msg = "**__Bump Leaderboard__**"
         rank = int(leaderv[0]) # Highest number of bumps
         place = 1
         usersDone = 0
@@ -298,7 +316,9 @@ class Bump(commands.Cog):
                 if rank > 1:
                     msg += "s"
                 usersDone += 1
-        await ctx.send(msg)
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Bump Leaderboard", description=msg, color=0x36393f)
+        await ctx.send(embed=embed)
         
 def setup(bot):
     bot.add_cog(Bump(bot))
