@@ -10,6 +10,13 @@ import time
 from collections import defaultdict, OrderedDict
 from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option, create_choice
+from decouple import config
+import boto3
+
+## AWS setup
+key = config("AWSKEY") # AWS Access Key ID
+secret = config("AWSSECRET") # AWS Secret Access Key
+client = boto3.client("s3", aws_access_key_id=key, aws_secret_access_key=secret) # Initialize boto3 client
 
 class Level(commands.Cog):
     def __init__(self, bot):
@@ -34,15 +41,14 @@ class Level(commands.Cog):
         return n-1 if a > xp else n
         
     async def getXP(self):
-        channel = self.bot.get_channel(797745275253817354)
-        msg = await channel.fetch_message(826864218686488606)
-        return defaultdict(int, OrderedDict(reversed(list({k: v for k, v in sorted(json.loads(msg.content).items(), key=lambda item: item[1])}.items()))))
+        return defaultdict(int, OrderedDict(reversed(list({k: v for k, v in sorted(json.loads(client.get_object(Bucket="atpcitybot", Key="usernames.json")["Body"].read().items()), key=lambda item: item[1])}.items()))))
     
     async def updateXP(self, dictionary):
-        channel = self.bot.get_channel(797745275253817354)
-        msg = await channel.fetch_message(826864218686488606)
         dictionary = OrderedDict(reversed(list({k: v for k, v in sorted(dictionary.items(), key=lambda item: item[1])}.items())))
-        await msg.edit(content=json.dumps(dictionary, indent=4))
+        with open("xps.json", "w") as f:
+            json.dump(dictionary, f, indent=4)
+        with open("xps.json", "rb") as f:
+            client.upload_fileobj(f, "atpcitybot", "xps.json")
         
     async def getDark(self):
         channel = self.bot.get_channel(797745275253817354)
