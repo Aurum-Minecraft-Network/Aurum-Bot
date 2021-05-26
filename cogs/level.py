@@ -208,9 +208,9 @@ class Level(commands.Cog):
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.updateDark(darks)
         if theme == "light":
-            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!", color=0x36393f)
         else:
-            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!", color=0x36393f)
         await ctx.send(embed=embed)
         
     @commands.command(name="levels")
@@ -398,9 +398,9 @@ class Level(commands.Cog):
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.updateDark(darks)
         if theme == "light":
-            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!", color=0x36393f)
         else:
-            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!")
+            embed = discord.Embed(title=f"{get(emojis, name='success')} Update Successful", description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!", color=0x36393f)
         await ctx.send(embed=embed)
         
     @cog_ext.cog_slash(name="levels",
