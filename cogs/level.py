@@ -41,7 +41,7 @@ class Level(commands.Cog):
         return n-1 if a > xp else n
         
     async def getXP(self):
-        return defaultdict(int, OrderedDict(reversed(list({k: v for k, v in sorted(json.loads(client.get_object(Bucket="atpcitybot", Key="xps.json")["Body"].read().items()), key=lambda item: item[1])}.items()))))
+        return defaultdict(int, OrderedDict(reversed(list({k: v for k, v in sorted(json.loads(client.get_object(Bucket="atpcitybot", Key="xps.json")["Body"].read()).items(), key=lambda item: item[1])}.items()))))
     
     async def updateXP(self, dictionary):
         dictionary = OrderedDict(reversed(list({k: v for k, v in sorted(dictionary.items(), key=lambda item: item[1])}.items())))
