@@ -188,6 +188,19 @@ class Bump(commands.Cog):
             emojis = self.bot.get_guild(846318304289488906).emojis
             embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Bump Cooldown", description=f"Sorry, but you need to wait **{str(minutes[0])}** minutes in order to bump again.", color=0x36393f)
             await message.channel.send(embed=embed)
+        ## Rate limited
+        elif str(message.author.id) == "302050872383242240" and "limited" in message.embeds[0].description:
+            minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
+            await message.delete()
+            emojis = self.bot.get_guild(846318304289488906).emojis
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Rate Limited", description=f"You have been rate limited by DISBOARD.\nWait **{str(minutes[0])}** minutes and try again.", color=0x36393f)
+            await message.channel.send(embed=embed)
+        ## Processing command
+        elif str(message.author.id) == "302050872383242240" and "processing" in message.embeds[0].description:
+            await message.delete()
+            emojis = self.bot.get_guild(846318304289488906).emojis
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Processing Command", description=f"DISBOARD is processing your command.\nTry again in a moment.", color=0x36393f)
+            await message.channel.send(embed=embed)
         ## Disallowed messages
         elif str(message.channel.id) == "793523006172430388" and message.content not in ['!d bump', 'a!bumpleader', 'a!bumpleaderboard'] and str(message.author.id) not in ["793546056934883328", "438298127225847810", "302050872383242240"]:
             await message.delete()
