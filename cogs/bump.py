@@ -139,7 +139,7 @@ class Bump(commands.Cog):
     async def on_message(self, message):
         global bumpDone
         ## Bump succeeded
-        if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and not bumpDone and message.embeds[0].description.endswith("""      Bump done :thumbsup:
+        if str(message.channel.id) == "793523006172430388" and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("""      Bump done :thumbsup:
       Check it on DISBOARD: https://disboard.org/"""):
             bumpDone = True
             ## Get the person who bumped
@@ -176,6 +176,10 @@ class Bump(commands.Cog):
             channelyeet = message.channel
             await message.delete()
             await self.updateTime(datetime.now()) # Set time bumped
+            if not bumpDone:
+                print("Set bump time")
+            if bumpDone:
+                print("Time adjustment")
             self.bumpreminder.start()
         ## Need to wait until bump
         elif bumpDone and str(message.author.id) == "302050872383242240" and message.embeds[0].description.endswith("until the server can be bumped"):
