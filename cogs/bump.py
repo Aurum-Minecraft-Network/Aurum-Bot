@@ -193,7 +193,7 @@ class Bump(commands.Cog):
             minutes = [int(i) for i in message.embeds[0].description.split() if i.isdigit()] # Function to extract numbers from a string
             await message.delete()
             emojis = self.bot.get_guild(846318304289488906).emojis
-            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Rate Limited", description=f"You have been rate limited by DISBOARD.\nWait **{str(minutes[0])}** minutes and try again.", color=0x36393f)
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Rate Limited", description=f"You have been rate limited by DISBOARD.\nWait **{str(minutes[0])}** seconds and try again.", color=0x36393f)
             await message.channel.send(embed=embed)
         ## Processing command
         elif str(message.author.id) == "302050872383242240" and "processing" in message.embeds[0].description:
