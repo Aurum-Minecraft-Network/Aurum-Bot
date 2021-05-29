@@ -53,7 +53,7 @@ class Minecraft(commands.Cog):
         else:
             usernames = json.loads(client.get_object(Bucket="atpcitybot", Key="usernames.json")["Body"].read())
             try:
-                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft username query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
+                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft Username Query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
                 await ctx.send(embed=embed)
             except KeyError:
                 embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Username Not Registered", description="That user hasn't registered their username yet!", color=0x36393f)
@@ -227,7 +227,7 @@ class Minecraft(commands.Cog):
             await ctx.defer()
             usernames = json.loads(client.get_object(Bucket="atpcitybot", Key="usernames.json")["Body"].read())
             try:
-                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft username query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
+                embed = discord.Embed(title=f"{get(emojis, name='usernamequery')} Minecraft Username Query", description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**", color=0x36393f)
                 await ctx.send(embed=embed)
             except KeyError:
                 embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Username Not Registered", description="That user hasn't registered their username yet!", color=0x36393f)

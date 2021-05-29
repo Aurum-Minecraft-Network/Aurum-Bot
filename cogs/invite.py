@@ -60,7 +60,7 @@ class Invite(commands.Cog):
                         with open('invitechannel.json', 'r') as f:
                             invc = json.load(f)
                             channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
-                            embed=discord.Embed(title=f'{member.name} Joined!', color=0xff9000)
+                            embed=discord.Embed(title=f'{member.name} Joined!', color=0x36393f)
                             embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
                             embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                             embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
@@ -84,7 +84,7 @@ class Invite(commands.Cog):
                 with open('invitechannel.json', 'r') as f:
                     invc = json.load(f)
                     channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
-                    embed=discord.Embed(title=f'{member.name} Joined!', color=0xff9000)
+                    embed=discord.Embed(title=f'{member.name} Joined!', color=0x36393f)
                     embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
                     embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
                     embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
