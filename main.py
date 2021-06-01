@@ -6,6 +6,7 @@ import traceback
 from decouple import config
 from discord.ext import commands, tasks
 from discord.utils import get
+from discord_components import DiscordComponents
 import difflib
 import discord_slash
 from disputils import BotEmbedPaginator
@@ -31,6 +32,7 @@ async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slas
 
 @bot.event
 async def on_ready():
+    DiscordComponents(bot)
     await bot.change_presence(activity=discord.Game(name="try my slash commands!"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
     global aliases
