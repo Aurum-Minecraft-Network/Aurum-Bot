@@ -9,6 +9,7 @@ from discord.utils import get
 from discord_components import DiscordComponents
 import difflib
 import discord_slash
+from discord_slash.utils import manage_commands
 from disputils import BotEmbedPaginator
 from typing import Union
 import requests
@@ -34,17 +35,7 @@ async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slas
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
-    url = "https://discord.com/api/v8/applications/793546056934883328/guilds/793495102566957096/commands"
-    json = {
-        "name": "menu",
-        "description": "Open the Navigation Menu",
-        "options": []
-    }
-    # For authorization, you can use either your bot token
-    headers = {
-        "Authorization": config("TOKEN")
-    }
-    r = requests.post(url, headers=headers, json=json)
+    manage_commands.add_slash_command(bot_id=793546056934883328, bot_token='NzkzNTQ2MDU2OTM0ODgzMzI4.X-t1Ww._a43veqK3gJdZ_GtEBJgmNOIXso', guild_id=793495102566957096, cmd_name="menu", description="Open the Navigation Menu")
     await bot.change_presence(activity=discord.Game(name="try my slash commands!"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
     global aliases
