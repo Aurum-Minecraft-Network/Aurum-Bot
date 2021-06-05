@@ -77,7 +77,7 @@ class Buttons(commands.Cog):
     async def menu(self, ctx):
         emojis = self.bot.get_guild(846318304289488906).emojis
 
-        if ctx..author.bot:
+        if ctx.author.bot:
             return
 
         curr = "topMenu"
@@ -164,11 +164,11 @@ class Buttons(commands.Cog):
             ],
         }
 
-        await ctx..channel.send(**topMenu)
+        await ctx.channel.send(**topMenu)
 
         while True:
             res = await self.bot.wait_for("button_click")
-            if res.channel == ctx..channel:
+            if res.channel == ctx.channel:
                 ## topMenu
                 if curr == "topMenu" and res.component.label == "Ping":
                     await res.respond(
@@ -218,12 +218,12 @@ class Buttons(commands.Cog):
                         components=[]
                     )
                     curr = "rankCardMenu"
-                    user = ctx..author
+                    user = ctx.author
                     try:
-                        dark = (await self.getDark())[str(ctx..author.id)]
+                        dark = (await self.getDark())[str(ctx.author.id)]
                     except KeyError:
                         darks = await self.getDark()
-                        darks.update({str(ctx..author.id): True})
+                        darks.update({str(ctx.author.id): True})
                         await self.updateDark(darks)
                         dark = True
                     print(user)
@@ -325,7 +325,7 @@ class Buttons(commands.Cog):
                     )
                     curr = "changeRankThemeLightMenu"
                     darks = await self.getDark()
-                    darks.update({str(ctx..author.id): False})
+                    darks.update({str(ctx.author.id): False})
                     await self.updateDark(darks)
                 elif curr == "changeRankThemeMenu" and res.component.label == "Dark Theme":
                     await res.respond(
@@ -334,7 +334,7 @@ class Buttons(commands.Cog):
                     )
                     curr = "changeRankThemeDarkMenu"
                     darks = await self.getDark()
-                    darks.update({str(ctx..author.id): True})
+                    darks.update({str(ctx.author.id): True})
                     await self.updateDark(darks)
                     
                 ## changeRankThemeLightMenu
@@ -598,11 +598,11 @@ class Buttons(commands.Cog):
             ],
         }
 
-        await ctx..channel.send(**topMenu)
+        await ctx.channel.send(**topMenu)
 
         while True:
             res = await self.bot.wait_for("button_click")
-            if res.channel == ctx..channel:
+            if res.channel == ctx.channel:
                 ## topMenu
                 if curr == "topMenu" and res.component.label == "Ping":
                     await res.respond(
@@ -654,10 +654,10 @@ class Buttons(commands.Cog):
                     curr = "rankCardMenu"
                     user = ctx.author
                     try:
-                        dark = (await self.getDark())[str(ctx..author.id)]
+                        dark = (await self.getDark())[str(ctx.author.id)]
                     except KeyError:
                         darks = await self.getDark()
-                        darks.update({str(ctx..author.id): True})
+                        darks.update({str(ctx.author.id): True})
                         await self.updateDark(darks)
                         dark = True
                     print(user)
@@ -759,7 +759,7 @@ class Buttons(commands.Cog):
                     )
                     curr = "changeRankThemeLightMenu"
                     darks = await self.getDark()
-                    darks.update({str(ctx..author.id): False})
+                    darks.update({str(ctx.author.id): False})
                     await self.updateDark(darks)
                 elif curr == "changeRankThemeMenu" and res.component.label == "Dark Theme":
                     await res.respond(
@@ -768,7 +768,7 @@ class Buttons(commands.Cog):
                     )
                     curr = "changeRankThemeDarkMenu"
                     darks = await self.getDark()
-                    darks.update({str(ctx..author.id): True})
+                    darks.update({str(ctx.author.id): True})
                     await self.updateDark(darks)
                     
                 ## changeRankThemeLightMenu
