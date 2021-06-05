@@ -240,8 +240,11 @@ async def help(ctx):
     embed1=discord.Embed(title=f"{get(emojis, name='help')} Aurum Bot User Guide", description=f"""{get(emojis, name="ping")} `a!ping`
 <:space:846393726586191923> Returns the latency in ms.
 
-{get(emojis, name="help")} `a!help`
-<:space:846393726586191923> This command.
+{get(emojis, name="menu")} `a!menu`
+<:space:846393726586191923> Open the Navigation Menu.
+
+{get(emojis, name="interview")} `a!interview`
+<:space:846393726586191923> Initiate the Interview Wizard.
 
 {get(emojis, name="usernamereg")} `a!usernamereg [java|bedrock] [username]`
 <:space:846393726586191923> Register your Minecraft username.
@@ -265,19 +268,22 @@ async def help(ctx):
 <:space:846393726586191923> Returns the source code of the bot.
 
 {get(emojis, name="avatar")} `a!da`
-<:space:846393726586191923> Returns the color of a user's default avatar.""", color=0x36393f)
+<:space:846393726586191923> Returns the color of a user's default avatar.
+
+{get(emojis, name="card")} `a!rank {{mentionuser}}`
+<:space:846393726586191923> Returns a rank card of yours, or a specified user.""", color=0x36393f)
 
     embed4=discord.Embed(title=f"{get(emojis, name='help')} Aurum Bot User Guide", description=f"""{get(emojis, name="faq")} `a!faq {{entry}}`
 <:space:846393726586191923> Returns a list of frequently asked questions.
-
-{get(emojis, name="card")} `a!rank {{mentionuser}}`
-<:space:846393726586191923> Returns a rank card of yours, or a specified user.
 
 {get(emojis, name="lightmode")} `a!updateRankTheme [dark|light]`
 <:space:846393726586191923> Changes the theme of rank cards for you.
 
 {get(emojis, name="leaderboard")} `a!levels`
-<:space:846393726586191923> Returns a leaderboard of levels.""", color=0x36393f)
+<:space:846393726586191923> Returns a leaderboard of levels.
+
+{get(emojis, name="help")} `a!help`
+<:space:846393726586191923> This command.""", color=0x36393f)
     embed1.set_footer(text="[] Required {} Optional")
     embed2.set_footer(text="[] Required {} Optional")
     embed3.set_footer(text="[] Required {} Optional")
@@ -316,8 +322,8 @@ async def _help(ctx):
     embed1=discord.Embed(title=f"{get(emojis, name='help')} Aurum Bot User Guide", description=f"""{get(emojis, name="ping")} `/ping`
 <:space:846393726586191923> Returns the latency in ms.
 
-{get(emojis, name="help")} `/help`
-<:space:846393726586191923> This command.
+{get(emojis, name="menu")} `/menu`
+<:space:846393726586191923> Open the Navigation Menu.
 
 {get(emojis, name="usernamereg")} `/usernamereg [java|bedrock] [username]`
 <:space:846393726586191923> Register your Minecraft username.
@@ -347,7 +353,10 @@ async def _help(ctx):
 <:space:846393726586191923> Changes the theme of rank cards for you.
 
 {get(emojis, name="leaderboard")} `/levels`
-<:space:846393726586191923> Returns a leaderboard of levels.""", color=0x36393f)
+<:space:846393726586191923> Returns a leaderboard of levels.
+
+{get(emojis, name="help")} `/help`
+<:space:846393726586191923> This command.""", color=0x36393f)
     embed1.set_footer(text="[] Required {} Optional")
     embed2.set_footer(text="[] Required {} Optional")
     embed3.set_footer(text="[] Required {} Optional")
