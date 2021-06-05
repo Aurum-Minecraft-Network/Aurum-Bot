@@ -2,7 +2,7 @@
 This is the bot for use in the [Aurum Minecraft Network Discord Server](https://discord.aurumnet.ga).
 
 ## Runtime
-This bot is run using the [PyPy interpreter](https://www.pypy.org/) to improve performance, but any interpreter should work.
+This bot is run using Python 3.9.5.
 
 ## Environmental Variables
 To run the bot, a few environmental variables have to be initialized. Most likely you have to create a file called `.env` at the root of this project.
