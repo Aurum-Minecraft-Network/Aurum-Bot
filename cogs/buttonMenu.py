@@ -505,8 +505,8 @@ class Buttons(commands.Cog):
 
     guildID = 793495102566957096
 
-    @cog_ext.cog_slash(name="usernamereg",
-                        description="Register your Minecraft username",
+    @cog_ext.cog_slash(name="menu",
+                        description="Open the Navigation Menu",
                         guild_ids=[guildID])
     async def _menu(self, ctx: SlashContext):
         emojis = self.bot.get_guild(846318304289488906).emojis
