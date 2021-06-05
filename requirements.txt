@@ -1,4 +1,4 @@
-git+git://github.com/kiki7000/discord.py-components.git
+discord-components==0.5.3
 discord.py==1.6.0
 jsoncomment==0.4.2
 pyimgur==0.6.0
