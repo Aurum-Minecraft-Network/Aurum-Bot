@@ -33,6 +33,7 @@ async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slas
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
+    SlashCommand.sync_all_commands()
     await bot.change_presence(activity=discord.Game(name="try my slash commands!"))
     print('We have logged in as {0.user}. Bot is ready.'.format(bot))
     global aliases
