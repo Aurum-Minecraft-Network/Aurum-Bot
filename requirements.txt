@@ -8,3 +8,4 @@ discord-py-slash-command==1.1.0
 Pillow==8.2.0
 pyimgur==0.6.0
 disputils==0.1.3
+git+git://github.com/kiki7000/discord.py-components.git
