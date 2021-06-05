@@ -232,6 +232,6 @@ class Minecraft(commands.Cog):
             except KeyError:
                 embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Username Not Registered", description="That user hasn't registered their username yet!", color=0x36393f)
                 await ctx.send(embed=embed)
-
+        
 def setup(bot):
     bot.add_cog(Minecraft(bot))
