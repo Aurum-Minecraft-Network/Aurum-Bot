@@ -127,6 +127,7 @@ class Interview(commands.Cog):
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇩':
             await newInt.send("Thank you for applying for Discord Moderator!")
@@ -145,6 +146,7 @@ class Interview(commands.Cog):
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇲':
             await newInt.send("Thank you for applying for Minecraft Moderator!")
@@ -163,6 +165,7 @@ class Interview(commands.Cog):
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇦':
             await newInt.send("Thank you for applying for Discord + Minecraft Moderator!")
@@ -181,6 +184,7 @@ class Interview(commands.Cog):
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇪':
             await newInt.send("Thank you for applying for Developer!")
@@ -277,6 +281,7 @@ int main() {
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇬':
             await newInt.send("Thank you for applying for Graphic Designer!")
@@ -296,6 +301,7 @@ int main() {
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
         elif payload.emoji.name == '🇧':
             await newInt.send("Thank you for applying for City Builder!")
@@ -314,6 +320,7 @@ int main() {
             await newInt.send("The interview process has ended. Please raise any questions that you have now, otherwise, type \"[END]\" to archive this channel and await processing.")
             await self.bot.wait_for('message', check=lambda message: message.author == ctx.author and message.content == "[END]") # Wait until the interviewee says [END]
             await newInt.set_permissions(ctx.author, read_messages=True, send_messages=False)
+            await newInt.set_permissions(guild.default_role, read_messages=False)
             await newInt.edit(category=get(guild.channels, id=817798276366991371), name=f"int-ar-{intID}")
             
 def setup(bot):
