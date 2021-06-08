@@ -272,6 +272,12 @@ async def help(ctx):
 {get(emojis, name="avatar")} `a!da`
 <:space:846393726586191923> Returns the color of a user's default avatar.
 
+{get(emojis, name="dice")} `a!dice {{sides}} {{quantity}}`
+<:space:846393726586191923> Rolls a number of fair dice with a number of sides each.
+
+{get(emojis, name="coin")} `a!coin {{bet}}`
+<:space:846393726586191923> Flip a coin; bet for heads or tails. Something might also happen...
+
 {get(emojis, name="card")} `a!rank {{mentionuser}}`
 <:space:846393726586191923> Returns a rank card of yours, or a specified user.""", color=0x36393f)
 
@@ -343,7 +349,13 @@ async def _help(ctx):
 <:space:846393726586191923> Returns the source code of the bot.
 
 {get(emojis, name="avatar")} `/da`
-<:space:846393726586191923> Returns the color of a user's default avatar.""", color=0x36393f)
+<:space:846393726586191923> Returns the color of a user's default avatar.
+
+{get(emojis, name="dice")} `/dice {{sides}} {{quantity}}`
+<:space:846393726586191923> Rolls a number of fair dice with a number of sides each.
+
+{get(emojis, name="coin")} `/coin {{bet}}`
+<:space:846393726586191923> Flip a coin; bet for heads or tails. Something might also happen...""", color=0x36393f)
 
     embed3=discord.Embed(title=f"{get(emojis, name='help')} Aurum Bot User Guide", description=f"""{get(emojis, name="faq")} `/faq {{entry}}`
 <:space:846393726586191923> Returns a list of frequently asked questions.
