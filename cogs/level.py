@@ -102,7 +102,7 @@ class Level(commands.Cog):
         xps[str(message.author.id)] += addXP
         if self.getLevelFromTotalXP(beforeXP) < self.getLevelFromTotalXP(xps[str(message.author.id)]):
             emojis = self.bot.get_guild(846318304289488906).emojis
-            embed = discord.Embed(title=f"{get(emojis, name='lvup')} GG <@{message.author.name}>!", description=f"You advanced to level **{str(self.getLevelFromTotalXP(xps[str(message.author.id)]))}**!", color=0x36393f)
+            embed = discord.Embed(title=f"{get(emojis, name='lvup')} GG {message.author.name}!", description=f"You advanced to level **{str(self.getLevelFromTotalXP(xps[str(message.author.id)]))}**!", color=0x36393f)
             await message.channel.send(embed=embed)
             guild = self.bot.get_guild(793495102566957096)
             ranks = {
