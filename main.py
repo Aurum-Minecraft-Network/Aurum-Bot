@@ -32,6 +32,7 @@ async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slas
     embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
     await ctx.send(embed=embed)
 
+#checks if bot is ready
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
