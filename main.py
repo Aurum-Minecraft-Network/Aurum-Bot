@@ -32,6 +32,10 @@ botdev = str(owner)
 AURUM_ASSET_SERVER_ID=846318304289488906
 AURUM_MAIN_SERVER_ID=793495102566957096
 WELCOME_GOODBYE_CHANNEL_ID=793513021288742912
+RULES_CHANNEL_ID=793529403233665084
+HOW_TO_JOIN_CHANNEL_ID=793513974582607962
+SELF_ASSIGN_ROLES_CHANNEL_ID=793626862180892732
+
 
 #returns error message of person not having permission
 async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
@@ -57,14 +61,14 @@ async def on_member_join(member):
     if member.guild.id != AURUM_MAIN_SERVER_ID:
         return
     await channel.send("<:oslash:803836347097677844>")
-    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nUse <#793626862180892732> to assign some roles for yourself.\nNeed help? Use `/faq`!")
+    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#{RULES_CHANNEL_ID}> for rules and <#{HOW_TO_JOIN_CHANNEL_ID}> for joining instructions.\nUse <#{SELF_ASSIGN_ROLES_CHANNEL_ID}> to assign some roles for yourself.\nNeed help? Use `/faq`!")
 
 #sends farewell message in the #welcome-goodbye channel when a member leaves
 @bot.event
 async def on_member_remove(member):
-    if member.guild.id != 793495102566957096:
+    if member.guild.id != AURUM_MAIN_SERVER_ID:
         return
-    channel = bot.get_channel(793513021288742912)
+    channel = bot.get_channel(WELCOME_GOODBYE_CHANNEL_ID)
     await channel.send(f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**.")
     
 ## Message edit detection
@@ -83,11 +87,11 @@ async def on_command_error(ctx, error):
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
         try:
             closest = difflib.get_close_matches(triedCommand, aliases)[0]
-            emojis = bot.get_guild(846318304289488906).emojis
+            emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
             embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Command", description=f"Use `a!help` if you need help.\nDid you mean `a!{closest}`?", color=0x36393f)
             await ctx.send(embed=embed)
         except IndexError:
-            emojis = bot.get_guild(846318304289488906).emojis
+            emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
             embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Command", description=f"Use `a!help` if you need help.", color=0x36393f)
             await ctx.send(embed=embed)
 
