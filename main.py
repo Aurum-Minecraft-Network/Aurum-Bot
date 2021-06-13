@@ -1,3 +1,4 @@
+
 import discord
 import os
 import sys
@@ -27,12 +28,13 @@ botid = config("ID")
 global botdev
 botdev = str(owner)
 
+#returns error message of person not having permission
 async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
     emojis = bot.get_guild(846318304289488906).emojis
     embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
     await ctx.send(embed=embed)
 
-#checks if bot is ready
+#checking if bot is ready
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
@@ -43,6 +45,7 @@ async def on_ready():
     for command in bot.commands:
         aliases += (list(command.aliases) + [command.name])
 
+#sends welcome message in the #welcome-goodbye channel when a member joins
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(793513021288742912)
@@ -51,6 +54,7 @@ async def on_member_join(member):
     await channel.send("<:oslash:803836347097677844>")
     await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nUse <#793626862180892732> to assign some roles for yourself.\nNeed help? Use `/faq`!")
 
+#sends farewell message in the #welcome-goodbye channel when a member leaves
 @bot.event
 async def on_member_remove(member):
     if member.guild.id != 793495102566957096:
