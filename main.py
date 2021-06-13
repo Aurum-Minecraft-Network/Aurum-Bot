@@ -28,9 +28,14 @@ botid = config("ID")
 global botdev
 botdev = str(owner)
 
+#magic numbers
+AURUM_ASSET_SERVER_ID=846318304289488906
+AURUM_MAIN_SERVER_ID=793495102566957096
+WELCOME_GOODBYE_CHANNEL_ID=793513021288742912
+
 #returns error message of person not having permission
 async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
-    emojis = bot.get_guild(846318304289488906).emojis
+    emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
     embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
     await ctx.send(embed=embed)
 
@@ -48,8 +53,8 @@ async def on_ready():
 #sends welcome message in the #welcome-goodbye channel when a member joins
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(793513021288742912)
-    if member.guild.id != 793495102566957096:
+    channel = bot.get_channel(WELCOME_GOODBYE_CHANNEL_ID)
+    if member.guild.id != AURUM_MAIN_SERVER_ID:
         return
     await channel.send("<:oslash:803836347097677844>")
     await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#793529403233665084> for rules and <#793513974582607962> for joining instructions.\nUse <#793626862180892732> to assign some roles for yourself.\nNeed help? Use `/faq`!")
