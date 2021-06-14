@@ -56,7 +56,7 @@ class Fun(commands.Cog):
         results = ""
         for num in numbers:
             results += str(num) + ", "
-        embed = discord.Embed(title=f"{get(emojis, name='dice')} Dice Roll Results", description=f"You rolled **`{results[:-2]}`**!", color=0x36393f) if quantity == 1 else discord.Embed(title=f"{get(emojis, name='dice')} Dice Roll Results", description=f"You rolled these values: ```\n{results[:-2]}\n```That leads to a total of **{str(sum(numbers))}**!", color=0x36393f)
+        embed = discord.Embed(title=f"{get(emojis, name='dice')} Dice Roll Results", description=f"You rolled `{results[:-2]}`!", color=0x36393f) if quantity == 1 else discord.Embed(title=f"{get(emojis, name='dice')} Dice Roll Results", description=f"You rolled these values: ```\n{results[:-2]}\n```That leads to a total of **{str(sum(numbers))}**!", color=0x36393f)
         await ctx.send(embed=embed)
         
     @commands.command()
