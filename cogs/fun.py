@@ -45,7 +45,7 @@ class Fun(commands.Cog):
         embed.add_field(name=f"{pronoun} a {color}-colored default avatar!", value="[Want to know how this works?](http://gg.gg/nv7ek)", inline=False)
         await ctx.send(embed=embed)
         
-    @commands.command()
+    @commands.command(aliases=['roll','random'])
     async def dice(self, ctx, sides: int = 6, quantity: int = 1):
         emojis = self.bot.get_guild(846318304289488906).emojis
         if sides < 1 or quantity < 1:
