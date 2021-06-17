@@ -82,7 +82,7 @@ async def on_command_error(ctx, error):
     triedCommand = ctx.message.content.split(" ")[0][2:]
     item_index = 1
     # If user added a space between prefix and command
-    while triedCommand.isspace():
+    while len(triedCommand)==0:
         # loops until the tried message is the command
         triedCommand = ctx.message.content.split(" ")[item_index]
         item_index += 1
