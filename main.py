@@ -28,7 +28,7 @@ botid = config("ID")
 global botdev
 botdev = str(owner)
 
-#magic numbers
+# magic numbers
 AURUM_ASSET_SERVER_ID=846318304289488906
 AURUM_MAIN_SERVER_ID=793495102566957096
 WELCOME_GOODBYE_CHANNEL_ID=793513021288742912
@@ -37,13 +37,13 @@ HOW_TO_JOIN_CHANNEL_ID=793513974582607962
 SELF_ASSIGN_ROLES_CHANNEL_ID=793626862180892732
 
 
-#returns error message of person not having permission
+# returns error message of person not having permission
 async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
     emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
     embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
     await ctx.send(embed=embed)
 
-#checking if bot is ready
+# checks and prints message if bot is ready
 @bot.event
 async def on_ready():
     DiscordComponents(bot)
@@ -54,7 +54,7 @@ async def on_ready():
     for command in bot.commands:
         aliases += (list(command.aliases) + [command.name])
 
-#sends welcome message in the #welcome-goodbye channel when a member joins
+# sends welcome message in the #welcome-goodbye channel when a member joins
 @bot.event
 async def on_member_join(member):
     channel = bot.get_channel(WELCOME_GOODBYE_CHANNEL_ID)
@@ -63,7 +63,7 @@ async def on_member_join(member):
     await channel.send("<:oslash:803836347097677844>")
     await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#{RULES_CHANNEL_ID}> for rules and <#{HOW_TO_JOIN_CHANNEL_ID}> for joining instructions.\nUse <#{SELF_ASSIGN_ROLES_CHANNEL_ID}> to assign some roles for yourself.\nNeed help? Use `/faq`!")
 
-#sends farewell message in the #welcome-goodbye channel when a member leaves
+# sends farewell message in the #welcome-goodbye channel when a member leaves
 @bot.event
 async def on_member_remove(member):
     if member.guild.id != AURUM_MAIN_SERVER_ID:
@@ -75,15 +75,16 @@ async def on_member_remove(member):
 @bot.event
 async def on_message_edit(before, after):
     await bot.process_commands(after)
-    
+
+# attempts to find typo and inform the user. Returns normal error message if it fails    
 @bot.event
 async def on_command_error(ctx, error):
     triedCommand = ctx.message.content.split(" ")[0][2:]
-    a = 1
+    item_index = 1
     # If user added a space between prefix and command
     while len(triedCommand) == 0:
-        triedCommand = ctx.message.content.split(" ")[a]
-        a += 1
+        triedCommand = ctx.message.content.split(" ")[item_index]
+        item_index += 1
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
         try:
             closest = difflib.get_close_matches(triedCommand, aliases)[0]
@@ -95,6 +96,7 @@ async def on_command_error(ctx, error):
             embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Command", description=f"Use `a!help` if you need help.", color=0x36393f)
             await ctx.send(embed=embed)
 
+# (owner only) loads selected extension and returns error message when user has no permission 
 @bot.command()
 async def extload(ctx, cog):
     if str(ctx.author.id) == str(owner):
@@ -103,14 +105,14 @@ async def extload(ctx, cog):
     else:
         await sendNoPermission(ctx=ctx)
 
-@bot.command()
+# (owner only) unloads selected extension
 async def extunload(ctx, cog):
     if str(ctx.author.id) == str(owner):
         bot.unload_extension(f'cogs.{cog}')
         await ctx.send(f'Unloaded extension `{cog}`!')
     else:
         await sendNoPermission(ctx=ctx)
-
+# (owner only) reloads selected extension
 @bot.command()
 async def extreload(ctx, cog):
     if str(ctx.author.id) == str(owner):
@@ -120,6 +122,7 @@ async def extreload(ctx, cog):
     else:
         await sendNoPermission(ctx=ctx)
 
+# (owner only) lists all extensions in the directory (even the ones that are not loaded)
 @bot.command()
 async def extlist(ctx):
     if str(ctx.author.id) == str(owner):
