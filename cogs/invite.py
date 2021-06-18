@@ -8,25 +8,57 @@ from discord_slash import cog_ext, SlashContext
 from discord_slash.utils.manage_commands import create_option
 from typing import Union
 import discord_slash
+import datetime
+from constants import BOT_DEV, AURUM_ASSET_SERVER_ID
+
 
 class Invite(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.invkingupdate.start()
+        self.inv_king_update.start()
 
-    async def getInvs(self): # Get JSON string of number of users each user invited in Discord channel
+    async def get_invs(
+        self,
+    ):  # Get JSON string of number of users each user invited in Discord channel
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(798227110892273684)
         return json.loads(msg.content)
 
-    async def updateInvs(self, dict): # Update JSON string of number of users each user invited in Discord channel
+    async def update_invs(
+        self, dict
+    ):  # Update JSON string of number of users each user invited in Discord channel
         channel = self.bot.get_channel(797745275253817354)
         msg = await channel.fetch_message(798227110892273684)
         await msg.edit(content=json.dumps(dict, indent=4))
-        
-    async def sendNoPermission(self, ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
-        emojis = self.bot.get_guild(846318304289488906).emojis
-        embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
+
+    async def send_no_permission(
+        self,
+        ctx: Union[
+            discord.ext.commands.Context,
+            discord_slash.SlashContext,
+            discord.TextChannel,
+            discord.DMChannel,
+            discord.GroupChannel,
+        ],
+    ):
+        from cogs.aesthetics import design, embedColor, icons
+        emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+        title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+        title += "Error: No Permission"
+        embed = discord.Embed(
+            title=title,
+            description="Sorry, but you don't have permission to do that.",
+            color=int(embedColor[ctx.author.id], 16),
+        )
+        if not design[ctx.author.id]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
@@ -37,7 +69,7 @@ class Invite(commands.Cog):
         invites[guild.id] = await guild.invites()
         print("Invites cached!")
 
-    def code2inv(self, list, code):
+    def code_to_inv(self, list, code):
         for invite in list:
             if invite.code == code:
                 return invite
@@ -45,7 +77,7 @@ class Invite(commands.Cog):
             return False
 
     def diff(self, li1: list, li2: list):
-        return list(set(li2)-set(li1))
+        return list(set(li2) - set(li1))
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -55,52 +87,76 @@ class Invite(commands.Cog):
             new_inv = await member.guild.invites()
             for invite in old_inv:
                 try:
-                    if invite.uses < int(self.code2inv(new_inv, invite.code).uses): # Found the invite!
+                    if invite.uses < int(
+                        self.code_to_inv(new_inv, invite.code).uses
+                    ):  # Found the invite!
                         invites[member.guild.id] = new_inv
-                        with open('invitechannel.json', 'r') as f:
+                        with open("invitechannel.json", "r") as f:
                             invc = json.load(f)
-                            channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
-                            embed=discord.Embed(title=f'{member.name} Joined!', color=0x36393f)
-                            embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
-                            embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
-                            embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
+                            channel = self.bot.get_channel(
+                                int(invc[str(member.guild.id)])
+                            )
+                            embed = discord.Embed(
+                                title=f"{member.name} Joined!", color=0x36393F
+                            )
+                            embed.add_field(
+                                name="Joined", value=f"<@{member.id}>", inline=True
+                            )
+                            embed.add_field(
+                                name="Invited by",
+                                value=f"<@{invite.inviter.id}>",
+                                inline=True,
+                            )
+                            embed.add_field(
+                                name="Joined with link",
+                                value=f"https://discord.gg/{invite.code}",
+                                inline=False,
+                            )
                         await channel.send(embed=embed)
-                        bumps = await self.getInvs()
+                        bumps = await self.get_invs()
                         ## Update the JSON string
                         if str(invite.inviter.id) in bumps:
                             bumpno = int(bumps[str(invite.inviter.id)])
                             bumps[str(invite.inviter.id)] = int(bumpno + 1)
                         else:
                             bumps.update({f"{str(invite.inviter.id)}": 1})
-                        await self.updateInvs(bumps)
+                        await self.update_invs(bumps)
                         return
-                    elif not self.code2inv(new_inv, invite.code):
+                    elif not self.code_to_inv(new_inv, invite.code):
                         continue
                 except AttributeError:
                     continue
-            if len(self.diff(li1=old_inv, li2=new_inv)) > 0: # New invite link!
+            if len(self.diff(li1=old_inv, li2=new_inv)) > 0:  # New invite link!
                 invite = (self.diff(old_inv, new_inv))[0]
                 invites[member.guild.id] = new_inv
-                with open('invitechannel.json', 'r') as f:
+                with open("invitechannel.json", "r") as f:
                     invc = json.load(f)
                     channel = self.bot.get_channel(int(invc[str(member.guild.id)]))
-                    embed=discord.Embed(title=f'{member.name} Joined!', color=0x36393f)
+                    embed = discord.Embed(
+                        title=f"{member.name} Joined!", color=0x36393F
+                    )
                     embed.add_field(name="Joined", value=f"<@{member.id}>", inline=True)
-                    embed.add_field(name="Invited by", value=f"<@{invite.inviter.id}>", inline=True)
-                    embed.add_field(name="Joined with link", value=f"https://discord.gg/{invite.code}", inline=False)
+                    embed.add_field(
+                        name="Invited by", value=f"<@{invite.inviter.id}>", inline=True
+                    )
+                    embed.add_field(
+                        name="Joined with link",
+                        value=f"https://discord.gg/{invite.code}",
+                        inline=False,
+                    )
                 await channel.send(embed=embed)
-                bumps = await self.getInvs()
+                bumps = await self.get_invs()
                 ## Update JSON string
                 if str(invite.inviter.id) in bumps:
                     bumpno = int(bumps[str(invite.inviter.id)])
                     bumps[str(invite.inviter.id)] = int(bumpno + 1)
                 else:
                     bumps.update({f"{str(invite.inviter.id)}": 1})
-                await self.updateInvs(bumps)
+                await self.update_invs(bumps)
 
-    @commands.command(aliases=["invleader"])
-    async def inviteleaderboard(self, ctx):
-        bumps = await self.getInvs()
+    @commands.command(name="inviteleaderboard", aliases=["invleader"])
+    async def invite_leaderboard(self, ctx):
+        bumps = await self.get_invs()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
@@ -123,7 +179,23 @@ class Invite(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(846318304289488906).emojis
-        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Invite Leaderboard", description=msg, color=0x36393f)
+        from cogs.aesthetics import design, embedColor, icons
+        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        title += "Invite Leaderboard"
+        embed = discord.Embed(
+            title=title,
+            description=msg,
+            color=int(embedColor[ctx.author.id], 16),
+        )
+        if not design[ctx.author.id]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
         await ctx.send(embed=embed)
 
     @commands.Cog.listener()
@@ -135,37 +207,75 @@ class Invite(commands.Cog):
             traceback.print_exc()
 
     @commands.command()
-    async def invitechannel(self, ctx, *, channel):
-        owner = os.environ.get("OWNER")
-        if str(ctx.author.id) == owner:
-            with open('invitechannel.json', 'r') as f:
+    async def invite_channel(self, ctx, *, channel):
+        if ctx.author.id in BOT_DEV:
+            with open("invitechannel.json", "r") as f:
                 invc = json.load(f)
-            invc[ctx.guild.id] = channel.replace('<', '').replace('>', '').replace('#', '')
-            with open('invitechannel.json', 'w') as f:
+            invc[ctx.guild.id] = (
+                channel.replace("<", "").replace(">", "").replace("#", "")
+            )
+            with open("invitechannel.json", "w") as f:
                 json.dump(invc, f, indent=4)
-            await ctx.send(f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`!")
+            from cogs.aesthetics import design, embedColor, icons
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            title = f"{get(emojis, name='usernamereg')} " if icons[ctx.author.id] else ""
+            title += "InviteManager Channel Set"
+            embed = discord.Embed(
+                title=title,
+                description=f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`",
+                color=int(embedColor[ctx.author.id], 16),
+            )
+            if not design[ctx.author.id]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
         else:
-            await self.sendNoPermission(ctx=ctx)
+            await self.send_no_permission(ctx=ctx)
 
-    @commands.command()
-    async def inviteremove(self, ctx):
-        owner = os.environ.get("OWNER")
-        if str(ctx.author.id) == owner:
-            with open('invitechannel.json', 'r') as f:
+    @commands.command(name="inviteremove")
+    async def invite_remove(self, ctx):
+        if ctx.author.id in BOT_DEV:
+            with open("invitechannel.json", "r") as f:
                 invc = json.load(f)
                 invc.pop(ctx.guild.id)
-            with open('invitechannel.json', 'w') as f:
+            with open("invitechannel.json", "w") as f:
                 json.dump(invc, f, indent=4)
-            await ctx.send('Removed invite channel!')
+            from cogs.aesthetics import design, embedColor, icons
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            title = f"{get(emojis, name='usernamereg')} " if icons[ctx.author.id] else ""
+            title += "InviteManager Channel Removal"
+            embed = discord.Embed(
+                title=title,
+                description=f"Removed invite channel!",
+                color=int(embedColor[ctx.author.id], 16),
+            )
+            if not design[ctx.author.id]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
         else:
-            await self.sendNoPermission(ctx=ctx)
+            await self.send_no_permission(ctx=ctx)
 
     @tasks.loop(seconds=30)
-    async def invkingupdate(self):
+    async def inv_king_update(self):
         try:
-            bumps = await self.getInvs()
+            bumps = await self.get_invs()
             del bumps["302050872383242240"]
-            bumpsRank = dict(sorted(bumps.items(), key=lambda item: item[1])) # Function to rank dictionary
+            bumpsRank = dict(
+                sorted(bumps.items(), key=lambda item: item[1])
+            )  # Function to rank dictionary
             bumpKingValue = int(list(bumpsRank.values())[-1])
             guild = self.bot.get_guild(793495102566957096)
             bumpKing = get(guild.roles, id=797435990939009024)
@@ -210,7 +320,11 @@ class Invite(commands.Cog):
             bumpChannel = self.bot.get_channel(793514694660194314)
             if len(addBumpKings) > 0:
                 emojis = self.bot.get_guild(846318304289488906).emojis
-                embed = discord.Embed(title=str(get(emojis, name='bump')) + title, description=noice + "!", color=0x36393f)
+                embed = discord.Embed(
+                    title=str(get(emojis, name="bump")) + title,
+                    description=noice + "!",
+                    color=0x36393F,
+                )
                 await bumpChannel.send(embed=embed)
             for user in addBumpKings:
                 await user.add_roles(bumpKing)
@@ -219,19 +333,21 @@ class Invite(commands.Cog):
         except:
             traceback.print_exc()
 
-    @invkingupdate.before_loop
-    async def before_invkingupdate(self):
+    @inv_king_update.before_loop
+    async def before_inv_king_update(self):
         await self.bot.wait_until_ready()
-        
+
     ### SLASH COMMANDS ZONE ###
-    
+
     guildID = 793495102566957096
-    
-    @cog_ext.cog_slash(name="invleader",
-                       description="Gives a leaderboard of invites",
-                       guild_ids=[guildID])
-    async def _invleader(self, ctx: SlashContext):
-        bumps = await self.getInvs()
+
+    @cog_ext.cog_slash(
+        name="invleader",
+        description="Gives a leaderboard of invites",
+        guild_ids=[guildID],
+    )
+    async def _invite_leaderboard(self, ctx: SlashContext):
+        bumps = await self.get_invs()
         leaders = dict(sorted(bumps.items(), key=lambda x: x[1], reverse=True))
         leaderv = list(leaders.values())
         leaderk = list(leaders.keys())
@@ -254,8 +370,25 @@ class Invite(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(846318304289488906).emojis
-        embed = discord.Embed(title=f"{get(emojis, name='leaderboard')} Invite Leaderboard", description=msg, color=0x36393f)
+        from cogs.aesthetics import design, embedColor, icons
+        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        title += "Invite Leaderboard"
+        embed = discord.Embed(
+            title=title,
+            description=msg,
+            color=int(embedColor[ctx.author.id], 16),
+        )
+        if not design[ctx.author.id]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
         await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Invite(bot))
