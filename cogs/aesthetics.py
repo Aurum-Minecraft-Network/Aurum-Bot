@@ -411,8 +411,27 @@ class Aesthetics(commands.Cog):
             embed.set_footer(
                 text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
             )
-        await ctx.send(embed=embed)
+        msg = await ctx.send(embed=embed)
         await self.fixMissingMembers.__call__()
+        title = (
+            f"{get(emojis, name='success')} " if get_icons()[str(ctx.author.id)] else ""
+        )
+        title += "Missing entries added to aesthetic preference files"
+        embed = discord.Embed(
+            title=title,
+            description="Operation successful.",
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
+        )
+        if not get_design()[str(ctx.author.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
+        await msg.edit(embed=embed)
 
 
 def setup(bot):
