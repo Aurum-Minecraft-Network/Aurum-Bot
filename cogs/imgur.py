@@ -14,17 +14,22 @@ class Imgur(commands.Cog):
 
     @commands.command(name="imgur")
     async def imgur_command(self, ctx):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if not ctx.message.attachments:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: No Attachment Found"
             embed = discord.Embed(
                 title=title,
                 description="Please attach at least one image!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -50,14 +55,18 @@ class Imgur(commands.Cog):
                     os.path.abspath(f"./{i.filename}")
                 )  # Delete image to save space
             else:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Invalid Attachment Type"
                 embed = discord.Embed(
                     title=title,
                     description="Accepted types: `jpg`, `jpeg`, `png`, `gif`",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -68,12 +77,18 @@ class Imgur(commands.Cog):
                     )
                 await ctx.send(embed=embed)
                 return
-        title = f"{get(emojis, name='imgurdone')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='imgurdone')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
+        )
         title += "Imgur Upload Successful"
         embed = discord.Embed(
-            title=title, description=links, color=int(embedColor[ctx.author.id], 16)
+            title=title,
+            description=links,
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",

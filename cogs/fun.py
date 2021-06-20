@@ -13,7 +13,8 @@ class Fun(commands.Cog):
 
     @commands.command(name="defaultAvatar", aliases=["da"])
     async def default_avatar(self, ctx, *, user: discord.Member = None):
-        from cogs.aesthetics import design, icons
+        from cogs.aesthetics import get_design, get_icons
+
         if user:
             remainder = int(user.discriminator) % 5
             pronoun = f"{user.name} has"
@@ -52,7 +53,7 @@ class Fun(commands.Cog):
             value="[Want to know how this works?](http://gg.gg/nv7ek)",
             inline=False,
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -65,17 +66,22 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["rolldice"])
     async def dice(self, ctx, sides: int = 6, quantity: int = 1):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if sides < 1 or quantity < 1:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Argument(s) Out Of Range"
             embed = discord.Embed(
                 title=title,
                 description="Neither arguments can be smaller than 1!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -90,22 +96,24 @@ class Fun(commands.Cog):
         results = ""
         for num in numbers:
             results += str(num) + ", "
-        title = f"{get(emojis, name='dice')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='dice')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Dice Roll Results"
         embed = (
             discord.Embed(
                 title=title,
                 description=f"You rolled `{results[:-2]}`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             if quantity == 1
             else discord.Embed(
                 title=title,
                 description=f"You rolled these values: ```\n{results[:-2]}\n```That leads to a total of **{str(sum(numbers))}**!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -118,17 +126,22 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def coin(self, ctx, bet: str = None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if bet and bet not in ["heads", "tails"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only bet for a `heads` or `tails`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -147,12 +160,16 @@ class Fun(commands.Cog):
                 if bet == result
                 else f"\nYou lost, since you bet for {bet}."
             )
-        title = f"{get(emojis, name='coin')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='coin')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Coin Flip Results"
         embed = discord.Embed(
-            title=title, description=res, color=int(embedColor[ctx.author.id], 16)
+            title=title,
+            description=res,
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -169,14 +186,18 @@ class Fun(commands.Cog):
             and payload.user_id == ctx.author.id,
         )
         if payload.emoji.name == "hno3":
-            title = f"{get(emojis, name='hno3')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='hno3')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Something happened!"
             res = "Oops! You dropped your coin in a beaker of concentrated nitric acid placed conveniently nearby. The coin corroded. Better luck next time."
             res += " You lose." if bet else ""
             embed = discord.Embed(
                 title=title,
                 description=res,
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             await msg.edit(embed=embed)
 
@@ -198,7 +219,8 @@ class Fun(commands.Cog):
         ],
     )
     async def _default_avatar(self, ctx: SlashContext, user=None):
-        from cogs.aesthetics import design, icons
+        from cogs.aesthetics import get_design, get_icons
+
         if user:
             remainder = int(user.discriminator) % 5
             pronoun = f"{user.name} has"
@@ -237,7 +259,7 @@ class Fun(commands.Cog):
             value="[Want to know how this works?](http://gg.gg/nv7ek)",
             inline=False,
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -268,17 +290,22 @@ class Fun(commands.Cog):
         ],
     )
     async def _dice(self, ctx, sides: int = 6, quantity: int = 1):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if sides < 1 or quantity < 1:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Argument(s) Out Of Range"
             embed = discord.Embed(
                 title=title,
                 description="Neither arguments can be smaller than 1!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -293,22 +320,24 @@ class Fun(commands.Cog):
         results = ""
         for num in numbers:
             results += str(num) + ", "
-        title = f"{get(emojis, name='dice')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='dice')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Dice Roll Results"
         embed = (
             discord.Embed(
                 title=title,
                 description=f"You rolled `{results[:-2]}`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             if quantity == 1
             else discord.Embed(
                 title=title,
                 description=f"You rolled these values: ```\n{results[:-2]}\n```That leads to a total of **{str(sum(numbers))}**!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -337,17 +366,22 @@ class Fun(commands.Cog):
         ],
     )
     async def _coin(self, ctx, bet: str = None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if bet and bet not in ["heads", "tails"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only bet for a `heads` or `tails`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -366,12 +400,16 @@ class Fun(commands.Cog):
                 if bet == result
                 else f"\nYou lost, since you bet for {bet}."
             )
-        title = f"{get(emojis, name='coin')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='coin')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Coin Flip Results"
         embed = discord.Embed(
-            title=title, description=res, color=int(embedColor[ctx.author.id], 16)
+            title=title,
+            description=res,
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -388,14 +426,18 @@ class Fun(commands.Cog):
             and payload.user_id == ctx.author.id,
         )
         if payload.emoji.name == "hno3":
-            title = f"{get(emojis, name='hno3')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='hno3')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Something happened!"
             res = "Oops! You dropped your coin in a beaker of concentrated nitric acid placed conveniently nearby. The coin corroded. Better luck next time."
             res += " You lose." if bet else ""
             embed = discord.Embed(
                 title=title,
                 description=res,
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             await msg.edit(embed=embed)
 

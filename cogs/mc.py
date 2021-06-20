@@ -22,17 +22,22 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="usernamereg")
     async def _username_reg(self, ctx, version, *, username=None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only play on `bedrock` or `java`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -64,14 +69,18 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Registration Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -82,14 +91,18 @@ class Minecraft(commands.Cog):
                 )
             await ctx.send(embed=embed)
         else:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="Your username is invalid!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -102,17 +115,22 @@ class Minecraft(commands.Cog):
 
     @commands.command(name="username")
     async def _username(self, ctx, version, *, user: discord.User):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only query a `bedrock` or `java` username!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -129,14 +147,18 @@ class Minecraft(commands.Cog):
                 ].read()
             )
             try:
-                title = f"{get(emojis, name='usernamequery')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='usernamequery')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Minecraft Username Query"
                 embed = discord.Embed(
                     title=title,
                     description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -147,14 +169,18 @@ class Minecraft(commands.Cog):
                     )
                 await ctx.send(embed=embed)
             except KeyError:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Username Not Registered"
                 embed = discord.Embed(
                     title=title,
                     description="That user hasn't registered their username yet!",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -268,17 +294,22 @@ class Minecraft(commands.Cog):
         ],
     )
     async def __usernamereg(self, ctx: SlashContext, version, username):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only play on `bedrock` or `java`!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -311,14 +342,18 @@ class Minecraft(commands.Cog):
                 json.dump(usernames, f, indent=4)
             with open("usernames.json", "rb") as f:
                 client.upload_fileobj(f, "atpcitybot", "usernames.json")
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Registration Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -329,14 +364,18 @@ class Minecraft(commands.Cog):
                 )
             await ctx.send(embed=embed)
         else:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="Your username is invalid!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -371,17 +410,22 @@ class Minecraft(commands.Cog):
         ],
     )
     async def __username(self, ctx: SlashContext, version, user: discord.User):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         if version not in ["bedrock", "java"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You can only query a `bedrock` or `java` username!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -399,14 +443,18 @@ class Minecraft(commands.Cog):
                 ].read()
             )
             try:
-                title = f"{get(emojis, name='usernamequery')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='usernamequery')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Minecraft Username Query"
                 embed = discord.Embed(
                     title=title,
                     description=f"The {version.title()} username of Discord user **{user.name}#{user.discriminator}** is:\n**__{usernames[str(user.id)][version]}__**",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -417,14 +465,18 @@ class Minecraft(commands.Cog):
                     )
                 await ctx.send(embed=embed)
             except KeyError:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Username Not Registered"
                 embed = discord.Embed(
                     title=title,
                     description="That user hasn't registered their username yet!",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",

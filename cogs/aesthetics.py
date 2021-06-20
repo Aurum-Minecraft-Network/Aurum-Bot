@@ -1,9 +1,15 @@
+import datetime
+from constants import AURUM_ASSET_SERVER_ID
+from typing import Union
 import discord
 from discord.ext import commands, tasks
 from decouple import config
 import boto3
 import json
 import re
+from discord.utils import get
+
+from discord_slash.context import SlashContext
 
 ## AWS setup
 KEY = config("AWSKEY")  # AWS Access Key ID
@@ -15,12 +21,28 @@ client = boto3.client(
 design = json.loads(
     client.get_object(Bucket="atpcitybot", Key="design.json")["Body"].read()
 )
+
 embedColor = json.loads(
     client.get_object(Bucket="atpcitybot", Key="embedColor.json")["Body"].read()
 )
 icons = json.loads(
     client.get_object(Bucket="atpcitybot", Key="icons.json")["Body"].read()
 )
+
+
+def get_design():
+    with open("design.json", "r") as f:
+        return json.load(f)
+
+
+def get_embedColor():
+    with open("embedColor.json", "r") as f:
+        return json.load(f)
+
+
+def get_icons():
+    with open("icons.json", "r") as f:
+        return json.load(f)
 
 
 class Aesthetics(commands.Cog):
@@ -31,6 +53,39 @@ class Aesthetics(commands.Cog):
         self.icons = icons
         self.get_latest_values.start()
         # self.fix_missing_members.start()
+
+    async def send_no_permission(
+        self,
+        ctx: Union[
+            discord.ext.commands.Context,
+            SlashContext,
+            discord.TextChannel,
+            discord.DMChannel,
+            discord.GroupChannel,
+        ],
+    ):
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+        emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+        title = (
+            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+        )
+        title += "Error: No Permission"
+        embed = discord.Embed(
+            title=title,
+            description="Sorry, but you don't have permission to do that.",
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
+        )
+        if not get_design()[str(ctx.author.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
+        await ctx.send(embed=embed)
 
     @tasks.loop(seconds=45)
     async def get_latest_values(self):
@@ -104,37 +159,206 @@ class Aesthetics(commands.Cog):
                     json.dump(self.design, f, indent=4)
                 with open("design.json", "rb") as f:
                     client.upload_fileobj(f, "atpcitybot", "design.json")
+                from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+                emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+                title = (
+                    f"{get(emojis, name='success')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
+                title += "Design Language Updated"
+                embed = discord.Embed(
+                    title=title,
+                    description="Updated design language to `simple`.",
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
+                )
+                if not get_design()[str(ctx.author.id)]:
+                    embed.timestamp = datetime.datetime.utcnow()
+                    embed.set_author(
+                        name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                        icon_url=ctx.author.avatar_url,
+                    )
+                    embed.set_footer(
+                        text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                    )
+                await ctx.send(embed=embed)
             elif arg2 == "detailed":
                 self.design.update({str(ctx.author.id): False})
                 with open("design.json", "w") as f:
                     json.dump(self.design, f, indent=4)
                 with open("design.json", "rb") as f:
                     client.upload_fileobj(f, "atpcitybot", "design.json")
+                from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+                emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+                title = (
+                    f"{get(emojis, name='success')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
+                title += "Design Language Updated"
+                embed = discord.Embed(
+                    title=title,
+                    description="Updated design language to `simple.`",
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
+                )
+                if not get_design()[str(ctx.author.id)]:
+                    embed.timestamp = datetime.datetime.utcnow()
+                    embed.set_author(
+                        name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                        icon_url=ctx.author.avatar_url,
+                    )
+                    embed.set_footer(
+                        text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                    )
+                await ctx.send(embed=embed)
             else:
-                pass
-                return
+                from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+                emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
+                title += "Error: Invalid Argument"
+                embed = discord.Embed(
+                    title=title,
+                    description="You may only choose from `simple` or `detailed` design languages.",
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
+                )
+                if not get_design()[str(ctx.author.id)]:
+                    embed.timestamp = datetime.datetime.utcnow()
+                    embed.set_author(
+                        name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                        icon_url=ctx.author.avatar_url,
+                    )
+                    embed.set_footer(
+                        text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                    )
+                await ctx.send(embed=embed)
         elif arg1 == "embedColor":
             if not re.fullmatch("[a-f,A-F,0-9]{6}", arg2):
-                if arg1 == "dark":
-                    arg1 = "36393f"
-                elif arg1 == "light":
-                    arg1 = "ffffff"
+                if arg2 == "dark":
+                    arg2 = "36393f"
+                elif arg2 == "light":
+                    arg2 = "ffffff"
+                elif arg2 == "orange":
+                    arg2 = "ffb000"
                 else:
-                    pass
+                    from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+                    emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+                    title = (
+                        f"{get(emojis, name='error')} "
+                        if get_icons()[str(ctx.author.id)]
+                        else ""
+                    )
+                    title += "Error: Invalid Argument"
+                    embed = discord.Embed(
+                        title=title,
+                        description="You may only choose from `dark`, `light`, `orange`, or input a valid color hex (e.g. `ff0000`).",
+                        color=int(get_embedColor()[str(ctx.author.id)], 16),
+                    )
+                    if not get_design()[str(ctx.author.id)]:
+                        embed.timestamp = datetime.datetime.utcnow()
+                        embed.set_author(
+                            name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                            icon_url=ctx.author.avatar_url,
+                        )
+                        embed.set_footer(
+                            text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                        )
+                    await ctx.send(embed=embed)
                     return
-            else:
-                self.embedColor.update({str(ctx.author.id): arg2.lower()})
-                with open("embedColor.json", "w") as f:
-                    json.dump(self.embedColor, f, indent=4)
-                with open("embedColor.json", "rb") as f:
-                    client.upload_fileobj(f, "atpcitybot", "embedColor.json")
+            self.embedColor.update({str(ctx.author.id): arg2.lower()})
+            with open("embedColor.json", "w") as f:
+                json.dump(self.embedColor, f, indent=4)
+            with open("embedColor.json", "rb") as f:
+                client.upload_fileobj(f, "atpcitybot", "embedColor.json")
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Embed Sidebar Color Updated"
+            embed = discord.Embed(
+                title=title,
+                description=f"Color updated to `#{arg2.lower()}`.",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
+            if not get_design()[str(ctx.author.id)]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
         elif arg1 == "icons":
-            if arg1.lower() in ["true", "false"]:
-                self.icons.update({str(ctx.author.id): arg1.lower() == "true"})
+            if arg2.lower() in ["true", "false"]:
+                self.icons.update({str(ctx.author.id): arg2.lower() == "true"})
                 with open("icons.json", "w") as f:
                     json.dump(self.icons, f, indent=4)
                 with open("icons.json", "rb") as f:
                     client.upload_fileobj(f, "atpcitybot", "icons.json")
+                from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+                emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+                title = (
+                    f"{get(emojis, name='success')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
+                title += "Icons Preference Updated"
+                embed = discord.Embed(
+                    title=title,
+                    description="Icons will now show up in the bot's messages."
+                    if arg2.lower() == "true"
+                    else "Icons will now not show up in the bot's messages.",
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
+                )
+                if not get_design()[str(ctx.author.id)]:
+                    embed.timestamp = datetime.datetime.utcnow()
+                    embed.set_author(
+                        name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                        icon_url=ctx.author.avatar_url,
+                    )
+                    embed.set_footer(
+                        text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                    )
+                await ctx.send(embed=embed)
+                return
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Error: Invalid Argument"
+            embed = discord.Embed(
+                title=title,
+                description="You may only choose from `true` or `false`!",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
+            if not get_design()[str(ctx.author.id)]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
 
     @tasks.loop(seconds=20)
     async def fix_missing_members(self):
@@ -166,8 +390,28 @@ class Aesthetics(commands.Cog):
     @commands.command()
     async def sync_members(self, ctx):
         if ctx.author.id != 438298127225847810:
-            pass
+            await self.send_no_permission(ctx=ctx)
             return
+        emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+        title = (
+            f"{get(emojis, name='async')} " if get_icons()[str(ctx.author.id)] else ""
+        )
+        title += "Adding missing entries to aesthetic preferece files"
+        embed = discord.Embed(
+            title=title,
+            description="Please wait...",
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
+        )
+        if not get_design()[str(ctx.author.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
+        await ctx.send(embed=embed)
         await self.fixMissingMembers.__call__()
 
 

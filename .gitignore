@@ -2,3 +2,8 @@
 /__pycache__
 /.vscode
 /cogs/__pycache__
+/usernames.json
+/xps.json
+/design.json
+/embedColor.json
+/icons.json

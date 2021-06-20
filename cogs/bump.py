@@ -6,7 +6,12 @@ import traceback
 from datetime import datetime, timedelta
 from discord_slash import cog_ext, SlashContext
 from typing import Union
-from constants import BOT_DEV, EVERYBODY_ROLE_ID, AURUM_ASSET_SERVER_ID, AURUM_MAIN_SERVER_ID
+from constants import (
+    BOT_DEV,
+    EVERYBODY_ROLE_ID,
+    AURUM_ASSET_SERVER_ID,
+    AURUM_MAIN_SERVER_ID,
+)
 
 
 class Bump(commands.Cog):
@@ -31,16 +36,19 @@ class Bump(commands.Cog):
             discord.GroupChannel,
         ],
     ):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-        title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Error: No Permission"
         embed = discord.Embed(
             title=title,
             description="Sorry, but you don't have permission to do that.",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -135,7 +143,8 @@ class Bump(commands.Cog):
     async def bump_reset(
         self, ctx, bump_done_bool
     ):  # Set whether the bot thinks the server has been bumped in the last 2 hours
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
         if ctx.author.id in BOT_DEV:
             global bump_done
@@ -144,14 +153,18 @@ class Bump(commands.Cog):
             elif bump_done_bool == "false":
                 bump_done = False
             else:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Invalid Parameter"
                 embed = discord.Embed(
                     title=title,
                     description="Value may only be `true` or `false`! Case-sensitive.",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -162,14 +175,18 @@ class Bump(commands.Cog):
                     )
                 await ctx.send(embed=embed)
                 return
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Value Change Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"`bump_done` has been set to {bump_done_bool}!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -184,7 +201,8 @@ class Bump(commands.Cog):
 
     @commands.command(aliases=["bumpleader"])
     async def bumpleaderboard(self, ctx):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         bumpss = await self.get_bumps()  # Get bump data of all users
         bumps = bumpss
         del bumps["lastBump"]
@@ -217,14 +235,18 @@ class Bump(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
+        )
         title += "Bump Leaderboard"
         embed = discord.Embed(
             title=title,
             description=msg,
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -293,15 +315,16 @@ class Bump(commands.Cog):
             if int(bumps["lastBump"][1]) > 1:
                 msg += f"""**{bumps["lastBump"][1]} COMBO :fire:**\n"""
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-            from cogs.aesthetics import design, embedColor, icons
-            title = f"{get(emojis, name='bump')} " if icons[bumpUser.id] else ""
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+            title = f"{get(emojis, name='bump')} " if get_icons()[bumpUser.id] else ""
             title += f"Thanks {bumpUser.name}!"
             embed = discord.Embed(
                 title=title,
                 description=msg + "Bump succeeded. Next bump is in 2 hours.",
-                color=int(embedColor[bumpUser.id], 16),
+                color=int(get_embedColor()[bumpUser.id], 16),
             )
-            if not design[bumpUser.id]:
+            if not get_design()[bumpUser.id]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{bumpUser.name}#{bumpUser.discriminator}",
@@ -494,7 +517,8 @@ class Bump(commands.Cog):
         guild_ids=[guildID],
     )
     async def _bumpleader(self, ctx: SlashContext):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         bumpss = await self.get_bumps()  # Get bump data of all users
         bumps = bumpss
         del bumps["lastBump"]
@@ -527,14 +551,18 @@ class Bump(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
+        )
         title += "Bump Leaderboard"
         embed = discord.Embed(
             title=title,
             description=msg,
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",

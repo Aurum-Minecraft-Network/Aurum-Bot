@@ -13,7 +13,8 @@ class FAQ(commands.Cog):
 
     @commands.command()
     async def faq(self, ctx, index=None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         with open("assets/faq.json", "r", encoding="utf-8") as f:
             faqs = json.load(f)
@@ -21,14 +22,16 @@ class FAQ(commands.Cog):
             msg = ""
             for index, entry in enumerate(faqs):
                 msg += f"""**{entry["name"]}** - `{index + 1}`\n"""
-            title = f"{get(emojis, name='faq')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='faq')} " if get_icons()[str(ctx.author.id)] else ""
+            )
             title += "FAQ: List of entries"
             embed = discord.Embed(
                 title=title,
                 description="Use `a!faq [number]` to get more help.\n\n" + msg,
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -41,14 +44,18 @@ class FAQ(commands.Cog):
         else:
             try:
                 entry = faqs[int(index) - 1]
-                title = f"{get(emojis, name='faq')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='faq')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += f"FAQ: {index}"
                 embed = discord.Embed(
                     title=title,
                     description=f"**Question:** {entry['name']}\n\n**Answer:** {entry['value']}",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -59,14 +66,18 @@ class FAQ(commands.Cog):
                     )
                 await ctx.send(embed=embed)
             except IndexError:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Index Out Of Range"
                 embed = discord.Embed(
                     title=title,
                     description=f"The number you gave is out of range! Please give a number between `1` and `{len(faqs)}`!",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -95,7 +106,8 @@ class FAQ(commands.Cog):
         ],
     )
     async def _faq(self, ctx: SlashContext, index=None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         with open("assets/faq.json", "r", encoding="utf-8") as f:
             faqs = json.load(f)
@@ -103,14 +115,16 @@ class FAQ(commands.Cog):
             msg = ""
             for index, entry in enumerate(faqs):
                 msg += f"""**{entry["name"]}** - `{index + 1}`\n"""
-            title = f"{get(emojis, name='faq')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='faq')} " if get_icons()[str(ctx.author.id)] else ""
+            )
             title += "FAQ: List of entries"
             embed = discord.Embed(
                 title=title,
                 description="Use `a!faq [number]` to get more help.\n\n" + msg,
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -123,14 +137,18 @@ class FAQ(commands.Cog):
         else:
             try:
                 entry = faqs[int(index) - 1]
-                title = f"{get(emojis, name='faq')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='faq')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += f"FAQ: {index}"
                 embed = discord.Embed(
                     title=title,
                     description=f"**Question:** {entry['name']}\n\n**Answer:** {entry['value']}",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -141,14 +159,18 @@ class FAQ(commands.Cog):
                     )
                 await ctx.send(embed=embed)
             except IndexError:
-                title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+                title = (
+                    f"{get(emojis, name='error')} "
+                    if get_icons()[str(ctx.author.id)]
+                    else ""
+                )
                 title += "Error: Index Out Of Range"
                 embed = discord.Embed(
                     title=title,
                     description=f"The number you gave is out of range! Please give a number between `1` and `{len(faqs)}`!",
-                    color=int(embedColor[ctx.author.id], 16),
+                    color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
-                if not design[ctx.author.id]:
+                if not get_design()[str(ctx.author.id)]:
                     embed.timestamp = datetime.datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",

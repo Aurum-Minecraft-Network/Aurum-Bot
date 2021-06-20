@@ -41,16 +41,19 @@ class Invite(commands.Cog):
             discord.GroupChannel,
         ],
     ):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-        title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Error: No Permission"
         embed = discord.Embed(
             title=title,
             description="Sorry, but you don't have permission to do that.",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -179,15 +182,20 @@ class Invite(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(846318304289488906).emojis
-        from cogs.aesthetics import design, embedColor, icons
-        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+        title = (
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
+        )
         title += "Invite Leaderboard"
         embed = discord.Embed(
             title=title,
             description=msg,
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -216,16 +224,21 @@ class Invite(commands.Cog):
             )
             with open("invitechannel.json", "w") as f:
                 json.dump(invc, f, indent=4)
-            from cogs.aesthetics import design, embedColor, icons
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-            title = f"{get(emojis, name='usernamereg')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='usernamereg')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "InviteManager Channel Set"
             embed = discord.Embed(
                 title=title,
                 description=f"`invc[{str(ctx.guild.id)}]` set to `{channel.replace('<', '').replace('>', '').replace('#', '')}`",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -246,16 +259,21 @@ class Invite(commands.Cog):
                 invc.pop(ctx.guild.id)
             with open("invitechannel.json", "w") as f:
                 json.dump(invc, f, indent=4)
-            from cogs.aesthetics import design, embedColor, icons
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-            title = f"{get(emojis, name='usernamereg')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='usernamereg')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "InviteManager Channel Removal"
             embed = discord.Embed(
                 title=title,
                 description=f"Removed invite channel!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -370,15 +388,20 @@ class Invite(commands.Cog):
                     msg += "s"
                 usersDone += 1
         emojis = self.bot.get_guild(846318304289488906).emojis
-        from cogs.aesthetics import design, embedColor, icons
-        title = f"{get(emojis, name='leaderboard')} " if icons[ctx.author.id] else ""
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+        title = (
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
+        )
         title += "Invite Leaderboard"
         embed = discord.Embed(
             title=title,
             description=msg,
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",

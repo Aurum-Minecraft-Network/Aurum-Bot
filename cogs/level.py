@@ -144,15 +144,18 @@ class Level(commands.Cog):
             xps[str(message.author.id)]
         ):
             emojis = self.bot.get_guild(846318304289488906).emojis
-            from cogs.aesthetics import design, embedColor, icons
-            title = f"{get(emojis, name='lvup')} " if icons[message.author.id] else ""
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+            title = (
+                f"{get(emojis, name='lvup')} " if get_icons()[message.author.id] else ""
+            )
             title += f"GG {message.author.name}!"
             embed = discord.Embed(
                 title=title,
                 description=f"You advanced to level **{str(self.get_level_from_total_xp(xps[str(message.author.id)]))}**!",
-                color=int(embedColor[message.author.id], 16),
+                color=int(get_embedColor()[message.author.id], 16),
             )
-            if not design[message.author.id]:
+            if not get_design()[message.author.id]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{message.author.name}#{message.author.discriminator}",
@@ -178,7 +181,8 @@ class Level(commands.Cog):
                 try:
                     await message.author.remove_roles(
                         ranks.values[
-                            self.get_level_from_total_xp(xps[str(message.author.id)]) - 2
+                            self.get_level_from_total_xp(xps[str(message.author.id)])
+                            - 2
                         ]
                     )
                 except TypeError:
@@ -189,16 +193,19 @@ class Level(commands.Cog):
 
     @commands.command()
     async def rank(self, ctx, user: discord.User = None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
-        title = f"{get(emojis, name='wait')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='wait')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Please wait..."
         embed = discord.Embed(
             title=title,
             description="This may take a while...",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -303,16 +310,21 @@ class Level(commands.Cog):
     @commands.command(name="updateRankTheme")
     async def update_rank_theme(self, ctx, theme: str):
         emojis = self.bot.get_guild(846318304289488906).emojis
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         if theme not in ["dark", "light"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You may only choose between `light` and `dark` themes!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -327,14 +339,18 @@ class Level(commands.Cog):
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.update_dark(darks)
         if theme == "light":
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Update Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -344,14 +360,18 @@ class Level(commands.Cog):
                     text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
                 )
         else:
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Update Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -364,7 +384,8 @@ class Level(commands.Cog):
 
     @commands.command()
     async def levels(self, ctx, page: int = 1):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
         try:
             dark = (await self.get_dark())[str(ctx.author.id)]
@@ -388,7 +409,7 @@ class Level(commands.Cog):
         print(xps)
         startLevel = 1 if page == 1 else 5 * (page - 1) + 1
         print(startLevel)
-        im = Image.new("RGBA", (1000, 880), bgColor)
+        im = Image.new("RGBA", (1200, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
@@ -412,7 +433,7 @@ class Level(commands.Cog):
                 os.remove(f"avatar{user.name}.png")
                 d.text(
                     (195, y2),
-                    f"{startLevel}. {user.name}#{user.discriminator}",
+                    f"{startLevel}. Level {self.get_level_from_total_xp(xps[str(user.id)])} - {user.name}#{user.discriminator}",
                     fill=textColor,
                     anchor="lm",
                     font=whitney65,
@@ -423,14 +444,16 @@ class Level(commands.Cog):
                 a += 1
         im.save("levels.png")
         im.close()
-        title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Refer below!"
         embed = discord.Embed(
             title=title,
             description="Refer to the message below for the levels.",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -463,16 +486,19 @@ class Level(commands.Cog):
     )
     @commands.command()
     async def _rank(self, ctx: SlashContext, user: discord.User = None):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         emojis = self.bot.get_guild(846318304289488906).emojis
-        title = f"{get(emojis, name='wait')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='wait')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Please wait..."
         embed = discord.Embed(
             title=title,
             description="This may take a while...",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -594,16 +620,21 @@ class Level(commands.Cog):
     async def _update_rank_theme(self, ctx: SlashContext, theme: str):
         await ctx.defer()
         emojis = self.bot.get_guild(846318304289488906).emojis
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         if theme not in ["dark", "light"]:
-            title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Error: Invalid Argument"
             embed = discord.Embed(
                 title=title,
                 description="You may only choose between `light` and `dark` themes!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -618,14 +649,18 @@ class Level(commands.Cog):
         darks.update({str(ctx.author.id): (theme == "dark")})
         await self.update_dark(darks)
         if theme == "light":
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Update Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"{get(emojis, name='lightmode')} Your theme has been updated to the light theme!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -635,14 +670,18 @@ class Level(commands.Cog):
                     text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
                 )
         else:
-            title = f"{get(emojis, name='success')} " if icons[ctx.author.id] else ""
+            title = (
+                f"{get(emojis, name='success')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
             title += "Update Successful"
             embed = discord.Embed(
                 title=title,
                 description=f"{get(emojis, name='darkmode')} Your theme has been updated to the dark theme!",
-                color=int(embedColor[ctx.author.id], 16),
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
-            if not design[ctx.author.id]:
+            if not get_design()[str(ctx.author.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
@@ -667,7 +706,8 @@ class Level(commands.Cog):
         ],
     )
     async def _levels(self, ctx: SlashContext, page: int = 1):
-        from cogs.aesthetics import design, embedColor, icons
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         await ctx.defer()
         emojis = self.bot.get_guild(846318304289488906).emojis
         try:
@@ -692,7 +732,7 @@ class Level(commands.Cog):
         print(xps)
         startLevel = 1 if page == 1 else 5 * (page - 1) + 1
         print(startLevel)
-        im = Image.new("RGBA", (1000, 880), bgColor)
+        im = Image.new("RGBA", (1200, 880), bgColor)
         d = ImageDraw.Draw(im)
         a = 0
         y1 = 30
@@ -716,7 +756,7 @@ class Level(commands.Cog):
                 os.remove(f"avatar{user.name}.png")
                 d.text(
                     (195, y2),
-                    f"{startLevel}. {user.name}#{user.discriminator}",
+                    f"{startLevel}. Level {self.get_level_from_total_xp(xps[str(user.id)])} - {user.name}#{user.discriminator}",
                     fill=textColor,
                     anchor="lm",
                     font=whitney65,
@@ -727,14 +767,16 @@ class Level(commands.Cog):
                 a += 1
         im.save("levels.png")
         im.close()
-        title = f"{get(emojis, name='error')} " if icons[ctx.author.id] else ""
+        title = (
+            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+        )
         title += "Refer below!"
         embed = discord.Embed(
             title=title,
             description="Refer to the message below for the levels.",
-            color=int(embedColor[ctx.author.id], 16),
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
-        if not design[ctx.author.id]:
+        if not get_design()[str(ctx.author.id)]:
             embed.timestamp = datetime.datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",

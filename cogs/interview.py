@@ -6,6 +6,7 @@ import uuid
 import string
 import random
 import os
+from constants import EVERYBODY_ROLE_ID
 
 
 class Interview(commands.Cog):
@@ -30,6 +31,9 @@ class Interview(commands.Cog):
         await newInt.edit(category=get(guild.channels, id=833648963197599754))
         await newInt.set_permissions(ctx.author, read_messages=True, send_messages=True)
         await newInt.set_permissions(guild.default_role, read_messages=False)
+        await newInt.set_permissions(
+            get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+        )
         emojis = self.bot.get_guild(846318304289488906).emojis
         embed = discord.Embed(
             title=f"{get(emojis, name='success')} Channel created successfully",
@@ -209,6 +213,9 @@ class Interview(commands.Cog):
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -253,6 +260,9 @@ class Interview(commands.Cog):
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -297,6 +307,9 @@ class Interview(commands.Cog):
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -343,6 +356,9 @@ class Interview(commands.Cog):
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -479,6 +495,9 @@ int main() {
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -526,6 +545,9 @@ int main() {
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -570,6 +592,9 @@ int main() {
                 ctx.author, read_messages=True, send_messages=False
             )
             await newInt.set_permissions(guild.default_role, read_messages=False)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
