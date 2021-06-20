@@ -363,23 +363,26 @@ class Aesthetics(commands.Cog):
     @tasks.loop(seconds=20)
     async def fix_missing_members(self):
         guild = self.bot.get_guild(793495102566957096)
+        design = get_design()
+        embedColor = get_embedColor()
+        icons = get_icons()
         for member in guild.members:
-            if member.id not in self.design:
-                self.design.update({str(member.id): True})
-            if member.id not in self.embedColor:
-                self.embedColor.update({str(member.id): "36393f"})
-            if member.id not in self.icons:
-                self.icons.update({str(member.id): True})
+            if member.id not in design:
+                design.update({str(member.id): True})
+            if member.id not in embedColor:
+                embedColor.update({str(member.id): "36393f"})
+            if member.id not in icons:
+                icons.update({str(member.id): True})
         with open("design.json", "w") as f:
-            json.dump(self.design, f, indent=4)
+            json.dump(design, f, indent=4)
         with open("design.json", "rb") as f:
             client.upload_fileobj(f, "atpcitybot", "design.json")
         with open("embedColor.json", "w") as f:
-            json.dump(self.embedColor, f, indent=4)
+            json.dump(embedColor, f, indent=4)
         with open("embedColor.json", "rb") as f:
             client.upload_fileobj(f, "atpcitybot", "embedColor.json")
         with open("icons.json", "w") as f:
-            json.dump(self.icons, f, indent=4)
+            json.dump(icons, f, indent=4)
         with open("icons.json", "rb") as f:
             client.upload_fileobj(f, "atpcitybot", "icons.json")
 
