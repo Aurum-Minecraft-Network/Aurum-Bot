@@ -396,7 +396,7 @@ class Aesthetics(commands.Cog):
         title = (
             f"{get(emojis, name='async')} " if get_icons()[str(ctx.author.id)] else ""
         )
-        title += "Adding missing entries to aesthetic preferece files"
+        title += "Adding missing entries to aesthetic preference files"
         embed = discord.Embed(
             title=title,
             description="Please wait...",
