@@ -1,4 +1,3 @@
-
 import discord
 import os
 import sys
@@ -9,15 +8,22 @@ from discord.ext import commands, tasks
 from discord.utils import get
 from discord_components import DiscordComponents
 import difflib
-import discord_slash
-from discord_slash.utils import manage_commands
-from disputils import BotEmbedPaginator
+from discord_slash.context import SlashContext
 from typing import Union
-import requests
+from constants import (
+    BOT_DEV,
+    AURUM_ASSET_SERVER_ID,
+    AURUM_MAIN_SERVER_ID,
+    WELCOME_GOODBYE_CHANNEL_ID,
+    RULES_CHANNEL_ID,
+    HOW_TO_JOIN_CHANNEL_ID,
+    SELF_ASSIGN_ROLES_CHANNEL_ID,
+)
+import datetime
 
-global prefix
-prefix = 'a!'
+PREFIX = "a!"
 intents = discord.Intents.all()
+<<<<<<< HEAD
 bot = commands.Bot(command_prefix=prefix, intents=intents)
 bot.remove_command('help')
 
@@ -39,21 +45,62 @@ SELF_ASSIGN_ROLES_CHANNEL_ID=793626862180892732
 
 async def sendNoPermission(ctx: Union[discord.ext.commands.Context, discord_slash.SlashContext, discord.TextChannel, discord.DMChannel, discord.GroupChannel]):
     """Returns error message of person not having permission"""
+=======
+bot = commands.Bot(command_prefix=PREFIX, intents=intents)
+bot.remove_command("help")
+
+
+async def send_no_permission(
+    ctx: Union[
+        discord.ext.commands.Context,
+        SlashContext,
+        discord.TextChannel,
+        discord.DMChannel,
+        discord.GroupChannel,
+    ],
+):
+    """Returns error message of person not having permission"""
+    from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
     emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-    embed = discord.Embed(title=f"{get(emojis, name='error')} Error: No Permission", description="Sorry, but you don't have permission to do that.", color=0x36393f)
+    title = f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+    title += "Error: No Permission"
+    embed = discord.Embed(
+        title=title,
+        description="Sorry, but you don't have permission to do that.",
+        color=int(get_embedColor()[str(ctx.author.id)], 16),
+    )
+    if not get_design()[str(ctx.author.id)]:
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_author(
+            name=f"{ctx.author.name}#{ctx.author.discriminator}",
+            icon_url=ctx.author.avatar_url,
+        )
+        embed.set_footer(text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png")
     await ctx.send(embed=embed)
 
+<<<<<<< HEAD
+=======
+
+# checking if bot is ready
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 @bot.event
 async def on_ready():
     """Checks and prints message if bot is ready plus loading aliases"""
     DiscordComponents(bot)
     await bot.change_presence(activity=discord.Game(name="try my slash commands!"))
-    print('We have logged in as {0.user}. Bot is ready.'.format(bot))
+    print("We have logged in as {0.user}. Bot is ready.".format(bot))
     global aliases
     aliases = []
     for command in bot.commands:
-        aliases += (list(command.aliases) + [command.name])
+        aliases += list(command.aliases) + [command.name]
 
+
+<<<<<<< HEAD
+=======
+# sends welcome message in the #welcome-goodbye channel when a member joins
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 @bot.event
 async def on_member_join(member):
     """Sends welcome message in the #welcome-goodbye channel when a member joins"""
@@ -61,59 +108,135 @@ async def on_member_join(member):
     if member.guild.id != AURUM_MAIN_SERVER_ID:
         return
     await channel.send("<:oslash:803836347097677844>")
-    await channel.send(f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#{RULES_CHANNEL_ID}> for rules and <#{HOW_TO_JOIN_CHANNEL_ID}> for joining instructions.\nUse <#{SELF_ASSIGN_ROLES_CHANNEL_ID}> to assign some roles for yourself.\nNeed help? Use `/faq`!")
+    await channel.send(
+        f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#{RULES_CHANNEL_ID}> for rules and <#{HOW_TO_JOIN_CHANNEL_ID}> for joining instructions.\nUse <#{SELF_ASSIGN_ROLES_CHANNEL_ID}> to assign some roles for yourself.\nNeed help? Use `/faq`!"
+    )
 
+
+<<<<<<< HEAD
+=======
+# sends farewell message in the #welcome-goodbye channel when a member leaves
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 @bot.event
 async def on_member_remove(member):
     """Sends farewell message in the #welcome-goodbye channel when a member leaves"""
     if member.guild.id != AURUM_MAIN_SERVER_ID:
         return
     channel = bot.get_channel(WELCOME_GOODBYE_CHANNEL_ID)
+<<<<<<< HEAD
     await channel.send(f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**.")
     
+=======
+    await channel.send(
+        f"**{member.name}#{member.discriminator}** has left the server. Farewell, **{member.name}#{member.discriminator}**."
+    )
+
+
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 @bot.event
 async def on_message_edit(before, after):
     """Message edit detection"""
     await bot.process_commands(after)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 @bot.event
 async def on_command_error(ctx, error):
     """Attempts to find typo and inform the user. Returns normal error message if it fails"""
     triedCommand = ctx.message.content.split(" ")[0][2:]
+<<<<<<< HEAD
     item_index = 1
     # If user added a space between prefix and command
     while len(triedCommand)==0:
         # loops until the tried message is the command
         triedCommand = ctx.message.content.split(" ")[item_index]
         item_index += 1
+=======
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
     if isinstance(error, discord.ext.commands.errors.CommandNotFound):
+        emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
         try:
             closest = difflib.get_close_matches(triedCommand, aliases)[0]
-            emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Command", description=f"Use `a!help` if you need help.\nDid you mean `a!{closest}`?", color=0x36393f)
-            await ctx.send(embed=embed)
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Error: Invalid Command"
+            embed = discord.Embed(
+                title=title,
+                description=f"Use `a!help` if you need help.\nDid you mean `a!{closest}`?",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
         except IndexError:
             emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Invalid Command", description=f"Use `a!help` if you need help.", color=0x36393f)
+            from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Error: Invalid Command"
+            embed = discord.Embed(
+                title=title,
+                description=f"Use `a!help` if you need help.",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
+        finally:
+            if not get_design()[str(ctx.author.id)]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
             await ctx.send(embed=embed)
 
+<<<<<<< HEAD
 @bot.command()
 async def extload(ctx, cog):
     """(owner only) loads selected extension and returns error message when user has no permission"""
     if str(ctx.author.id) == str(owner):
         bot.load_extension(f'cogs.{cog}')
         await ctx.send(f'Loaded extension `{cog}`!')
-    else:
-        await sendNoPermission(ctx=ctx)
+=======
 
+@bot.command(name="extload")
+async def ext_load(ctx, cog):
+    """(devs only) loads selected extension and returns error message when user has no permission"""
+    if ctx.author.id in BOT_DEV:
+        bot.load_extension(f"cogs.{cog}")
+        await ctx.send(f"Loaded extension `{cog}`!")
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
+    else:
+        await send_no_permission(ctx=ctx)
+
+<<<<<<< HEAD
 async def extunload(ctx, cog):
     """(owner only) Unloads selected extension"""
     if str(ctx.author.id) == str(owner):
         bot.unload_extension(f'cogs.{cog}')
         await ctx.send(f'Unloaded extension `{cog}`!')
-    else:
-        await sendNoPermission(ctx=ctx)
+=======
 
+@bot.command(name="extunload")
+async def ext_unload(ctx, cog):
+    """(devs only) Unloads selected extension"""
+    if ctx.author.id in BOT_DEV:
+        bot.unload_extension(f"cogs.{cog}")
+        await ctx.send(f"Unloaded extension `{cog}`!")
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
+    else:
+        await send_no_permission(ctx=ctx)
+
+<<<<<<< HEAD
 @bot.command()
 async def extreload(ctx, cog):
     """(owner only) Reloads selected extension"""
@@ -121,22 +244,40 @@ async def extreload(ctx, cog):
         bot.unload_extension(f'cogs.{cog}')
         bot.load_extension(f'cogs.{cog}')
         await ctx.send(f'Reloaded extension `{cog}`!')
-    else:
-        await sendNoPermission(ctx=ctx)
+=======
 
+@bot.command(name="extreload")
+async def ext_reload(ctx, cog):
+    """(devs only) Reloads selected extension"""
+    if ctx.author.id in BOT_DEV:
+        bot.unload_extension(f"cogs.{cog}")
+        bot.load_extension(f"cogs.{cog}")
+        await ctx.send(f"Reloaded extension `{cog}`!")
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
+    else:
+        await send_no_permission(ctx=ctx)
+
+<<<<<<< HEAD
 @bot.command()
 async def extlist(ctx):
     """(owner only) lists all extensions in the directory (even the ones that are not loaded)"""
     if str(ctx.author.id) == str(owner):
+=======
+
+@bot.command(name="extlist")
+async def ext_list(ctx):
+    if ctx.author.id in BOT_DEV:
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
         exts = []
-        for i in os.listdir('./cogs'):
-            if i.endswith('.py'):
+        for i in os.listdir("./cogs"):
+            if i.endswith(".py"):
                 exts.append(i[:-3])
-        message1 = ''
+        message1 = ""
         for j in exts:
-            message1 += f'''`{j}`\n'''
+            message1 += f"""`{j}`\n"""
         await ctx.send(message1)
     else:
+<<<<<<< HEAD
         await sendNoPermission(ctx=ctx)
     
 @bot.command(name='exec')
@@ -225,19 +366,33 @@ async def extLoadAll(ctx):
     """(botdev only) Loads all extensions"""
     if str(ctx.author.id) != botdev:
         await sendNoPermission(ctx=ctx)
+=======
+        await send_no_permission(ctx=ctx)
+
+
+@bot.command(name="extloadall")
+async def ext_load_all(ctx):
+    if ctx.author.id not in BOT_DEV:
+        await send_no_permission(ctx=ctx)
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
         return
     for i in os.listdir("./cogs"):
         if i.endswith(".py"):
             try:
-                bot.load_extension(f'cogs.{i[:-3]}')
+                bot.load_extension(f"cogs.{i[:-3]}")
                 await ctx.send(f"Loaded {i[:-3]}")
             except discord.ext.commands.errors.ExtensionNotFound:
                 await ctx.send(f"Can't load {i[:-3]}")
             except discord.ext.commands.errors.ExtensionAlreadyLoaded:
                 await ctx.send(f"Already loaded {i[:-3]}")
-                
+
+
 @tasks.loop(minutes=1)
+<<<<<<< HEAD
 async def denyDankAccess():
+=======
+async def deny_dank_access():
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
     """Returns not having dank memer permission error"""
     guild = bot.get_guild(793495102566957096)
     dank = guild.get_member(270904126974590976)
@@ -248,16 +403,40 @@ async def denyDankAccess():
         channel.set_permissions(dank, read_messages=False, send_messages=False)
         channel.set_permissions(dankRole, read_messages=False, send_messages=False)
 
+
 @bot.command()
 async def ping(ctx):
+<<<<<<< HEAD
     """Returns ping of the user"""
     emojis = bot.get_guild(846318304289488906).emojis
     embed = discord.Embed(title=f"{get(emojis, name='ping')} Ping", description=f"**{round(bot.latency * 1000)}ms**", color=0x36393f)
+=======
+    """Returns ping of the bot"""
+    emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+    from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+    title = f"{get(emojis, name='ping')} " if get_icons()[str(ctx.author.id)] else ""
+    title += "Ping"
+    embed = discord.Embed(
+        title=title,
+        description=f"**{round(bot.latency * 1000)}ms**",
+        color=int(get_embedColor()[str(ctx.author.id)], 16),
+    )
+    if not get_design()[str(ctx.author.id)]:
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_author(
+            name=f"{ctx.author.name}#{ctx.author.discriminator}",
+            icon_url=ctx.author.avatar_url,
+        )
+        embed.set_footer(text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png")
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
     await ctx.send(embed=embed)
+
 
 @bot.command()
 async def source(ctx):
     """Sends message with the source code github page"""
+<<<<<<< HEAD
     emojis = bot.get_guild(846318304289488906).emojis
     embed = discord.Embed(title=f"{get(emojis, name='source')} Source Code", description="Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot", color=0x36393f)
     await ctx.send(embed=embed)
@@ -338,18 +517,34 @@ async def send(ctx, *, content):
     await ctx.send(content)
 
 #==================================================================    
+=======
+    emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+    from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+    title = f"{get(emojis, name='source')} " if get_icons()[str(ctx.author.id)] else ""
+    title += "Source Code"
+    embed = discord.Embed(
+        title=title,
+        description="Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot",
+        color=int(get_embedColor()[str(ctx.author.id)], 16),
+    )
+    await ctx.send(embed=embed)
+
+
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
 ### SLASH COMMANDS ZONE ###
 #==================================================================  
 
 from discord_slash import SlashCommand
+
 slash = SlashCommand(bot, sync_commands=True, override_type=True)
 
 guildID = 793495102566957096
 
-@slash.slash(name="ping", 
-             description="Returns the latency in ms",
-             guild_ids=[guildID])
+
+@slash.slash(name="ping", description="Returns the latency in ms", guild_ids=[guildID])
 async def _ping(ctx):
+<<<<<<< HEAD
     """Returns the ping of the user"""
     emojis = bot.get_guild(846318304289488906).emojis
     embed = discord.Embed(title=f"{get(emojis, name='ping')} Ping", description=f"**{round(bot.latency * 1000)}ms**", color=0x36393f)
@@ -395,45 +590,70 @@ async def _help(ctx):
 
     embed3=discord.Embed(title=f"{get(emojis, name='help')} Aurum Bot User Guide", description=f"""{get(emojis, name="faq")} `/faq {{entry}}`
 <:space:846393726586191923> Returns a list of frequently asked questions.
+=======
+    emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+    from cogs.aesthetics import get_design, get_embedColor, get_icons
 
-{get(emojis, name="card")} `/rank {{mentionuser}}`
-<:space:846393726586191923> Returns a rank card of yours, or a specified user.
-
-{get(emojis, name="lightmode")} `/updateRankTheme [dark|light]`
-<:space:846393726586191923> Changes the theme of rank cards for you.
-
-{get(emojis, name="leaderboard")} `/levels`
-<:space:846393726586191923> Returns a leaderboard of levels.
-
-{get(emojis, name="help")} `/help`
-<:space:846393726586191923> This command.""", color=0x36393f)
-    embed1.set_footer(text="[] Required {} Optional")
-    embed2.set_footer(text="[] Required {} Optional")
-    embed3.set_footer(text="[] Required {} Optional")
-    embeds = [embed1, embed2, embed3]
-    paginator = BotEmbedPaginator(ctx, embeds)
-    emojis = bot.get_guild(846318304289488906).emojis
-    embed = discord.Embed(title=f"{get(emojis, name='error')} Refer below!", description="Refer to the message below for the help menu.", color=0x36393f)
+    title = f"{get(emojis, name='ping')} " if get_icons()[str(ctx.author.id)] else ""
+    title += "Ping"
+    embed = discord.Embed(
+        title=title,
+        description=f"**{round(bot.latency * 1000)}ms**",
+        color=int(get_embedColor()[str(ctx.author.id)], 16),
+    )
+    if not get_design()[str(ctx.author.id)]:
+        embed.timestamp = datetime.datetime.utcnow()
+        embed.set_author(
+            name=f"{ctx.author.name}#{ctx.author.discriminator}",
+            icon_url=ctx.author.avatar_url,
+        )
+        embed.set_footer(text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png")
     await ctx.send(embed=embed)
-    await paginator.run()
-    
-@slash.slash(name="source",
-             description="Returns the source code of the bot",
-             guild_ids=[guildID])
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
+
+
+@slash.slash(
+    name="source", description="Returns the source code of the bot", guild_ids=[guildID]
+)
 async def _source(ctx):
     """Shows message with source code github page"""
+<<<<<<< HEAD
     emojis = bot.get_guild(846318304289488906).emojis
     embed = discord.Embed(title=f"{get(emojis, name='source')} Source Code", description="Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot", color=0x36393f)
+=======
+    emojis = bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+    from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+    title = f"{get(emojis, name='source')} " if get_icons()[str(ctx.author.id)] else ""
+    title += "Source Code"
+    embed = discord.Embed(
+        title=title,
+        description="Here is the source code of the bot:\nhttps://github.com/Aurum-Minecraft-Network/Aurum-Bot",
+        color=int(get_embedColor()[str(ctx.author.id)], 16),
+    )
+>>>>>>> 4c0a95afa29edf0dd937b7e51b5c89b71e699b5c
     await ctx.send(embed=embed)
-    
-def runBot():    
-    for i in os.listdir('./cogs'):
-        if i.endswith('.py'):
+
+
+def run_bot():
+    for i in [
+        "design.json",
+        "embedColor.json",
+        "icons.json",
+        "usernames.json",
+        "xps.json",
+    ]:
+        f = open(i, "w")
+        f.write("{}")
+        f.close()
+    for i in os.listdir("./cogs"):
+        if i.endswith(".py"):
             try:
-                bot.load_extension(f'cogs.{i[:-3]}')
+                bot.load_extension(f"cogs.{i[:-3]}")
             except discord.ext.commands.errors.ExtensionNotFound:
                 pass
-    print('Extensions loaded!')
-    bot.run(token)
-    
-runBot()
+    print("Extensions loaded!")
+    bot.run(config("TOKEN"))
+
+
+run_bot()
