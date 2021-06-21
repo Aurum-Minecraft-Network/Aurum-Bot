@@ -29,11 +29,16 @@ class Interview(commands.Cog):
         intID = str(uuid.uuid4())
         newInt = await guild.create_text_channel(f"int-{intID}")
         await newInt.edit(category=get(guild.channels, id=833648963197599754))
-        await newInt.set_permissions(ctx.author, read_messages=True, send_messages=True)
-        await newInt.set_permissions(guild.default_role, read_messages=False)
-        await newInt.set_permissions(
-            get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-        )
+        perms = newInt.overwrites_for(ctx.author)
+        perms.read_messages = True
+        perms.send_messages = True
+        await newInt.set_permissions(ctx.author, overwrite=perms)
+        perms = newInt.overwrites_for(guild.default_role)
+        perms.read_messages = False
+        await newInt.set_permissions(guild.default_role, overwrite=perms)
+        perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+        perms.read_messages = False
+        await newInt.set_permissions(get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms)
         emojis = self.bot.get_guild(846318304289488906).emojis
         embed = discord.Embed(
             title=f"{get(emojis, name='success')} Channel created successfully",
@@ -209,13 +214,16 @@ class Interview(commands.Cog):
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
+            await newInt.set_permissions(get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms)
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -256,13 +264,15 @@ class Interview(commands.Cog):
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -303,13 +313,15 @@ class Interview(commands.Cog):
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -352,13 +364,15 @@ class Interview(commands.Cog):
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -491,13 +505,15 @@ int main() {
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -541,13 +557,15 @@ int main() {
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
@@ -588,13 +606,15 @@ int main() {
                 check=lambda message: message.author == ctx.author
                 and message.content == "[END]",
             )  # Wait until the interviewee says [END]
-            await newInt.set_permissions(
-                ctx.author, read_messages=True, send_messages=False
-            )
-            await newInt.set_permissions(guild.default_role, read_messages=False)
-            await newInt.set_permissions(
-                get(guild.roles, id=EVERYBODY_ROLE_ID), read_messages=False
-            )
+            perms = newInt.overwrites_for(ctx.author)
+            perms.read_messages = True
+            perms.send_messages = False
+            await newInt.set_permissions(ctx.author, overwrite=perms)
+            perms = newInt.overwrites_for(guild.default_role)
+            perms.read_messages = False
+            await newInt.set_permissions(guild.default_role, overwrite=perms)
+            perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
+            perms.read_messages = False
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",

@@ -317,14 +317,14 @@ class Bump(commands.Cog):
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
             from cogs.aesthetics import get_design, get_embedColor, get_icons
 
-            title = f"{get(emojis, name='bump')} " if get_icons()[bumpUser.id] else ""
+            title = f"{get(emojis, name='bump')} " if get_icons()[str(bumpUser.id)] else ""
             title += f"Thanks {bumpUser.name}!"
             embed = discord.Embed(
                 title=title,
                 description=msg + "Bump succeeded. Next bump is in 2 hours.",
-                color=int(get_embedColor()[bumpUser.id], 16),
+                color=int(get_embedColor()[str(bumpUser.id)], 16),
             )
-            if not get_design()[bumpUser.id]:
+            if not get_design()[str(bumpUser.id)]:
                 embed.timestamp = datetime.datetime.utcnow()
                 embed.set_author(
                     name=f"{bumpUser.name}#{bumpUser.discriminator}",
