@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 
+# Adds upvote and downvote reactions to every message in the channel
 class addUpDownVote(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
