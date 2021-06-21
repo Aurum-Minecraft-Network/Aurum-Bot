@@ -200,7 +200,7 @@ class Aesthetics(commands.Cog):
                 title += "Design Language Updated"
                 embed = discord.Embed(
                     title=title,
-                    description=f"Updated design language to `{arg2}.`",
+                    description="Updated design language to `simple.`",
                     color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
                 if not get_design()[str(ctx.author.id)]:
