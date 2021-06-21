@@ -33,4 +33,4 @@ Run the `main.py` file in any way you wish.
 - Feature which forward messages (player join/ leave events, chat messages) from [MCPEDiscordRelay](https://github.com/nomadjimbob/MCPEDiscordRelay) to another channel, allowing you to log both the console and player events on Discord, without letting normal users see what they shouldn't.
 
 ## Compatibility
-Most of the features are designed with only the ATP City Discord Server in mind, and are server-specific.
+Most of the features are designed with only the Aurum Minecraft Network Discord Server in mind, and are server-specific.
