@@ -40,12 +40,12 @@ class Interview(commands.Cog):
         await newInt.set_permissions(guild.default_role, overwrite=perms)
         perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
         perms.read_messages = False
-        await newInt.set_permissions(get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms)
+        await newInt.set_permissions(
+            get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms
+        )
         emojis = self.bot.get_guild(846318304289488906).emojis
         title = (
-            f"{get(emojis, name='success')} "
-            if get_icons()[str(ctx.author.id)]
-            else ""
+            f"{get(emojis, name='success')} " if get_icons()[str(ctx.author.id)] else ""
         )
         title += "Channel created successfully"
         embed = discord.Embed(
@@ -240,7 +240,9 @@ class Interview(commands.Cog):
             await newInt.set_permissions(guild.default_role, overwrite=perms)
             perms = newInt.overwrites_for(get(guild.roles, id=EVERYBODY_ROLE_ID))
             perms.read_messages = False
-            await newInt.set_permissions(get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms)
+            await newInt.set_permissions(
+                get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms
+            )
             await newInt.edit(
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",

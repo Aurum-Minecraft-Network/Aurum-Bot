@@ -317,7 +317,9 @@ class Bump(commands.Cog):
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
             from cogs.aesthetics import get_design, get_embedColor, get_icons
 
-            title = f"{get(emojis, name='bump')} " if get_icons()[str(bumpUser.id)] else ""
+            title = (
+                f"{get(emojis, name='bump')} " if get_icons()[str(bumpUser.id)] else ""
+            )
             title += f"Thanks {bumpUser.name}!"
             embed = discord.Embed(
                 title=title,
