@@ -7,6 +7,8 @@ import string
 import random
 import os
 from constants import EVERYBODY_ROLE_ID
+from cogs.aesthetics import get_design, get_embedColor, get_icons
+import datetime
 
 
 class Interview(commands.Cog):
@@ -40,11 +42,26 @@ class Interview(commands.Cog):
         perms.read_messages = False
         await newInt.set_permissions(get(guild.roles, id=EVERYBODY_ROLE_ID), overwrite=perms)
         emojis = self.bot.get_guild(846318304289488906).emojis
-        embed = discord.Embed(
-            title=f"{get(emojis, name='success')} Channel created successfully",
-            description=f"Channel created at <#{newInt.id}>. Please move!",
-            color=0x36393F,
+        title = (
+            f"{get(emojis, name='success')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
         )
+        title += "Channel created successfully"
+        embed = discord.Embed(
+            title=title,
+            description=f"Channel created at <#{newInt.id}>. Please move!",
+            color=int(get_embedColor()[str(ctx.author.id)], 16),
+        )
+        if not get_design()[str(ctx.author.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                icon_url=ctx.author.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
         await ctx.send(embed=embed)
 
         async def wait_until_done():
