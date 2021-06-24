@@ -49,7 +49,7 @@ class Bump(commands.Cog):
             color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
         if not get_design()[str(ctx.author.id)]:
-            embed.timestamp = datetime.datetime.utcnow()
+            embed.timestamp = datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
                 icon_url=ctx.author.avatar_url,
@@ -165,7 +165,7 @@ class Bump(commands.Cog):
                     color=int(get_embedColor()[str(ctx.author.id)], 16),
                 )
                 if not get_design()[str(ctx.author.id)]:
-                    embed.timestamp = datetime.datetime.utcnow()
+                    embed.timestamp = datetime.utcnow()
                     embed.set_author(
                         name=f"{ctx.author.name}#{ctx.author.discriminator}",
                         icon_url=ctx.author.avatar_url,
@@ -187,7 +187,7 @@ class Bump(commands.Cog):
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             if not get_design()[str(ctx.author.id)]:
-                embed.timestamp = datetime.datetime.utcnow()
+                embed.timestamp = datetime.utcnow()
                 embed.set_author(
                     name=f"{ctx.author.name}#{ctx.author.discriminator}",
                     icon_url=ctx.author.avatar_url,
@@ -247,7 +247,7 @@ class Bump(commands.Cog):
             color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
         if not get_design()[str(ctx.author.id)]:
-            embed.timestamp = datetime.datetime.utcnow()
+            embed.timestamp = datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
                 icon_url=ctx.author.avatar_url,
@@ -327,7 +327,7 @@ class Bump(commands.Cog):
                 color=int(get_embedColor()[str(bumpUser.id)], 16),
             )
             if not get_design()[str(bumpUser.id)]:
-                embed.timestamp = datetime.datetime.utcnow()
+                embed.timestamp = datetime.utcnow()
                 embed.set_author(
                     name=f"{bumpUser.name}#{bumpUser.discriminator}",
                     icon_url=bumpUser.avatar_url,
@@ -565,7 +565,7 @@ class Bump(commands.Cog):
             color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
         if not get_design()[str(ctx.author.id)]:
-            embed.timestamp = datetime.datetime.utcnow()
+            embed.timestamp = datetime.utcnow()
             embed.set_author(
                 name=f"{ctx.author.name}#{ctx.author.discriminator}",
                 icon_url=ctx.author.avatar_url,
