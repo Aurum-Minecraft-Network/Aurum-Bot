@@ -147,7 +147,7 @@ class Level(commands.Cog):
             from cogs.aesthetics import get_design, get_embedColor, get_icons
 
             title = (
-                f"{get(emojis, name='lvup')} " if get_icons()[message.author.id] else ""
+                f"{get(emojis, name='lvup')} " if get_icons()[str(message.author.id)] else ""
             )
             title += f"GG {message.author.name}!"
             embed = discord.Embed(
