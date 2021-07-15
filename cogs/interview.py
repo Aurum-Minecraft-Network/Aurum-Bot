@@ -687,7 +687,7 @@ int main() {
         title = f"{get(emojis, name='success')} " if get_icons()[str(target.id)] else ""
         title += "Your interview application has been approved!"
         desc = f"**Reason:** {reason}" if reason else "No reason provided"
-        desc += f"\n\n**Interview ID: {id}"
+        desc += f"\n\n**Interview ID:** {id}"
         embed = discord.Embed(
             title=title,
             description=desc,
@@ -751,7 +751,7 @@ int main() {
         title = f"{get(emojis, name='reject')} " if get_icons()[str(target.id)] else ""
         title += "Your interview application has been rejected!"
         desc = f"**Reason:** {reason}" if reason else "No reason provided"
-        desc += f"\n\n**Interview ID: {id}"
+        desc += f"\n\n**Interview ID:** {id}"
         embed = discord.Embed(
             title=title,
             description=desc,
