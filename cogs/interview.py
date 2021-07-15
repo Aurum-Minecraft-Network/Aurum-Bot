@@ -686,9 +686,11 @@ int main() {
         dm = await target.create_dm()
         title = f"{get(emojis, name='success')} " if get_icons()[str(target.id)] else ""
         title += "Your interview application has been approved!"
+        desc = f"**Reason:** {reason}" if reason else "No reason provided"
+        desc += f"\n\n**Interview ID: {id}"
         embed = discord.Embed(
             title=title,
-            description=f"**Reason:** {reason}" if reason else "No reason provided",
+            description=desc,
             color=int(get_embedColor()[str(target.id)], 16),
         )
         if not get_design()[str(target.id)]:
@@ -703,7 +705,7 @@ int main() {
         await dm.send(embed=embed)
 
     @commands.command()
-    async def reject(self, ctx, id, reason: str = None):
+    async def reject(self, ctx, id, *, reason: str = None):
         from cogs.aesthetics import get_design, get_embedColor, get_icons
 
         emojis = self.bot.get_guild(846318304289488906).emojis
@@ -748,9 +750,11 @@ int main() {
         dm = await target.create_dm()
         title = f"{get(emojis, name='reject')} " if get_icons()[str(target.id)] else ""
         title += "Your interview application has been rejected!"
+        desc = f"**Reason:** {reason}" if reason else "No reason provided"
+        desc += f"\n\n**Interview ID: {id}"
         embed = discord.Embed(
             title=title,
-            description=f"**Reason:** {reason}" if reason else "No reason provided",
+            description=desc,
             color=int(get_embedColor()[str(target.id)], 16),
         )
         if not get_design()[str(target.id)]:
