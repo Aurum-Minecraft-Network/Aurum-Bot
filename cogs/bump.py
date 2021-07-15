@@ -381,7 +381,7 @@ class Bump(commands.Cog):
         ## Processing command
         elif (
             str(message.author.id) == "302050872383242240"
-            and "processing" in message.embeds[0].description
+            and "handling" in message.embeds[0].description
         ):
             await message.delete()
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis

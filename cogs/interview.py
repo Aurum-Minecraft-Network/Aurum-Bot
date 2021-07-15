@@ -1,4 +1,5 @@
 import discord
+from discord.errors import NotFound
 from discord.ext import commands
 from discord.utils import get
 from captcha.image import ImageCaptcha
@@ -638,6 +639,130 @@ int main() {
                 category=get(guild.channels, id=817798276366991371),
                 name=f"int-ar-{intID}",
             )
+
+    @commands.command()
+    async def approve(self, ctx, id, reason: str = None):
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        guild = self.bot.get_guild(793495102566957096)
+        channel = get(guild.channels, name=f"int-ar-{id}")
+        if not channel:
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Error: Invalid Argument"
+            embed = discord.Embed(
+                title=title,
+                description="The ID is invalid!",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
+            if not get_design()[str(ctx.author.id)]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
+            return
+        messages = await channel.history(limit=50).flatten()
+        for message in messages:
+            if message.content == "[END]":
+                target = message.author
+                break
+        else:
+            messages = await channel.history().flatten()
+            for message in messages:
+                if message.content == "[END]":
+                    target = message.author
+                    break
+            else:
+                raise NotFound("Can't find [END] statement!")
+        dm = await target.create_dm()
+        title = f"{get(emojis, name='success')} " if get_icons()[str(target.id)] else ""
+        title += "Your interview application has been approved!"
+        embed = discord.Embed(
+            title=title,
+            description=f"**Reason:** {reason}" if reason else "No reason provided",
+            color=int(get_embedColor()[str(target.id)], 16),
+        )
+        if not get_design()[str(target.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{target.name}#{target.discriminator}",
+                icon_url=target.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
+        await dm.send(embed=embed)
+
+    @commands.command()
+    async def reject(self, ctx, id, reason: str = None):
+        from cogs.aesthetics import get_design, get_embedColor, get_icons
+
+        emojis = self.bot.get_guild(846318304289488906).emojis
+        guild = self.bot.get_guild(793495102566957096)
+        channel = get(guild.channels, name=f"int-ar-{id}")
+        if not channel:
+            title = (
+                f"{get(emojis, name='error')} "
+                if get_icons()[str(ctx.author.id)]
+                else ""
+            )
+            title += "Error: Invalid Argument"
+            embed = discord.Embed(
+                title=title,
+                description="The ID is invalid!",
+                color=int(get_embedColor()[str(ctx.author.id)], 16),
+            )
+            if not get_design()[str(ctx.author.id)]:
+                embed.timestamp = datetime.datetime.utcnow()
+                embed.set_author(
+                    name=f"{ctx.author.name}#{ctx.author.discriminator}",
+                    icon_url=ctx.author.avatar_url,
+                )
+                embed.set_footer(
+                    text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+                )
+            await ctx.send(embed=embed)
+            return
+        messages = await channel.history(limit=50).flatten()
+        for message in messages:
+            if message.content == "[END]":
+                target = message.author
+                break
+        else:
+            messages = await channel.history().flatten()
+            for message in messages:
+                if message.content == "[END]":
+                    target = message.author
+                    break
+            else:
+                raise NotFound("Can't find [END] statement!")
+        dm = await target.create_dm()
+        title = f"{get(emojis, name='reject')} " if get_icons()[str(target.id)] else ""
+        title += "Your interview application has been rejected!"
+        embed = discord.Embed(
+            title=title,
+            description=f"**Reason:** {reason}" if reason else "No reason provided",
+            color=int(get_embedColor()[str(target.id)], 16),
+        )
+        if not get_design()[str(target.id)]:
+            embed.timestamp = datetime.datetime.utcnow()
+            embed.set_author(
+                name=f"{target.name}#{target.discriminator}",
+                icon_url=target.avatar_url,
+            )
+            embed.set_footer(
+                text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
+            )
+        await dm.send(embed=embed)
 
 
 def setup(bot):

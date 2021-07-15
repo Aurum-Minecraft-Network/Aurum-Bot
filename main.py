@@ -81,6 +81,8 @@ async def on_member_join(member):
     await channel.send(
         f"<@{member.id}> has joined the server. Welcome, <@{member.id}>.\nRefer to <#{RULES_CHANNEL_ID}> for rules and <#{HOW_TO_JOIN_CHANNEL_ID}> for joining instructions.\nUse <#{SELF_ASSIGN_ROLES_CHANNEL_ID}> to assign some roles for yourself.\nNeed help? Use `/faq`!"
     )
+    dm = await member.create_dm()
+    await dm.send("Welcome to Aurum Minecraft Network! We hope you enjoy your stay!")
 
 
 # sends farewell message in the #welcome-goodbye channel when a member leaves
@@ -332,6 +334,5 @@ def run_bot():
                 pass
     print("Extensions loaded!")
     bot.run(config("TOKEN"))
-
 
 run_bot()
