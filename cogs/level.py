@@ -389,70 +389,34 @@ class Level(commands.Cog):
         from cogs.aesthetics import get_design, get_embedColor, get_icons
 
         emojis = self.bot.get_guild(846318304289488906).emojis
-        try:
-            dark = (await self.get_dark())[str(ctx.author.id)]
-        except KeyError:
-            darks = await self.get_dark()
-            darks.update({str(ctx.author.id): True})
-            await self.update_dark(darks)
-            dark = True
-        if dark:
-            textColor = "white"
-            bgColor = "#36393f"
-        else:
-            textColor = "black"
-            bgColor = "#ffffff"
-        xps = await self.get_xp()
-        newXPS = []
-        for key, value in zip(list(xps.keys()), list(xps.values())):
-            newXPS.append([key, value])
-        xps = newXPS
-        del newXPS
-        print(xps)
-        startLevel = 1 if page == 1 else 5 * (page - 1) + 1
-        print(startLevel)
-        im = Image.new("RGBA", (1200, 880), bgColor)
-        d = ImageDraw.Draw(im)
-        a = 0
-        y1 = 30
-        y2 = 100
-        guild = self.bot.get_guild(793495102566957096)
-        for pair in xps[startLevel - 1 :]:
-            print(pair, "pair")
-            if a < 5:
-                user = guild.get_member(int(pair[0]))
+        
+        start_index = (page-1) * 15
+        
+        xps = [[key, value] for key, value in zip(list((await self.get_xp()).keys()), list((await self.get_xp()).values()))]
+        xpsList = xps[start_index:start_index+15]
+        
+        none_user_found = True
+        
+        ## Imagine if this could be a do-while loop
+        while none_user_found:
+            res = ""
+            none_user_found = False
+            for rank, pair in enumerate(xpsList):
+                user = self.bot.get_user(int(pair[0]))
                 if not user:
+                    none_user_found = True
                     xps.remove(pair)
-                    x = {}
-                    for i in xps:
-                        x.update({i[0]: i[1]})
-                    await self.update_xp(OrderedDict(x))
-                    continue
-                whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
-                await user.avatar_url.save(f"avatar{user.name}.png")
-                avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
-                im.paste(avatar, (30, y1))
-                os.remove(f"avatar{user.name}.png")
-                d.text(
-                    (195, y2),
-                    f"{startLevel}. Level {self.get_level_from_total_xp(xps[str(user.id)])} - {user.name}#{user.discriminator}",
-                    fill=textColor,
-                    anchor="lm",
-                    font=whitney65,
-                )
-                startLevel += 1
-                y1 += 170
-                y2 += 170
-                a += 1
-        im.save("levels.png")
-        im.close()
+                    xpsList = xps[start_index:start_index+15]
+                    break
+                res += f"**{rank+1+start_index}.** {user.name}#{user.discriminator} - Level __{self.get_level_from_total_xp(int(pair[1]))}__\n"
+        
         title = (
-            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+            f"{get(emojis, name='leaderboard')} " if get_icons()[str(ctx.author.id)] else ""
         )
-        title += "Refer below!"
+        title += "XP Leaderboard"
         embed = discord.Embed(
             title=title,
-            description="Refer to the message below for the levels.",
+            description=res,
             color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
         if not get_design()[str(ctx.author.id)]:
@@ -465,10 +429,7 @@ class Level(commands.Cog):
                 text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
             )
         await ctx.send(embed=embed)
-        await ctx.send(file=discord.File(f"levels.png"))
-        time.sleep(3)
-        os.remove("levels.png")
-
+        
     ### SLASH COMMANDS ZONE ###
 
     guildID = 793495102566957096
@@ -712,70 +673,34 @@ class Level(commands.Cog):
 
         await ctx.defer()
         emojis = self.bot.get_guild(846318304289488906).emojis
-        try:
-            dark = (await self.get_dark())[str(ctx.author.id)]
-        except KeyError:
-            darks = await self.get_dark()
-            darks.update({str(ctx.author.id): True})
-            await self.update_dark(darks)
-            dark = True
-        if dark:
-            textColor = "white"
-            bgColor = "#36393f"
-        else:
-            textColor = "black"
-            bgColor = "#ffffff"
-        xps = await self.get_xp()
-        newXPS = []
-        for key, value in zip(list(xps.keys()), list(xps.values())):
-            newXPS.append([key, value])
-        xps = newXPS
-        del newXPS
-        print(xps)
-        startLevel = 1 if page == 1 else 5 * (page - 1) + 1
-        print(startLevel)
-        im = Image.new("RGBA", (1200, 880), bgColor)
-        d = ImageDraw.Draw(im)
-        a = 0
-        y1 = 30
-        y2 = 100
-        guild = self.bot.get_guild(793495102566957096)
-        for pair in xps[startLevel - 1 :]:
-            print(pair, "pair")
-            if a < 5:
-                user = guild.get_member(int(pair[0]))
+        
+        start_index = (page-1) * 15
+        
+        xps = [[key, value] for key, value in zip(list((await self.get_xp()).keys()), list((await self.get_xp()).values()))]
+        xpsList = xps[start_index:start_index+15]
+        
+        none_user_found = True
+        
+        ## Imagine if this could be a do-while loop
+        while none_user_found:
+            res = ""
+            none_user_found = False
+            for rank, pair in enumerate(xpsList):
+                user = self.bot.get_user(int(pair[0]))
                 if not user:
+                    none_user_found = True
                     xps.remove(pair)
-                    x = {}
-                    for i in xps:
-                        x.update({i[0]: i[1]})
-                    await self.update_xp(OrderedDict(x))
-                    continue
-                whitney65 = ImageFont.truetype("assets/fonts/whitney.ttf", 65)
-                await user.avatar_url.save(f"avatar{user.name}.png")
-                avatar = Image.open(f"avatar{user.name}.png", "r").resize((140, 140))
-                im.paste(avatar, (30, y1))
-                os.remove(f"avatar{user.name}.png")
-                d.text(
-                    (195, y2),
-                    f"{startLevel}. Level {self.get_level_from_total_xp(xps[str(user.id)])} - {user.name}#{user.discriminator}",
-                    fill=textColor,
-                    anchor="lm",
-                    font=whitney65,
-                )
-                startLevel += 1
-                y1 += 170
-                y2 += 170
-                a += 1
-        im.save("levels.png")
-        im.close()
+                    xpsList = xps[start_index:start_index+15]
+                    break
+                res += f"**{rank+1+start_index}.** {user.name}#{user.discriminator} - Level __{self.get_level_from_total_xp(int(pair[1]))}__\n"
+        
         title = (
-            f"{get(emojis, name='error')} " if get_icons()[str(ctx.author.id)] else ""
+            f"{get(emojis, name='leaderboard')} " if get_icons()[str(ctx.author.id)] else ""
         )
-        title += "Refer below!"
+        title += "XP Leaderboard"
         embed = discord.Embed(
             title=title,
-            description="Refer to the message below for the levels.",
+            description=res,
             color=int(get_embedColor()[str(ctx.author.id)], 16),
         )
         if not get_design()[str(ctx.author.id)]:
@@ -787,10 +712,8 @@ class Level(commands.Cog):
             embed.set_footer(
                 text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
             )
+            
         await ctx.send(embed=embed)
-        await ctx.send(file=discord.File(f"levels.png"))
-        time.sleep(3)
-        os.remove("levels.png")
 
 
 def setup(bot):

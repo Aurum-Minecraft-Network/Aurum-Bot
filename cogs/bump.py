@@ -264,10 +264,19 @@ class Bump(commands.Cog):
         if (
             str(message.channel.id) == "793523006172430388"
             and str(message.author.id) == "302050872383242240"
-            and message.embeds[0].description.endswith(
+            and message.embeds[0].description.endswith((
                 """      Bump done :thumbsup:
-      Check it on DISBOARD: https://disboard.org/"""
-            )
+      Check it on DISBOARD: https://disboard.org/""",
+                """      Bump effectué ! :thumbsup:
+      Allez vérifier ça sur DISBOARD : https://disboard.org/""",
+                """      갱신했어 :thumbsup:
+      DISBOARD에서 확인하십시오: https://disboard.org/""",
+                """      Patlatma tamamlandı :thumbsup:
+DISBOARD üzerinden kontrol et: https://disboard.org/""",
+                """      Bumpeado :thumbsup:
+Échale un vistazo en DISBOARD: https://disboard.org/""",
+                """      Podbito serwer :thumbsup:
+Zobacz aktualizację na stronie DISBOARD: https://disboard.org/"""))
         ):
             bump_done = True
             ## Get the person who bumped
@@ -280,14 +289,10 @@ class Bump(commands.Cog):
                     .replace("@", "")
                 )
             )
+            
             self.bumpreminder.cancel()
             bumps = await self.get_bumps()
-            ## Update the bumps JSON string
-            if str(bumpUser.id) in bumps:
-                bumpno = int(bumps[str(bumpUser.id)])
-                bumps[str(bumpUser.id)] = int(bumpno + 1)
-            else:
-                bumps.update({f"{str(bumpUser.id)}": 1})
+            
             try:
                 if str(bumps["lastBump"][0]) == str(bumpUser.id):
                     bumps.update(
@@ -302,7 +307,15 @@ class Bump(commands.Cog):
                     bumps.update({"lastBump": [str(bumpUser.id), 1]})
             except KeyError:
                 bumps["lastBump"] = [str(bumpUser.id), 1]
+                
+            ## Update the bumps JSON string
+            if str(bumpUser.id) in bumps:
+                bumpno = int(bumps[str(bumpUser.id)])
+                bumps[str(bumpUser.id)] = int(bumpno + int(bumps["lastBump"][1]))
+            else:
+                bumps.update({f"{str(bumpUser.id)}": 1})
             await self.update_bumps(bumps)
+            
             bump_done = True
             global reminded
             reminded = False
@@ -311,9 +324,10 @@ class Bump(commands.Cog):
                 guild.default_role, send_messages=False
             )
             print("Bumped, locked")
+            
             msg = ""
             if int(bumps["lastBump"][1]) > 1:
-                msg += f"""**{bumps["lastBump"][1]} COMBO :fire:**\n"""
+                msg += f"""**{bumps["lastBump"][1]} BUMP STREAK :fire:**\n"""
             emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
             from cogs.aesthetics import get_design, get_embedColor, get_icons
 
@@ -390,6 +404,12 @@ class Bump(commands.Cog):
                 description=f"DISBOARD is processing your command.\nTry again in a moment.",
                 color=0x36393F,
             )
+            await message.channel.send(embed=embed)
+        ## Timeout exceeded
+        elif (str(message.author.id) == "302050872383242240" and "exceeded" in message.embeds[0].description):
+            await message.delete()
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            embed = discord.Embed(title=f"{get(emojis, name='error')} Error: Timeout Exceeded", description="A 10000ms timeout has been exceeded on DISBOARD's side.\nTry again in a moment.", color=0x36393F)
             await message.channel.send(embed=embed)
         ## Disallowed messages
         elif (
