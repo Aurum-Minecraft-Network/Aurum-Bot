@@ -91,7 +91,7 @@ class Help(commands.Cog):
 {get(emojis, name="lightmode")} `a!updateRankTheme [dark|light]`
 <:space:846393726586191923> Changes the theme of rank cards for you.
 
-{get(emojis, name="leaderboard")} `a!levels`
+{get(emojis, name="leaderboard")} `a!levels {{page}}`
 <:space:846393726586191923> Returns a leaderboard of levels.
 
 {get(emojis, name="help")} `a!help`
@@ -215,7 +215,7 @@ class Help(commands.Cog):
                 inline=False,
             )
             embed4.add_field(
-                name="a!levels", value="Returns a leaderboard of levels.", inline=False
+                name="a!levels {page}", value="Returns a leaderboard of levels.", inline=False
             )
             embed4.add_field(name="a!help", value="This command.", inline=False)
             embed1.set_thumbnail(url="https://i.imgur.com/sePqvZX.png")
@@ -329,7 +329,7 @@ class Help(commands.Cog):
 {get(emojis, name="lightmode")} `/updateRankTheme [dark|light]`
 <:space:846393726586191923> Changes the theme of rank cards for you.
 
-{get(emojis, name="leaderboard")} `/levels`
+{get(emojis, name="leaderboard")} `/levels {{page}}`
 <:space:846393726586191923> Returns a leaderboard of levels.
 
 {get(emojis, name="help")} `/help`
@@ -417,7 +417,7 @@ class Help(commands.Cog):
                 inline=False,
             )
             embed3.add_field(
-                name="/levels", value="Returns a leaderboard of levels.", inline=False
+                name="/levels {page}", value="Returns a leaderboard of levels.", inline=False
             )
             embed3.add_field(name="/help", value="This command.", inline=False)
             embed1.set_thumbnail(url="https://i.imgur.com/sePqvZX.png")
