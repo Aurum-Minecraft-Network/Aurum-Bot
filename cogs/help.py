@@ -215,7 +215,9 @@ class Help(commands.Cog):
                 inline=False,
             )
             embed4.add_field(
-                name="a!levels {page}", value="Returns a leaderboard of levels.", inline=False
+                name="a!levels {page}",
+                value="Returns a leaderboard of levels.",
+                inline=False,
             )
             embed4.add_field(name="a!help", value="This command.", inline=False)
             embed1.set_thumbnail(url="https://i.imgur.com/sePqvZX.png")
@@ -417,7 +419,9 @@ class Help(commands.Cog):
                 inline=False,
             )
             embed3.add_field(
-                name="/levels {page}", value="Returns a leaderboard of levels.", inline=False
+                name="/levels {page}",
+                value="Returns a leaderboard of levels.",
+                inline=False,
             )
             embed3.add_field(name="/help", value="This command.", inline=False)
             embed1.set_thumbnail(url="https://i.imgur.com/sePqvZX.png")

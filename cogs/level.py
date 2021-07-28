@@ -389,14 +389,19 @@ class Level(commands.Cog):
         from cogs.aesthetics import get_design, get_embedColor, get_icons
 
         emojis = self.bot.get_guild(846318304289488906).emojis
-        
-        start_index = (page-1) * 15
-        
-        xps = [[key, value] for key, value in zip(list((await self.get_xp()).keys()), list((await self.get_xp()).values()))]
-        xpsList = xps[start_index:start_index+15]
-        
+
+        start_index = (page - 1) * 15
+
+        xps = [
+            [key, value]
+            for key, value in zip(
+                list((await self.get_xp()).keys()), list((await self.get_xp()).values())
+            )
+        ]
+        xpsList = xps[start_index : start_index + 15]
+
         none_user_found = True
-        
+
         ## Imagine if this could be a do-while loop
         while none_user_found:
             res = ""
@@ -406,12 +411,14 @@ class Level(commands.Cog):
                 if not user:
                     none_user_found = True
                     xps.remove(pair)
-                    xpsList = xps[start_index:start_index+15]
+                    xpsList = xps[start_index : start_index + 15]
                     break
                 res += f"**{rank+1+start_index}.** {user.name}#{user.discriminator} - Level __{self.get_level_from_total_xp(int(pair[1]))}__\n"
-        
+
         title = (
-            f"{get(emojis, name='leaderboard')} " if get_icons()[str(ctx.author.id)] else ""
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
         )
         title += "XP Leaderboard"
         embed = discord.Embed(
@@ -429,7 +436,7 @@ class Level(commands.Cog):
                 text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
             )
         await ctx.send(embed=embed)
-        
+
     ### SLASH COMMANDS ZONE ###
 
     guildID = 793495102566957096
@@ -673,14 +680,19 @@ class Level(commands.Cog):
 
         await ctx.defer()
         emojis = self.bot.get_guild(846318304289488906).emojis
-        
-        start_index = (page-1) * 15
-        
-        xps = [[key, value] for key, value in zip(list((await self.get_xp()).keys()), list((await self.get_xp()).values()))]
-        xpsList = xps[start_index:start_index+15]
-        
+
+        start_index = (page - 1) * 15
+
+        xps = [
+            [key, value]
+            for key, value in zip(
+                list((await self.get_xp()).keys()), list((await self.get_xp()).values())
+            )
+        ]
+        xpsList = xps[start_index : start_index + 15]
+
         none_user_found = True
-        
+
         ## Imagine if this could be a do-while loop
         while none_user_found:
             res = ""
@@ -690,12 +702,14 @@ class Level(commands.Cog):
                 if not user:
                     none_user_found = True
                     xps.remove(pair)
-                    xpsList = xps[start_index:start_index+15]
+                    xpsList = xps[start_index : start_index + 15]
                     break
                 res += f"**{rank+1+start_index}.** {user.name}#{user.discriminator} - Level __{self.get_level_from_total_xp(int(pair[1]))}__\n"
-        
+
         title = (
-            f"{get(emojis, name='leaderboard')} " if get_icons()[str(ctx.author.id)] else ""
+            f"{get(emojis, name='leaderboard')} "
+            if get_icons()[str(ctx.author.id)]
+            else ""
         )
         title += "XP Leaderboard"
         embed = discord.Embed(
@@ -712,7 +726,7 @@ class Level(commands.Cog):
             embed.set_footer(
                 text="Aurum Bot", icon_url="https://i.imgur.com/sePqvZX.png"
             )
-            
+
         await ctx.send(embed=embed)
 
 
