@@ -272,11 +272,11 @@ class Bump(commands.Cog):
                 """      갱신했어 :thumbsup:
       DISBOARD에서 확인하십시오: https://disboard.org/""",
                 """      Patlatma tamamlandı :thumbsup:
-DISBOARD üzerinden kontrol et: https://disboard.org/""",
+      DISBOARD üzerinden kontrol et: https://disboard.org/""",
                 """      Bumpeado :thumbsup:
-Échale un vistazo en DISBOARD: https://disboard.org/""",
+      Échale un vistazo en DISBOARD: https://disboard.org/""",
                 """      Podbito serwer :thumbsup:
-Zobacz aktualizację na stronie DISBOARD: https://disboard.org/"""))
+      Zobacz aktualizację na stronie DISBOARD: https://disboard.org/"""))
         ):
             bump_done = True
             ## Get the person who bumped
