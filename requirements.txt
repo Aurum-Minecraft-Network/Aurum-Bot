@@ -3,7 +3,6 @@ discord.py==1.6.0
 jsoncomment==0.4.2
 pyimgur==0.6.0
 boto3==1.15.18
-captcha==0.3
 python-decouple==3.4
 discord-py-slash-command==1.1.0
 Pillow==8.2.0

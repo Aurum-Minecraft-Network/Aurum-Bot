@@ -2,7 +2,6 @@ import discord
 from discord.errors import NotFound
 from discord.ext import commands
 from discord.utils import get
-from captcha.image import ImageCaptcha
 import uuid
 import string
 import random
@@ -76,55 +75,6 @@ class Interview(commands.Cog):
             )  # Wait until the interviewee says [DONE]
 
         await newInt.send("Welcome to this interview session!")
-        while True:
-            await newInt.send(
-                "Before we begin, please complete this captcha to proceed..."
-            )
-            captchaString = "".join(
-                (
-                    random.choices(
-                        (
-                            string.ascii_lowercase
-                            + string.ascii_uppercase
-                            + string.digits
-                        )
-                        .replace("v", "")
-                        .replace("o", "")
-                        .replace("u", "")
-                        .replace("w", "")
-                        .replace("x", "")
-                        .replace("z", "")
-                        .replace("c", "")
-                        .replace("l", "")
-                        .replace("s", ""),
-                        k=random.randint(4, 6),
-                    )
-                )
-            )  # Generate random captcha string
-            image = ImageCaptcha(fonts=["assets/fonts/arial.ttf"])
-            image.write(captchaString, f"captcha-{intID}.png", format="png")
-            await newInt.send(file=discord.File(f"captcha-{intID}.png"))
-            await newInt.send(
-                """Use `a!newCaptcha` to generate a new captcha. The lowercase letters `v`, `o`, `u`, `w`, `x`, `z`, `c`, `s`, and `l` do not appear."""
-            )
-            print(captchaString)
-            os.remove(f"captcha-{intID}.png")
-            while True:
-                message = await self.bot.wait_for("message")
-                if message.author == ctx.author and message.channel == newInt:
-                    if message.content == captchaString:
-                        a = 0
-                        break
-                    elif message.content == "a!newCaptcha":
-                        a = 1
-                        break
-                else:
-                    continue
-            if a == 1:
-                continue
-            elif a == 0:
-                break
-        await newInt.send("Captcha check completed.")
         await newInt.send(
             "Please note that all messages sent in this channel will be logged for future reference."
         )
