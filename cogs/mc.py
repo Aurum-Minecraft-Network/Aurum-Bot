@@ -350,7 +350,7 @@ class Minecraft(commands.Cog):
             title += "Registration Successful"
             embed = discord.Embed(
                 title=title,
-                description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.\n\nPro Tip: next time, try `/usernamereg`! Slash commands are available for this bot.",
+                description=f"Registered your {version.title()} username as **{username}**, <@{ctx.author.id}>.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             if not get_design()[str(ctx.author.id)]:
