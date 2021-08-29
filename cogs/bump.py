@@ -276,6 +276,8 @@ class Bump(commands.Cog):
       DISBOARD üzerinden kontrol et: https://disboard.org/""",
                     """      Bumpeado :thumbsup:
       Échale un vistazo en DISBOARD: https://disboard.org/""",
+                    """      表示順をアップしたよ :thumbsup:
+      ディスボードで確認してね: https://disboard.org/""",
                     """      Podbito serwer :thumbsup:
       Zobacz aktualizację na stronie DISBOARD: https://disboard.org/""",
                 )
