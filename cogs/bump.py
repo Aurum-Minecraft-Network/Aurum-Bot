@@ -13,7 +13,6 @@ from constants import (
     AURUM_MAIN_SERVER_ID,
 )
 
-
 class Bump(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -446,32 +445,30 @@ class Bump(commands.Cog):
 
     @tasks.loop(seconds=10)  # Function to see whether we have to remind users to bump
     async def bumpreminder(self):
-        if "reminded" not in vars():
-            global reminded
-            reminded = False
-        if "channelyeet" not in vars():
-            global channelyeet
-            channelyeet = self.bot.get_channel(793523006172430388)
-        global bump_done
-        if not reminded and bump_done:
-            if datetime.now() - timedelta(hours=2, seconds=30) > (
-                await self.get_time()
-            ):  # Has it been 2 hours?
-                guild = self.bot.get_guild(AURUM_MAIN_SERVER_ID)
-                emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
-                embed = discord.Embed(
-                    title=f"{get(emojis, name='bump')} Bump Reminder",
-                    description="Bumpers, it is time to bump! Use `!d bump` now.",
-                    color=0x36393F,
-                )
-                await channelyeet.send(embed=embed)
-                await channelyeet.send("<@&793661769125986384>")
-                await channelyeet.set_permissions(
-                    guild.default_role, send_messages=True
-                )
-                print("Can bump now, unlocked")
-                bump_done = False
-                reminded = True
+        global channelyeet
+        channelyeet = self.bot.get_channel(793523006172430388)
+        global reminded, bump_done
+        if (
+            not reminded
+            and bump_done
+            and datetime.now() - timedelta(hours=2, seconds=30)
+            > (await self.get_time())
+        ):  # Has it been 2 hours?
+            guild = self.bot.get_guild(AURUM_MAIN_SERVER_ID)
+            emojis = self.bot.get_guild(AURUM_ASSET_SERVER_ID).emojis
+            embed = discord.Embed(
+                title=f"{get(emojis, name='bump')} Bump Reminder",
+                description="Bumpers, it is time to bump! Use `!d bump` now.",
+                color=0x36393F,
+            )
+            await channelyeet.send(embed=embed)
+            await channelyeet.send("<@&793661769125986384>")
+            await channelyeet.set_permissions(
+                guild.default_role, send_messages=True
+            )
+            print("Can bump now, unlocked")
+            bump_done = False
+            reminded = True
 
     @bumpreminder.before_loop
     async def before_bumpreminder(self):
