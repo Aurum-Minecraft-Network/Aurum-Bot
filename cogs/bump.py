@@ -13,6 +13,7 @@ from constants import (
     AURUM_MAIN_SERVER_ID,
 )
 
+
 class Bump(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -264,22 +265,7 @@ class Bump(commands.Cog):
             str(message.channel.id) == "793523006172430388"
             and str(message.author.id) == "302050872383242240"
             and message.embeds[0].description.endswith(
-                (
-                    """      Bump done :thumbsup:
-      Check it on DISBOARD: https://disboard.org/""",
-                    """      Bump effectué ! :thumbsup:
-      Allez vérifier ça sur DISBOARD : https://disboard.org/""",
-                    """      갱신했어 :thumbsup:
-      DISBOARD에서 확인하십시오: https://disboard.org/""",
-                    """      Patlatma tamamlandı :thumbsup:
-      DISBOARD üzerinden kontrol et: https://disboard.org/""",
-                    """      Bumpeado :thumbsup:
-      Échale un vistazo en DISBOARD: https://disboard.org/""",
-                    """      表示順をアップしたよ :thumbsup:
-      ディスボードで確認してね: https://disboard.org/""",
-                    """      Podbito serwer :thumbsup:
-      Zobacz aktualizację na stronie DISBOARD: https://disboard.org/""",
-                )
+                "Check it out on DISBOARD: https://disboard.org/server/793495102566957096."
             )
         ):
             bump_done = True
@@ -463,9 +449,7 @@ class Bump(commands.Cog):
             )
             await channelyeet.send(embed=embed)
             await channelyeet.send("<@&793661769125986384>")
-            await channelyeet.set_permissions(
-                guild.default_role, send_messages=True
-            )
+            await channelyeet.set_permissions(guild.default_role, send_messages=True)
             print("Can bump now, unlocked")
             bump_done = False
             reminded = True

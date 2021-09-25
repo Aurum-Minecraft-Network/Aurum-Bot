@@ -68,6 +68,10 @@ async def on_ready():
     aliases = []
     for command in bot.commands:
         aliases += list(command.aliases) + [command.name]
+    guild = bot.get_guild(793495102566957096)
+    channel = guild.get_channel(793523006172430388)
+    message = await channel.fetch_message(891375871213072434)
+    print(message.embeds[0].description)
 
 
 # sends welcome message in the #welcome-goodbye channel when a member joins
