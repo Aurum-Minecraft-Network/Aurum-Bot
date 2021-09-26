@@ -265,7 +265,7 @@ class Bump(commands.Cog):
             str(message.channel.id) == "793523006172430388"
             and str(message.author.id) == "302050872383242240"
             and message.embeds[0].description.endswith(
-                "Check it out on DISBOARD: https://disboard.org/server/793495102566957096."
+                f"https://disboard.org/server/{message.guild.id}."
             )
         ):
             bump_done = True
