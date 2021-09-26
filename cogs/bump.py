@@ -273,7 +273,7 @@ class Bump(commands.Cog):
             bumpUser = self.bot.get_guild(AURUM_MAIN_SERVER_ID).get_member(
                 int(
                     message.embeds[0]
-                    .description.split(",")[0]
+                    .description.split(" ")[0]
                     .replace("<", "")
                     .replace(">", "")
                     .replace("@", "")
