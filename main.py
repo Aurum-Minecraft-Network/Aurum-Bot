@@ -68,7 +68,7 @@ async def on_ready():
     aliases = []
     for command in bot.commands:
         aliases += list(command.aliases) + [command.name]
-
+        
 # sends welcome message in the #welcome-goodbye channel when a member joins
 @bot.event
 async def on_member_join(member):
