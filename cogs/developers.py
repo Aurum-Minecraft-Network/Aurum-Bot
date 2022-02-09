@@ -8,12 +8,34 @@ import sys
 import io
 import traceback
 import datetime
-from constants import BOT_DEV, AURUM_ASSET_SERVER_ID
+import json
+from constants import BOT_DEV, AURUM_ASSET_SERVER_ID, AURUM_MAIN_SERVER_ID, MINECRAFT_SERVER_CHAT_ID
 
 
 class Developers(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        
+    @commands.Cog.listener()
+    async def on_ready(self):
+        joins = []
+        guild = self.bot.get_guild(AURUM_MAIN_SERVER_ID)
+        channel = guild.get_channel(MINECRAFT_SERVER_CHAT_ID)
+        print("Getting shit")
+        messages = await channel.history(limit=None).flatten()
+        for message in messages:
+            try:
+                if message.author == guild.get_member(803195565517045800):
+                    if "joined the server" in message.embeds[0].author.name:
+                        time = message.created_at.strftime("%d/%m/%Y %H:%M:%S")
+                        player = message.embeds[0].author.name.split(" ")[0]
+                        joins.append([player, time])
+                        print("Appended " + str([player, time]))
+            except:
+                print(traceback.format_exc())
+                continue
+        with open("joins.json", "w") as f:
+            json.dump(joins, f, indent=4)
 
     async def send_no_permission(
         self,

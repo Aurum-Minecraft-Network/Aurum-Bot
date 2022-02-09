@@ -19,7 +19,7 @@ class Timers(commands.Cog):
         if message.channel.id == GENERAL_CHANNEL_ID:
             global gen_count
             gen_count += 1
-            if gen_count == 50:
+            if gen_count >= 50:
                 gen_count = 0
                 embed1 = discord.Embed(
                     title="Server IP",
@@ -36,8 +36,8 @@ class Timers(commands.Cog):
         elif message.channel.id == MINECRAFT_SERVER_CHAT_ID:
             global mine_count
             mine_count += 1
-            if mine_count == 50:
-                mine_count == 0
+            if mine_count >= 50:
+                mine_count = 0
                 embed = discord.Embed(
                     title="Server IP",
                     description="If you need the IP, refer here.\nhttps://github.com/Aurum-Minecraft-Network/How-To-Join/wiki",

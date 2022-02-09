@@ -18,7 +18,7 @@ class Bump(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bumpkingupdate.start()
-        self.bumpreminder.start()
+        self.bumpreminder.start(timedelta(hours=2, seconds=30))
         self.denyDisboardAccess.start()
 
     def convert(seconds):  # Take x seconds and returns a hours, b minutes, c seconds
@@ -98,7 +98,7 @@ class Bump(commands.Cog):
         elif disboard.status == discord.Status.online:
             await bumpChannel.set_permissions(guild.default_role, send_messages=True)
             try:
-                self.bumpreminder.start()
+                self.bumpreminder.start(timedelta(hours=2, seconds=30))
             except RuntimeError:
                 pass
             finally:
@@ -136,7 +136,7 @@ class Bump(commands.Cog):
                     color=0x36393F,
                 )
                 await bumpChannel.send(embed=embed)
-                self.bumpreminder.start()
+                self.bumpreminder.start(timedelta(hours=2, seconds=30))
                 print("DISBOARD now on")
 
     @commands.command(name="bumpreset", aliases=["br"])
@@ -348,11 +348,10 @@ class Bump(commands.Cog):
                 print("Set bump time")
             if bump_done:
                 print("Time adjustment")
-            self.bumpreminder.start()
+            self.bumpreminder.start(timedelta(hours=2, seconds=30))
         ## Need to wait until bump
         elif (
-            bump_done
-            and str(message.author.id) == "302050872383242240"
+            str(message.author.id) == "302050872383242240"
             and message.embeds[0].description.endswith("until the server can be bumped")
         ):
             minutes = [
@@ -366,6 +365,9 @@ class Bump(commands.Cog):
                 color=0x36393F,
             )
             await message.channel.send(embed=embed)
+            ## Adjust time
+            self.bumpreminder.cancel()
+            self.bumpreminder.start(timedelta(minutes=int(minutes[0]), seconds=30))
         ## Rate limited
         elif (
             str(message.author.id) == "302050872383242240"
@@ -430,14 +432,14 @@ class Bump(commands.Cog):
         await self.bot.wait_until_ready()
 
     @tasks.loop(seconds=10)  # Function to see whether we have to remind users to bump
-    async def bumpreminder(self):
+    async def bumpreminder(self, time):
         global channelyeet
         channelyeet = self.bot.get_channel(793523006172430388)
         global reminded, bump_done
         if (
             not reminded
             and bump_done
-            and datetime.now() - timedelta(hours=2, seconds=30)
+            and datetime.now() - time
             > (await self.get_time())
         ):  # Has it been 2 hours?
             guild = self.bot.get_guild(AURUM_MAIN_SERVER_ID)
