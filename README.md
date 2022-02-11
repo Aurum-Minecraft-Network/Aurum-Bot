@@ -2,7 +2,7 @@
 This is the bot for use in the [Aurum Minecraft Network Discord Server](https://discord.aurumnet.ga).
 
 ## Runtime
-This bot is run using Python 3.9.5.
+This bot is run using Python 3.10.2.
 
 ## Environmental Variables
 To run the bot, a few environmental variables have to be initialized. Most likely you have to create a file called `.env` at the root of this project.
@@ -25,12 +25,12 @@ Run the `main.py` file in any way you wish.
 
 ## Features
 - A [DISBOARD](https://disboard.org) bump reminder
-- A system to generate mnemonic codes based on a user's unique Discord User ID (insecure!)
 - An FAQ command
 - Several fun commands including a command that gets the color of a user's default avatar
 - Invite Manager module that tries to figure out who invited a new joined user, and what link did the new user use to join a server (unreliable)
-- Commands to register Minecraft Bedrock and Java usernames to a JSON file `usernames.json` and to query any Discord user's Minecraft usernames.
-- Feature which forward messages (player join/ leave events, chat messages) from [MCPEDiscordRelay](https://github.com/nomadjimbob/MCPEDiscordRelay) to another channel, allowing you to log both the console and player events on Discord, without letting normal users see what they shouldn't.
-
+  
 ## Compatibility
 Most of the features are designed with only the Aurum Minecraft Network Discord Server in mind, and are server-specific.
+
+## To Do
+- Use pattern matching from Python 3.10 to improve runtime

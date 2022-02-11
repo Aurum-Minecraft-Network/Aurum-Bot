@@ -44,7 +44,7 @@ class Fun(commands.Cog):
         else:
             raise TypeError("Impossible")
         emojis = self.bot.get_guild(846318304289488906).emojis
-        title = f"{get(emojis, name='avatar')} " if icons[ctx.author.id] else ""
+        title = f"{get(emojis, name='avatar')} " if get_icons[ctx.author.id] else ""
         title += "Default avatar color"
         embed = discord.Embed(title=title, color=colorh)
         embed.set_thumbnail(url=link)
@@ -250,7 +250,7 @@ class Fun(commands.Cog):
         else:
             raise TypeError("Impossible")
         emojis = self.bot.get_guild(846318304289488906).emojis
-        title = f"{get(emojis, name='avatar')} " if icons[ctx.author.id] else ""
+        title = f"{get(emojis, name='avatar')} " if get_icons[ctx.author.id] else ""
         title += "Default avatar color"
         embed = discord.Embed(title=title, color=colorh)
         embed.set_thumbnail(url=link)

@@ -121,8 +121,7 @@ class Level(commands.Cog):
                 return
         except KeyError:
             pass
-        finally:
-            gainedXP[message.author.id] = True
+        gainedXP[message.author.id] = True
         xps = await self.get_xp()
         beforeXP = xps[str(message.author.id)]
         if len(message.content) > 150:

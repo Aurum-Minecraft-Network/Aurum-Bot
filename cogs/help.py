@@ -29,13 +29,7 @@ class Help(commands.Cog):
 <:space:846393726586191923> Returns the latency in ms.
 
 {get(emojis, name="interview")} `a!interview`
-<:space:846393726586191923> Initiate the Interview Wizard.
-
-{get(emojis, name="usernamereg")} `a!usernamereg [java|bedrock] [username]`
-<:space:846393726586191923> Register your Minecraft username.
-
-{get(emojis, name="usernamequery")} `a!username [java|bedrock] [user]`
-<:space:846393726586191923> Query a Minecraft username of a Discord user.""",
+<:space:846393726586191923> Initiate the Interview Wizard.""",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
 
@@ -114,22 +108,22 @@ class Help(commands.Cog):
             title += "Aurum Bot User Guide"
             embed1 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed2 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed3 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed4 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed1.add_field(
@@ -351,17 +345,17 @@ class Help(commands.Cog):
             title += "Aurum Bot User Guide"
             embed1 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed2 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed3 = discord.Embed(
                 title=title,
-                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, register usernames, apply for positions, and more. The following is a list of commands.",
+                description="Aurum Bot is the companion bot for the Aurum Minecraft Network Discord Server. Use it to play games, apply for positions, and more. The following is a list of commands.",
                 color=int(get_embedColor()[str(ctx.author.id)], 16),
             )
             embed1.add_field(
