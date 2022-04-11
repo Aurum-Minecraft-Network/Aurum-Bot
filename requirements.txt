@@ -5,6 +5,6 @@ pyimgur==0.6.0
 boto3==1.15.18
 python-decouple==3.4
 discord-py-slash-command==1.1.0
-Pillow==9.0.0
+Pillow==9.0.1
 pyimgur==0.6.0
 disputils==0.1.3
